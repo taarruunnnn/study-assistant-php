@@ -7,6 +7,16 @@
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
@@ -36,6 +46,34 @@
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="country" class="col-md-4 col-form-label text-md-right">Country: </label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" id="country" name="country" required>
+                                    @component('layouts.countries')
+                                    @endcomponent
+                                </select>
+
+                                @if ($errors->has('countries'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('countries') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">University</label>
+
+                            <div class="col-md-6">
+                                <div id="remote">
+                                    <input class="typeahead" type="text" placeholder="Oscar winners for Best Picture">
+                                  </div>
                             </div>
                         </div>
 
@@ -74,4 +112,28 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="{{ asset('js/typehead.js') }}" defer></script>
+    <script defer>
+         $(document).ready(function(){
+            var bloodhound = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/users/countries?q=%QUERY%',
+                    wildcard: '%QUERY%'
+                }
+            });
+
+                $('#remote .typeahead').typeahead(null, {
+                name: 'countries',
+                source: bloodhound,
+                display: function(data){
+                    return data
+                }
+                });
+         })
+    </script>
 @endsection

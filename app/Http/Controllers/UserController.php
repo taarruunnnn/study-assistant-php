@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateUser;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -25,6 +26,7 @@ class UserController extends Controller
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->country = $request->input('country');
 
         if ( ! $request->input('password') == '')
         {
@@ -36,5 +38,10 @@ class UserController extends Controller
         session()->flash('message','User Updated');
 
         return back();
+    }
+
+    public function searchCountry(Request $request){
+        $query = User::where('name', 'LIKE', '%'.$request->q.'%')->get();
+        return response()->json($query);
     }
 }

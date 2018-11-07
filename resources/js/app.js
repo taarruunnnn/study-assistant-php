@@ -5,6 +5,9 @@ require('malihu-custom-scrollbar-plugin');
 
 require('@fortawesome/fontawesome-free/js/all');
 
+global.Bloodhound = require('corejs-typeahead/dist/typeahead.bundle');
+
+
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"

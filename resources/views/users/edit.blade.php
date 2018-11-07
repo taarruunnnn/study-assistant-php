@@ -24,6 +24,16 @@
                         <input type="email" class="form-control" id="email"  name="email" value="{{ $user->email }}" required/>
                     </div>
                 </div>
+
+                <div class="form-group row">
+                        <label for="country" class="col-sm-2 col-form-label">Country :</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="country" name="country" data-selected="{{ $user->country }}" required>
+                                @component('layouts.countries')
+                                @endcomponent
+                            </select>
+                        </div>
+                    </div>
         
                 <div class="form-group row">
                     <label for="password" class="col-sm-2 col-form-label">Password :</label>
@@ -49,4 +59,11 @@
     </div>
 </div>
 
+@endsection
+
+@section('script')
+    <script>
+        var country = $('#country').attr("data-selected");
+         $('#country').val(country);
+    </script>
 @stop

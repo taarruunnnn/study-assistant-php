@@ -15,7 +15,7 @@
                 <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
-                        <a href="{{ route('user.edit', auth()->user()) }}">Edit User</a>
+                        <a href="/user/edit">Edit User</a>
                     </li>
                 </ul>
             </li>

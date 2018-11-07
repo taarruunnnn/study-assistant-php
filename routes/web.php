@@ -24,3 +24,4 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 Route::get('user/{user}', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}/update', 'UserController@update')->name('user.update');
+Route::get('users/countries', 'ListUniversities');
