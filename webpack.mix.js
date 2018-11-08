@@ -12,5 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .js('node_modules/corejs-typeahead/dist/typeahead.bundle.js', 'public/js/typehead.js')
-   .sass('resources/sass/app.scss', 'public/css');
+   .js('resources/js/user.js', 'public/js/user.js')
+   .sass('resources/sass/app.scss', 'public/css')
+   .sass('resources/sass/user.scss', 'public/css/user.css');

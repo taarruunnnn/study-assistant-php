@@ -15,7 +15,7 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Auth::routes();
 
@@ -23,5 +23,7 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 
 Route::get('user/{user}', 'UserController@edit')->name('user.edit');
-Route::patch('user/{user}/update', 'UserController@update')->name('user.update');
-Route::get('users/countries', 'ListUniversities');
+Route::patch('user/{user}', 'UserController@update')->name('user.update');
+Route::delete('users/delete/{user}', 'UserController@destroy')->name('user.delete');
+
+Route::get('users/universities', 'ListUniversities');

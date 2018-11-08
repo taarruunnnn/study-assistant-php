@@ -49,33 +49,67 @@
                             </div>
                         </div>
 
+
                         <div class="form-group row">
-                            <label for="country" class="col-md-4 col-form-label text-md-right">Country: </label>
+                            <label for="university" class="col-md-4 col-form-label text-md-right">University</label>
 
                             <div class="col-md-6">
-                                <select class="form-control" id="country" name="country" required>
-                                    @component('layouts.countries')
-                                    @endcomponent
-                                </select>
+                                <div id="typeahead-university">
+                                    <input id="university" class="typeahead form-control {{ $errors->has('university') ? ' is-invalid' : '' }}" type="text" placeholder="Enter you University" name="university" required>
+
+                                    @if ($errors->has('university'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('university') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="birth" class="col-md-4 col-form-label text-md-right">Birth Year: </label>
+                        
+                            <div class="col-md-2">
+                                <input  type="text" id="birth" class="datepicker text-center form-control {{ $errors->has('birth') ? ' is-invalid' : '' }}" name="birth" required>
 
                                 @if ($errors->has('countries'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('countries') }}</strong>
+                                        <strong>{{ $errors->first('birth') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
 
-
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">University</label>
-
-                            <div class="col-md-6">
-                                <div id="remote">
-                                    <input class="typeahead" type="text" placeholder="Oscar winners for Best Picture">
-                                  </div>
+                            <label for="birth" class="col-md-4 col-form-label text-md-right">Gender: </label>
+                        
+                            <div class="btn-group btn-group-toggle col-md-6" data-toggle="buttons">
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="gender" id="male" autocomplete="off" value="M" > Male
+                                </label>
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="gender" id="female" autocomplete="off" value="F"> Female
+                                </label>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                                <label for="country" class="col-md-4 col-form-label text-md-right">Country: </label>
+    
+                                <div class="col-md-4">
+                                    <select class="form-control" id="country" name="country" required>
+                                        <option value="" disabled selected id="placeholder">Select your country</option>
+                                        @component('layouts.countries')
+                                        @endcomponent
+                                    </select>
+    
+                                    @if ($errors->has('countries'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('countries') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
@@ -112,28 +146,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('script')
-<script src="{{ asset('js/typehead.js') }}" defer></script>
-    <script defer>
-         $(document).ready(function(){
-            var bloodhound = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.whitespace,
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
-                    url: '/users/countries?q=%QUERY%',
-                    wildcard: '%QUERY%'
-                }
-            });
-
-                $('#remote .typeahead').typeahead(null, {
-                name: 'countries',
-                source: bloodhound,
-                display: function(data){
-                    return data
-                }
-                });
-         })
-    </script>
 @endsection

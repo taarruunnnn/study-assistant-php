@@ -9,11 +9,15 @@
 
     <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
  
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if(Request::is('user/*'))
+        <link href="{{ asset('css/user.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @endif
 </head>
 <body>
-
+    
+    @yield('modal')
 
     <div class="wrapper">
         @include('layouts.sidebar')
@@ -54,6 +58,11 @@
     </div>
 </body>
  <!-- Scripts -->
- <script src="{{ asset('js/app.js') }}"></script>
+@if(Request::is('user/*'))
+    <script src="{{ asset('js/user.js') }}"></script>
+@else
+    <script src="{{ asset('js/app.js') }}"></script>
+@endif
+    
  @yield('script')
 </html>

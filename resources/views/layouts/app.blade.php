@@ -16,9 +16,13 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-typeahead/2.10.6/jquery.typeahead.css">
+    @if(Request::is('register'))
+        <link href="{{ asset('css/user.css') }}" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @endif
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.standalone.css">
 </head>
 <body>
     <div id="app">
@@ -74,10 +78,22 @@
         </nav>
 
         <main class="py-4">
+            @if ($flash = session('message'))
+                <div class="alert alert-success">
+                    {{ $flash }}
+                </div>
+            @endif
+            
             @yield('content')
         </main>
     </div>
-    <script src="{{ asset('js/app.js') }}"></script>
+    
+    @if(Request::is('register'))
+        <script src="{{ asset('js/user.js') }}"></script>
+    @else
+        <script src="{{ asset('js/app.js') }}"></script>
+    @endif
+
     @yield('script')
 </body>
 

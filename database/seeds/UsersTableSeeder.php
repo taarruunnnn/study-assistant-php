@@ -14,8 +14,13 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'John Doe',
             'email' => 'john@example.com',
-            'country' => 'UK',
+            'birth' => '1995',
+            'gender' => 'M',
+            'university' => 'University of Randomness',
+            'country' => 'GB',
             'password' => bcrypt('password'),
         ]);
+
+        factory(App\User::class, 10)->create();
     }
 }

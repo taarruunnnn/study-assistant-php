@@ -15,7 +15,7 @@ class ListUniversities extends Controller
      */
     public function __invoke(Request $request)
     {
-        $query = User::where('name', 'LIKE', '%'.$request->q.'%')->pluck('name');
+        $query = User::where('university', 'LIKE', '%'.$request->q.'%')->pluck('university');
         return response()->json($query);
     }
 }

@@ -20,6 +20,11 @@
 </head>
 <body class="bg-light">
     <div class="container">
+        @if ($flash = session('message'))
+            <div class="alert alert-success">
+                {{ $flash }}
+            </div>
+        @endif
         <div class="row hero-header justify-content-center align-items-center">
             <div class="jumbotron text-center p-5 bg-light">
                 <h1 class="display-2 m-4">STUDY ASSISTANT</h1>

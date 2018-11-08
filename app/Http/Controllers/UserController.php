@@ -27,6 +27,9 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->country = $request->input('country');
+        $user->university = $request->input('university');
+        $user->birth = $request->input('birth');
+        $user->gender = $request->input('gender');
 
         if ( ! $request->input('password') == '')
         {
@@ -40,8 +43,12 @@ class UserController extends Controller
         return back();
     }
 
-    public function searchCountry(Request $request){
-        $query = User::where('name', 'LIKE', '%'.$request->q.'%')->get();
-        return response()->json($query);
+    public function destroy(){
+        $user = Auth::user();
+        $user->delete();
+
+        session()->flash('message','User Deleted');
+
+        return view('welcome');
     }
 }
