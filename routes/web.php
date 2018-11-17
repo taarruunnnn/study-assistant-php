@@ -27,3 +27,7 @@ Route::patch('user/{user}', 'UserController@update')->name('user.update');
 Route::delete('users/delete/{user}', 'UserController@destroy')->name('user.delete');
 
 Route::get('users/universities', 'ListUniversities');
+
+Route::get('/schedules', 'ScheduleController@show')->name('schedules.show');
+Route::get('/schedules/create', 'ScheduleController@create')->name('schedules.create');
+Route::post('/schedules/store', 'ScheduleController@store')->name('schedules.store');

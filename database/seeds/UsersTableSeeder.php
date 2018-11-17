@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
             'birth' => '1995',
             'gender' => 'M',
             'university' => 'University of Randomness',
+            'major' => 'Computer Science',
             'country' => 'GB',
             'password' => bcrypt('password'),
         ]);

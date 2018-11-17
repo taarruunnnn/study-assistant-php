@@ -14,6 +14,26 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
+    $majors = [
+        'Arts',
+        'History',
+        'Philosophy',
+        'Theology',
+        'Anthropology',
+        'Archaeology',
+        'Economics',
+        'Law',
+        'Psychology',
+        'Sociology',
+        'Biology',
+        'Chemistry',
+        'Physics',
+        'Mathematics',
+        'Statistics',
+        'Engineering and technology'
+    ];
+
+    
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
@@ -22,6 +42,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'gender' => $faker->randomElement($array = array ('M','F')),
         'country' => 'UK',
         'university' => 'University of '.$faker->city,
+        'major' => $majors[rand(0, count($majors) - 1)],
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
     ];

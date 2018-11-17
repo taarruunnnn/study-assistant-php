@@ -31,6 +31,7 @@ class UpdateUser extends FormRequest
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'country' => 'required|string|max:2',
             'university' => 'required|string|max:100',
+            'major' => 'required|string|max:30',
             'birth' => 'required|digits:4|integer|min:1990',
             'gender' => 'nullable|string|max:1',
             'password' => 'nullable|string|min:6|confirmed'

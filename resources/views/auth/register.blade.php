@@ -49,23 +49,6 @@
                             </div>
                         </div>
 
-
-                        <div class="form-group row">
-                            <label for="university" class="col-md-4 col-form-label text-md-right">University</label>
-
-                            <div class="col-md-6">
-                                <div id="typeahead-university">
-                                    <input id="university" class="typeahead form-control {{ $errors->has('university') ? ' is-invalid' : '' }}" type="text" placeholder="Enter you University" name="university" required>
-
-                                    @if ($errors->has('university'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('university') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="form-group row">
                             <label for="birth" class="col-md-4 col-form-label text-md-right">Birth Year: </label>
                         
@@ -94,22 +77,57 @@
                         </div>
 
                         <div class="form-group row">
-                                <label for="country" class="col-md-4 col-form-label text-md-right">Country: </label>
-    
-                                <div class="col-md-4">
-                                    <select class="form-control" id="country" name="country" required>
-                                        <option value="" disabled selected id="placeholder">Select your country</option>
-                                        @component('layouts.countries')
-                                        @endcomponent
-                                    </select>
-    
-                                    @if ($errors->has('countries'))
+                            <label for="country" class="col-md-4 col-form-label text-md-right">Country: </label>
+
+                            <div class="col-md-4">
+                                <select class="form-control" id="country" name="country" required>
+                                    <option value="" disabled selected id="placeholder">Select your country</option>
+                                    @component('layouts.countries')
+                                    @endcomponent
+                                </select>
+
+                                @if ($errors->has('country'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('country') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="university" class="col-md-4 col-form-label text-md-right">University</label>
+
+                            <div class="col-md-6">
+                                <div id="typeahead-university">
+                                    <input id="university" class="typeahead form-control {{ $errors->has('university') ? ' is-invalid' : '' }}" type="text" placeholder="Enter you University" name="university" required>
+
+                                    @if ($errors->has('university'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('countries') }}</strong>
+                                            <strong>{{ $errors->first('university') }}</strong>
                                         </span>
                                     @endif
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="major" class="col-md-4 col-form-label text-md-right">Major: </label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" id="major" name="major" required>
+                                    <option value="" disabled selected id="placeholder">What is your field of study?</option>
+                                    @component('layouts.majors')
+                                    @endcomponent
+                                </select>
+
+                                @if ($errors->has('major'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('major') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>

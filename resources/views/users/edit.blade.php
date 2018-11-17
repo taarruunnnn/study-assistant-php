@@ -29,7 +29,12 @@
                     <label for="birth" class="col-sm-2 col-form-label">Birth Year: </label>
                 
                     <div class="col-md-2">
-                        <input type="text" class="datepicker text-center form-control" id="birth" name="birth" value="{{ $user->birth }}">
+                        <div class="input-group">
+                            <input type="text" class="datepicker text-center form-control" id="birth" name="birth" value="{{ $user->birth }}">
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="calendar"><i class="fas fa-calendar-alt"></i></span>
+                            </div>
+                        </div>
 
                         @if ($errors->has('birth'))
                             <span class="invalid-feedback" role="alert">
@@ -72,6 +77,17 @@
                     <label for="university" class="col-sm-2 col-form-label">University :</label>
                     <div id="typeahead-university" class="col-sm-10">
                         <input id="university" class="typeahead form-control" type="text" name="university" value="{{ $user->university }}"/>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="major" class="col-sm-2 col-form-label">Major :</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="major" name="major" data-selected="{{ $user->major }}" required>
+                            @component('layouts.majors')
+                            @endcomponent
+                        </select>
                     </div>
                 </div>
         
@@ -138,6 +154,9 @@
             var country = $('#country').attr("data-selected");
             $("#country").val(country);
 
+            var major = $('#major').attr("data-selected");
+            $("#major").val(major);
+
 
             var gender = $('#gender').attr("data-selected");
             if (gender == 'M'){
@@ -147,6 +166,10 @@
             }
             
             $("#name").focus();
+
+            $("#calendar").click(function() {
+                $("#birth").datepicker('show');
+            });
         });
     </script>
 @endsection

@@ -8,10 +8,10 @@
         <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}">Dashboard</a>
         </li>
-        <li class="{{ Request::is('schedules') ? 'active' : '' }}">
-            <a href="#">Schedules</a>
+        <li class="{{ Request::is('schedules/*') ? 'active' : '' }}">
+            <a href="/schedules">Schedules</a>
         </li>
-        <li class="{{ Request::is('user/edit') ? 'active' : '' }}">
+        <li class="{{ Request::is('user/*') ? 'active' : '' }}">
             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">User</a>
             <ul class="collapse list-unstyled" id="pageSubmenu">
                 <li class="{{ Request::is('user/edit') ? 'active' : '' }}">

@@ -5,12 +5,17 @@ require('malihu-custom-scrollbar-plugin');
 
 require('@fortawesome/fontawesome-free/js/all');
 
-// global.Bloodhound = require('corejs-typeahead/dist/typeahead.bundle');
+require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
 
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
+    });
+
+    $('.datepicker').datepicker({
+        maxViewMode: 'years',
+        format: "yyyy-mm-dd"
     });
 
     $('#sidebarCollapse').on('click', function () {

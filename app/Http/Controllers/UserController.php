@@ -28,6 +28,7 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->country = $request->input('country');
         $user->university = $request->input('university');
+        $user->major = $request->input('major');
         $user->birth = $request->input('birth');
         $user->gender = $request->input('gender');
 
