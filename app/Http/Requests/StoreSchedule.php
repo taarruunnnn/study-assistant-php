@@ -35,15 +35,35 @@ class StoreSchedule extends FormRequest
     {
         $user = Auth::user();
 
+        $strStart = request('start');        
+
+        $start = strtotime(request('start'));
+        $end = strtotime(request('end'));
+
+        $noDays = round((($end - $start)/(60 * 60 * 24)));
+
+        $noModules = count(request('module'));
+
+        $daysPerModule = intval($noDays/$noModules);
+
+        $evenDays = $daysPerModule * $noModules;
+
+        $revision = date('Y-m-d', strtotime($strStart. ' + '.$evenDays.' days'));
+
         $schedule = $user-> schedules()-> create([
             'name' => request('name'),
             'start' => request('start'),
+            'revision' => $revision,
             'end' => request('end'),
         ]);
 
+
         foreach (request('module') as  $key => $value){
+            $x = $key - 1;
             $schedule-> modules()-> create([
-                'name' => $value
+                'name' => $value,
+                'start' => date('Y-m-d', strtotime($strStart. ' + '.$x.' days')),
+                'rep' => $noModules
             ]);
         }
     }

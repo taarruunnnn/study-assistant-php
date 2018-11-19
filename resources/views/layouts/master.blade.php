@@ -11,6 +11,8 @@
  
     @if(Request::is('user/*'))
         <link href="{{ asset('css/user.css') }}" rel="stylesheet">
+    @elseif(Request::is('schedules*'))
+        <link href="{{ asset('css/schedule.css') }}" rel="stylesheet">
     @else
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @endif
@@ -58,8 +60,10 @@
     </div>
 </body>
  <!-- Scripts -->
-@if(Request::is('user/*'))
+@if (Request::is('user/*'))
     <script src="{{ asset('js/user.js') }}"></script>
+@elseif (Request::is('schedules*'))
+    <script src="{{ asset('js/schedule.js') }}"></script>
 @else
     <script src="{{ asset('js/app.js') }}"></script>
 @endif

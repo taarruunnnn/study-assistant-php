@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Module extends Model
 {
     protected $fillable = [
-        'name',
+        'name', 'start', 'rep'
     ];
 
 
     public function schedule()
     {
-        return $this->belongsToMany('App\Schedule');
+        return $this->belongsTo('App\Schedule');
     }
 }

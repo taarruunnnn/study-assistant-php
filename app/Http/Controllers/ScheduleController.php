@@ -21,16 +21,16 @@ class ScheduleController extends Controller
     public function store(StoreSchedule $request){
         
         $request->persist();
-        
-        $results = study_scheduler($request);
 
-        return view('schedules.show', compact('results'));
+        $data = schedule_retriever();
+
+        return view('schedules.show', compact('data'));
     }
 
     public function show(){
-        $user = Auth::user();
-        $schedules = $user->schedules()->get();
 
-        return view('schedules.show', compact('schedules'));
+        $data = schedule_retriever();
+
+        return view('schedules.show', compact('data'));
     }
 }

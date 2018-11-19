@@ -17,6 +17,8 @@ class CreateModulesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('schedule_id');
+            $table->date('start');
+            $table->integer('rep');
             $table->timestamps();
         });
     }

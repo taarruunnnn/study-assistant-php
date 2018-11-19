@@ -18,6 +18,7 @@ class CreateSchedulesTable extends Migration
             $table->integer('user_id');
             $table->string('name');
             $table->date('start');
+            $table->date('revision');
             $table->date('end');
             $table->timestamps();
         });

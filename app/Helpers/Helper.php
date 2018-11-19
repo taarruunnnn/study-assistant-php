@@ -1,43 +1,76 @@
 <?php
 
-if (!function_exists('study_scheduler'))
+use Illuminate\Support\Facades\Auth;
+use RRule\RRule;
+
+if (!function_exists('schedule_retriever'))
 {
-    function study_scheduler($request)
+    function schedule_retriever()
     {
-        $start = strtotime($request->input('start'));
-        $end = strtotime($request->input('end'));
+        $user = Auth::user();
+        $schedules = $user->schedules()->get();
 
-        $noDays = round((($end - $start)/(60 * 60 * 24)));
+        $data = [];
 
-        $noModules = count($request->input('module'));
+        foreach ($schedules as $schedule) {
+            $modules = $schedule->modules()->get();
 
-        $daysPerModule = intval($noDays/$noModules);
+            // Calculations
+            
+            $scheduleStart = strtotime($schedule->start);
+            $scheduleEnd = strtotime($schedule->revision);
 
-        $evenDays = $daysPerModule * $noModules;
+            $noDays = round((($scheduleEnd - $scheduleStart)/(60 * 60 * 24)));
+            $noModules = count($modules);
 
-        $unevenDays = $noDays - $evenDays;
+            $daysPerModule = intval($noDays/$noModules);
 
-        $s = 'Days: '.$noDays.' | Rest Days: '.$unevenDays.' | Modules: '.$noModules.' | Days Per Module: '.$daysPerModule;
 
-        $sched = array();
-        $x = 0;
+            foreach ($modules as $module) {
 
-        $sched[] = $s;
+                // Use of php-rrule library
 
-        for ($i=0; $i < $noDays; $i++) 
-        { 
+                $rrule = new RRule([
+                    'FREQ' => 'DAILY',
+                    'INTERVAL' => $noModules,
+                    'DTSTART' => $module->start,
+                    'COUNT' => $daysPerModule
+                ]);
+                     
+                foreach ($rrule as $date)
+                {
+                    $moduleStart = $date->format('Y-m-d');
 
-            if ($x < ($noModules-1) && $i < $evenDays) {
-                $sched[] = 'day: '.$i.' | module: '.$x;
-                $x++;
-            } elseif (!($x < ($noModules-1)) && $i < $evenDays) {
-                $sched[] = 'day: '.$i.' | module: '.$x;
-                $x = 0;
-            } else {
-                $sched[] = 'uneven day '.$i;
+                    $data[]= 
+                    [
+                        'title' => $module->name,
+                        'start' => $moduleStart,
+                        'end' => $moduleStart,
+                        'color' => '#2196f3'
+                    ];  
+                }
             }
+
+            $rrule2 = new RRule([
+                'FREQ' => 'DAILY',
+                'DTSTART' => $schedule->revision,
+                'UNTIL' => $schedule->end,
+            ]);
+
+            foreach ($rrule2 as $date)
+                {
+                    $moduleStart = $date->format('Y-m-d');
+
+                    $data[]= 
+                    [
+                        'title' => 'Revision',
+                        'start' => $moduleStart,
+                        'end' => $moduleStart,
+                        'color' => '#000'
+                    ];  
+                }
         }
 
-        return ($sched);
+        return $data;
     }
 }
