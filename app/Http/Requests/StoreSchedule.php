@@ -25,7 +25,6 @@ class StoreSchedule extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
             'start' => 'required|date',
             'end' => 'required|date',
         ];
@@ -35,36 +34,44 @@ class StoreSchedule extends FormRequest
     {
         $user = Auth::user();
 
-        $strStart = request('start');        
+        if ($user->schedule === null) {
+            $strStart = request('start');        
 
-        $start = strtotime(request('start'));
-        $end = strtotime(request('end'));
+            $start = strtotime(request('start'));
+            $end = strtotime(request('end'));
 
-        $noDays = round((($end - $start)/(60 * 60 * 24)));
+            $noDays = round((($end - $start)/(60 * 60 * 24)));
 
-        $noModules = count(request('module'));
+            $noModules = count(request('module'));
 
-        $daysPerModule = intval($noDays/$noModules);
+            $daysPerModule = intval($noDays/$noModules);
 
-        $evenDays = $daysPerModule * $noModules;
+            $evenDays = $daysPerModule * $noModules;
 
-        $revision = date('Y-m-d', strtotime($strStart. ' + '.$evenDays.' days'));
+            $revision = date('Y-m-d', strtotime($strStart. ' + '.$evenDays.' days'));
 
-        $schedule = $user-> schedules()-> create([
-            'name' => request('name'),
-            'start' => request('start'),
-            'revision' => $revision,
-            'end' => request('end'),
-        ]);
-
-
-        foreach (request('module') as  $key => $value){
-            $x = $key - 1;
-            $schedule-> modules()-> create([
-                'name' => $value,
-                'start' => date('Y-m-d', strtotime($strStart. ' + '.$x.' days')),
-                'rep' => $noModules
+            $schedule = $user-> schedule()-> create([
+                'start' => request('start'),
+                'revision' => $revision,
+                'end' => request('end'),
             ]);
+
+
+            foreach (request('module') as  $key => $value){
+                $x = $key - 1;
+                $schedule-> modules()-> create([
+                    'name' => $value,
+                    'rating' => $this-> rating[$key],
+                    'start' => date('Y-m-d', strtotime($strStart. ' + '.$x.' days')),
+                    'rep' => $noModules
+                ]);
+            }
+
+            return true;
+        }
+        else 
+        {
+            return false;
         }
     }
 }

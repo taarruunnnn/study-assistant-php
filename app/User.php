@@ -28,8 +28,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function schedules()
+    public function schedule()
     {
-        return $this->hasMany('App\Schedule');
+        return $this->hasOne('App\Schedule');
     }
 }

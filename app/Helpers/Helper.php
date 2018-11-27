@@ -8,68 +8,68 @@ if (!function_exists('schedule_retriever'))
     function schedule_retriever()
     {
         $user = Auth::user();
-        $schedules = $user->schedules()->get();
+        $schedule = $user->schedule;
 
         $data = [];
 
-        foreach ($schedules as $schedule) {
-            $modules = $schedule->modules()->get();
+        
+        $modules = $schedule->modules;
 
-            // Calculations
-            
-            $scheduleStart = strtotime($schedule->start);
-            $scheduleEnd = strtotime($schedule->revision);
+        // Calculations
+        
+        $scheduleStart = strtotime($schedule->start);
+        $scheduleEnd = strtotime($schedule->revision);
 
-            $noDays = round((($scheduleEnd - $scheduleStart)/(60 * 60 * 24)));
-            $noModules = count($modules);
+        $noDays = round((($scheduleEnd - $scheduleStart)/(60 * 60 * 24)));
+        $noModules = count($modules);
 
-            $daysPerModule = intval($noDays/$noModules);
+        $daysPerModule = intval($noDays/$noModules);
 
 
-            foreach ($modules as $module) {
+        foreach ($modules as $module) {
 
-                // Use of php-rrule library
+            // Use of php-rrule library
 
-                $rrule = new RRule([
-                    'FREQ' => 'DAILY',
-                    'INTERVAL' => $noModules,
-                    'DTSTART' => $module->start,
-                    'COUNT' => $daysPerModule
-                ]);
-                     
-                foreach ($rrule as $date)
-                {
-                    $moduleStart = $date->format('Y-m-d');
-
-                    $data[]= 
-                    [
-                        'title' => $module->name,
-                        'start' => $moduleStart,
-                        'end' => $moduleStart,
-                        'color' => '#2196f3'
-                    ];  
-                }
-            }
-
-            $rrule2 = new RRule([
+            $rrule = new RRule([
                 'FREQ' => 'DAILY',
-                'DTSTART' => $schedule->revision,
-                'UNTIL' => $schedule->end,
+                'INTERVAL' => $noModules,
+                'DTSTART' => $module->start,
+                'COUNT' => $daysPerModule
             ]);
+                    
+            foreach ($rrule as $date)
+            {
+                $moduleStart = $date->format('Y-m-d');
 
-            foreach ($rrule2 as $date)
-                {
-                    $moduleStart = $date->format('Y-m-d');
-
-                    $data[]= 
-                    [
-                        'title' => 'Revision',
-                        'start' => $moduleStart,
-                        'end' => $moduleStart,
-                        'color' => '#000'
-                    ];  
-                }
+                $data[]= 
+                [
+                    'title' => $module->name,
+                    'start' => $moduleStart,
+                    'end' => $moduleStart,
+                    'color' => '#2196f3'
+                ];  
+            }
         }
+
+        $rrule2 = new RRule([
+            'FREQ' => 'DAILY',
+            'DTSTART' => $schedule->revision,
+            'UNTIL' => $schedule->end,
+        ]);
+
+        foreach ($rrule2 as $date)
+        {
+            $moduleStart = $date->format('Y-m-d');
+
+            $data[]= 
+            [
+                'title' => 'Revision',
+                'start' => $moduleStart,
+                'end' => $moduleStart,
+                'color' => '#000'
+            ];  
+        }
+        
 
         return $data;
     }

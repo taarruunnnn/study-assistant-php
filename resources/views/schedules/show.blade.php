@@ -7,12 +7,14 @@
         <div class="row">
             <div class="col-sm-10">
                     <div id='calendar'></div>
-            </div>    
-            <div class="col-sm-2">
-                <form action="{{ route('schedules.create') }}">
-                    <input type="submit" class="btn btn-primary" value="Create Schedule" >
-                </form>
-            </div>
+            </div>  
+            @if (Auth::user()->schedule === null)
+                <div class="col-sm-2">
+                    <form action="{{ route('schedules.create') }}">
+                        <input type="submit" class="btn btn-primary" value="Create Schedule" >
+                    </form>
+                </div>
+            @endif  
         </div>
         
     </div>
