@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Module extends Model
 {
     protected $fillable = [
-        'name', 'rating', 'start', 'rep'
+        'name', 'rating', 'start', 'days'
+    ];
+
+    protected $casts = [
+        'days' => 'array',
     ];
 
 

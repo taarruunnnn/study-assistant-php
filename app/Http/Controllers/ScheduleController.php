@@ -22,25 +22,29 @@ class ScheduleController extends Controller
         
         $req = $request->persist();
 
-        if ($req)
-        {
-            $data = schedule_retriever();
-            return view('schedules.show', compact('data'));
-        }
-        else
-        {   
-            $data = schedule_retriever();
-            session()->flash('message','Schedule Already Exists');
-            return view('schedules.show', compact('data'));
-        }
+        return $req;
+
+        // if ($req)
+        // {
+        //     $data = schedule_retriever();
+        //     return view('schedules.show', compact('data'));
+        // }
+        // else
+        // {   
+        //     $data = schedule_retriever();
+        //     session()->flash('message','Schedule Already Exists');
+        //     return view('schedules.show', compact('data'));
+        // }
 
         
     }
 
     public function show(){
 
-        $data = schedule_retriever();
+        // $data = schedule_retriever();
 
-        return view('schedules.show', compact('data'));
+        // return view('schedules.show', compact('data'));
+
+        return view('schedules.show');
     }
 }

@@ -34,40 +34,48 @@ class StoreSchedule extends FormRequest
     {
         $user = Auth::user();
 
-        if ($user->schedule === null) {
-            $strStart = request('start');        
+        if ($user->schedule === null) 
+        {
+
+            $schedule = $user-> schedule()-> create([
+                'start' => request('start'),
+                'end' => request('end'),
+            ]);
 
             $start = strtotime(request('start'));
             $end = strtotime(request('end'));
 
             $noDays = round((($end - $start)/(60 * 60 * 24)));
-
             $noModules = count(request('module'));
 
-            $daysPerModule = intval($noDays/$noModules);
+            $evenDays = intval($noDays/$noModules) * $noModules;
 
-            $evenDays = $daysPerModule * $noModules;
+            $totalRating = 0;
+            foreach (request('rating') as  $key => $value){
+                $totalRating += $value;
+            }
 
-            $revision = date('Y-m-d', strtotime($strStart. ' + '.$evenDays.' days'));
+            foreach (request('module') as  $key => $value)
+            {
+                $rating = $this-> rating[$key];
+                $percentage = $rating/$totalRating;
+                $daysPerModule = intval($noDays * $percentage);
+                
+                $scheduledDays = array();
 
-            $schedule = $user-> schedule()-> create([
-                'start' => request('start'),
-                'revision' => $revision,
-                'end' => request('end'),
-            ]);
+                for ($i = $key; $i <= $evenDays; $i += $noModules) 
+                { 
+                    array_push($scheduledDays, $i);
+                }
 
-
-            foreach (request('module') as  $key => $value){
-                $x = $key - 1;
                 $schedule-> modules()-> create([
                     'name' => $value,
-                    'rating' => $this-> rating[$key],
-                    'start' => date('Y-m-d', strtotime($strStart. ' + '.$x.' days')),
-                    'rep' => $noModules
+                    'rating' => $rating,
+                    'days' => $scheduledDays
                 ]);
             }
 
-            return true;
+            return $days;
         }
         else 
         {

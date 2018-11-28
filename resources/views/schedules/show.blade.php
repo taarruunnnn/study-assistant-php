@@ -31,6 +31,7 @@
                 eventColor: '#2196f3',
                 eventTextColor: '#FFF',
                 events: [
+                @if(isset($data)){
                     @foreach ($data as $d)
                         {
                             title: '{{$d['title']}}',
@@ -39,6 +40,8 @@
                             color: '{{$d['color']}}'
                         },
                     @endforeach
+                }
+                @endif
                 ]
             });
         });
