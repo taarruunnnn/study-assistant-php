@@ -22,7 +22,9 @@ class ScheduleController extends Controller
         
         $req = $request->persist();
 
-        return $req;
+        foreach($req as $key => $value) {
+            echo "$key is the key and  $value is the value <br/>";
+        }
 
         // if ($req)
         // {

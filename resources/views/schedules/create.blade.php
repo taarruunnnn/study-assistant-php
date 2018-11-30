@@ -50,14 +50,14 @@
                                 <tr>
                                     <td>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="module1" name="module[1]">
+                                            <input type="text" class="form-control" id="module0" name="module[0]">
                                             <div class="input-group-append">
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="input-group">
-                                            <select class="form-control" name="rating[1]">
+                                            <select class="form-control" name="rating[0]">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
@@ -132,7 +132,7 @@
                 return moduleDiv
             }
             
-            var i = 2;
+            var i = 1;
             var max_fields = 10;
 
             //append when add button is clicked
