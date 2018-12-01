@@ -31,3 +31,5 @@ Route::get('users/universities', 'ListUniversities');
 Route::get('/schedules', 'ScheduleController@show')->name('schedules.show');
 Route::get('/schedules/create', 'ScheduleController@create')->name('schedules.create');
 Route::post('/schedules/store', 'ScheduleController@store')->name('schedules.store');
+Route::get('/schedules/delete', 'ScheduleController@destroy')->name('schedules.destroy');
+Route::post('/schedules/update', 'ScheduleController@update')->name('schedules.update');

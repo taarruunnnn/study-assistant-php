@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-md-center">
         <div class="col-sm-9">
             <form method="POST" action="{{ route('user.update', $user->name) }}">

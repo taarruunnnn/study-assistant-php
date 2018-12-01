@@ -13477,6 +13477,11 @@ body {
   background: #fafafa;
 }
 
+.alert {
+  margin-top: -40px;
+  border-radius: 0;
+}
+
 p {
   font-family: 'Poppins', sans-serif;
   font-size: 1.1em;
@@ -13755,5 +13760,10 @@ span.twitter-typeahead {
 .show > .btn-secondary.dropdown-toggle {
   background-color: #2196f3;
   border-color: #2196f3;
+}
+
+#confirmDelete {
+  display: none;
+  margin-top: 10px;
 }
 

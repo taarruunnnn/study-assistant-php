@@ -4,14 +4,14 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-md-center">
         <div class="col-sm-9">
             <form method="POST" action="{{ route('schedules.store') }}">
                 @csrf
         
                 <div class="form-group row">
-                    <label for="birth" class="col-sm-2 col-form-label">Duration : </label>
+                    <label class="col-sm-2 col-form-label">Duration : </label>
                 
                     <div class="col-sm-6">
                         <div class="input-group input-daterange">
@@ -96,8 +96,7 @@
 
 @section('script')
     <script>
-        $(document).ready(function(){
-            
+        $(document).ready(function(){         
 
             function addModuleInput(i){
                 var moduleDiv = `<tr>
@@ -125,7 +124,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn btn-remove" id="btn-add"><i class="fas fa-minus"></i></button>
+                                        <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
                                     </td>
                                 </tr>`
                 

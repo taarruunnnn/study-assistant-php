@@ -78,7 +78,7 @@ class StoreSchedule extends FormRequest
             array_push($prevMin, $minDays);
 
             $noModulesx = $noModules;
-            $i = 1;
+            $i = 0;
 
             foreach ($modules as  $key => $value)
             {
@@ -95,9 +95,10 @@ class StoreSchedule extends FormRequest
 
                     if (($keyMin = array_search($k, array_reverse($prevMin, true))) !== false)
                     {
+                        $temp -= $noModules;
                         $noModules = $noModulesx;
                         $noModules -= ($keyMin+1);
-                        $temp--;
+                        $temp += $noModules;
                     }
                     
                     array_push($scheduledDays, $temp);
@@ -129,10 +130,6 @@ class StoreSchedule extends FormRequest
             }
 
             return $prevMin;
-        }
-        else 
-        {
-            return false;
         }
     }
 }

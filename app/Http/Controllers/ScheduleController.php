@@ -18,35 +18,47 @@ class ScheduleController extends Controller
         return view('schedules.create');
     }
 
-    public function store(StoreSchedule $request){
+    public function store(StoreSchedule $request)
+    {
         
         $req = $request->persist();
+        session()->flash('message','Schedule Created');
 
-        foreach($req as $key => $value) {
-            echo "$key is the key and  $value is the value <br/>";
-        }
-
-        // if ($req)
-        // {
-        //     $data = schedule_retriever();
-        //     return view('schedules.show', compact('data'));
-        // }
-        // else
-        // {   
-        //     $data = schedule_retriever();
-        //     session()->flash('message','Schedule Already Exists');
-        //     return view('schedules.show', compact('data'));
-        // }
-
+        return redirect()->route('schedules.show');
         
     }
 
-    public function show(){
+    public function show()
+    {
+        $user = Auth::user();
+        $data = schedule_retriever();
+        if ($schedule = $user->schedule)
+        {
+            $modules = $schedule->modules;
+            return view('schedules.show', compact('data', 'schedule', 'modules'));
+        } 
+        else 
+        {
+            return view('schedules.show', compact('data'));
+        }
+        
+    }
 
-        // $data = schedule_retriever();
+    public function update()
+    {
+        $schedule = Auth::user()->schedule;
 
-        // return view('schedules.show', compact('data'));
+        
+        session()->flash('message','Schedule Updated');
+        return redirect()->route('schedules.show');
+    }
 
-        return view('schedules.show');
+    public function destroy()
+    {
+        $user = Auth::user();
+        $user->schedule->modules()->delete();
+        $user->schedule->delete();
+        session()->flash('message','Schedule Deleted');
+        return back();
     }
 }
