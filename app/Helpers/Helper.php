@@ -15,9 +15,10 @@ if (!function_exists('schedule_retriever'))
             $scheduleStart = $schedule->start;
             $scheduleEnd= $schedule->end;
 
-            $colors = array("#00bcd4", "#03a9f4", "#2196f3", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#607d8b");
+            $colors = array("#00bcd4", "#03a9f4", "#607d8b", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3");
             $x = 0;
             $date;
+            $daysForRevision = array();
 
             foreach ($modules as $module) 
             {
@@ -36,11 +37,15 @@ if (!function_exists('schedule_retriever'))
                         'end' => $date,
                         'color' => $color
                     ]; 
+
+                    array_push($daysForRevision, $day);
                 }
                     
             }
 
-            $s = new DateTime($date);
+            $maxDate = max($daysForRevision);
+            $maxDateTime = date('Y-m-d', strtotime($scheduleStart . " +".$maxDate." days"));
+            $s = new DateTime($maxDateTime);
             $e = new DateTime($scheduleEnd);
             
             $revisionCount = $e->diff($s);
@@ -48,7 +53,7 @@ if (!function_exists('schedule_retriever'))
 
             
             for ($i=1; $i <= $revisionCount; $i++) { 
-                $dateRev = date('Y-m-d', strtotime($date . " +".$i." days"));
+                $dateRev = date('Y-m-d', strtotime($maxDateTime . " +".$i." days"));
 
                     $data[]= 
                     [

@@ -16,7 +16,9 @@
                 </div>
             @else
             <div class="col-sm-2">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Settings</button>
+                <div class="row">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
+                </div>
             </div>
             @endif
         </div>
@@ -125,6 +127,7 @@
     <script>
         $(document).ready(function(){
 
+
             $('#start').datepicker('update', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('update', '@if(isset($schedule)){{ $schedule->end }}@endif');
             
@@ -162,10 +165,6 @@
                 $("#confirmDelete").hide("slow");
             });
 
-            $("#messageAlert").fadeTo(2000, 500).slideUp(500, function(){
-                $("#messageAlert").slideUp(500);
-            });
-
             function addModuleInput(i){
                 var moduleDiv = `<tr>
                                     <td>
@@ -199,7 +198,9 @@
                 return moduleDiv
             }
             
-            var i = {{ count($schedule->modules) }};
+            @if(isset($schedule))
+                var i = {{ count($schedule->modules) }};
+            @endif
             var max_fields = 10;
 
             //append when add button is clicked

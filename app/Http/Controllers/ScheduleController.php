@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreSchedule;
+use App\Http\Requests\UpdateSchedule;
 
 class ScheduleController extends Controller
 {
@@ -23,7 +24,6 @@ class ScheduleController extends Controller
         
         $req = $request->persist();
         session()->flash('message','Schedule Created');
-
         return redirect()->route('schedules.show');
         
     }
@@ -32,6 +32,7 @@ class ScheduleController extends Controller
     {
         $user = Auth::user();
         $data = schedule_retriever();
+
         if ($schedule = $user->schedule)
         {
             $modules = $schedule->modules;
@@ -44,11 +45,9 @@ class ScheduleController extends Controller
         
     }
 
-    public function update()
+    public function update(UpdateSchedule $request)
     {
-        $schedule = Auth::user()->schedule;
-
-        
+        $request->persist();
         session()->flash('message','Schedule Updated');
         return redirect()->route('schedules.show');
     }
