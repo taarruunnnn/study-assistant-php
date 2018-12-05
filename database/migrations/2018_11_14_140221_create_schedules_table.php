@@ -18,6 +18,8 @@ class CreateSchedulesTable extends Migration
             $table->integer('user_id');
             $table->date('start');
             $table->date('end');
+            $table->integer('weekday_hours');
+            $table->integer('weekend_hours');
             $table->timestamps();
         });
     }

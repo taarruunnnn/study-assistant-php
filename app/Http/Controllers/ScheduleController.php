@@ -55,6 +55,7 @@ class ScheduleController extends Controller
     public function destroy()
     {
         $user = Auth::user();
+        $user->schedule->modules()->delete();
         $user->schedule->sessions()->delete();
         $user->schedule->delete();
         session()->flash('message','Schedule Deleted');

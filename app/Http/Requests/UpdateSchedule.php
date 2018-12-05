@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class UpdateSchedule extends FormRequest
 {
@@ -39,99 +40,112 @@ class UpdateSchedule extends FormRequest
 
         $schedule->start = request('start');
         $schedule->end = request('end');
+        $schedule->weekday_hours = request('weekdays');
+        $schedule->weekend_hours = request('weekends');
 
         $schedule->save();
 
         // Modules
 
         $schedule->modules()->delete();
+        $schedule->sessions()->delete();
 
-        $start = strtotime(request('start'));
-        $end = strtotime(request('end'));
+        $weekday_hours = request('weekdays');
+        $weekend_hours = request('weekends');
 
-        $noDays = round((($end - $start)/(60 * 60 * 24)));
+        $start_date = new Carbon(request('start'));
+        $end_date = new Carbon(request('end'));
 
-        $totalRating = 0;
-        $moduleRatings = array();
-        foreach (request('rating') as  $key => $value)
+        $no_week_days = $start_date->diffInWeekdays($end_date);
+        $no_weekend_days = $start_date->diffInWeekendDays($end_date);
+        $no_days = $start_date->diffInDays($end_date);
+
+        $total_study_hours = ($no_week_days * $weekday_hours) + ($no_weekend_days * $weekend_hours);
+
+        $total_rating = 0;
+
+        foreach (request('rating') as $rating) 
         {
-            $totalRating += $value;
+            $total_rating += $rating;
         }
 
+        $sessions = array(); //a multidimensional array
         
-        $daysPerModuleArray = array();
-        $modules = array();
-        foreach (request('module') as  $key => $value)
+        foreach(request('module') as $key => $value)
         {
-            $rating = $request-> rating[$key];
-            $percentage = $rating/$totalRating;
-            $daysPerModule = intval($noDays * $percentage);
-            array_push($daysPerModuleArray, $daysPerModule);
-
-            $modules[$value] = $request-> rating[$key];    //module name : rating
-        }
-        asort($modules);
-        $noModules = count($modules);
-
-        sort($daysPerModuleArray);
-        $minDays = min($daysPerModuleArray);
-        
-
-        $prevMin = array();
-        array_push($prevMin, $minDays);
-
-        $noModulesx = $noModules;
-        $i = 0;
-
-        foreach ($modules as  $key => $value)
-        {
-            $scheduledDays = array();
-
-            $temp = $i;
-
-            $noModules = $noModulesx;
-            $keyMin = 0;
+            $hours_per_module = intval($total_study_hours * (($request->rating[$key])/$total_rating));
             
-            for ($k=0; $k < $minDays; $k++) 
-            { 
-                
+            $sessions[$key]['module'] = $value;
+            $sessions[$key]['rating'] = $request->rating[$key];
+            $sessions[$key]['hours'] = $hours_per_module;
 
-                if (($keyMin = array_search($k, array_reverse($prevMin, true))) !== false)
-                {
-                    $temp -= $noModules;
-                    $noModules = $noModulesx;
-                    $noModules -= ($keyMin+1);
-                    $temp += $noModules;
-                }
-                
-                array_push($scheduledDays, $temp);
-                $temp += $noModules;  
-                
-            }
-
-                if (($keyDay = array_search($minDays, $daysPerModuleArray)) !== false) 
-                {
-                    unset($daysPerModuleArray[$keyDay]);
-                }
-
-                if(!(empty($daysPerModuleArray)))
-                {   
-                    
-                    $minDays = min($daysPerModuleArray);
-                    array_push($prevMin, $minDays);
-                }
-            
-            
-
-            $schedule-> modules()-> create([
-                'name' => $key,
-                'rating' => $value,
-                'days' => $scheduledDays
+            $schedule-> modules() -> create
+            ([
+                'name' => $value,
+                'rating' => $request->rating[$key]
             ]);
-
-            $i++;
         }
 
-        return $prevMin;
+        // Sorting the array based on hours
+        usort($sessions, function($a, $b){
+            return $a['hours'] <=> $b['hours'];
+        });
+
+        for ($i=0; $i < $no_days; $i++) 
+        {
+            $today = $start_date->copy()->addDays($i);
+
+            if ($today->isWeekday()) 
+            {
+                for ($x=0; $x < $weekday_hours; $x+=2) 
+                { 
+                    if(!(empty($sessions)))
+                    {   
+                        $rand = array_rand($sessions, 1);
+
+                        $schedule -> sessions() -> create
+                        ([
+                            'module' => $sessions[$rand]['module'],
+                            'date' => $today->toDateString()
+                        ]);
+
+                        $sessions[$rand]['hours'] =  $sessions[$rand]['hours'] - 2;
+                        
+                        if ($sessions[$rand]['hours'] <= 0) 
+                        {
+                            unset($sessions[$rand]);
+                        }
+                    
+                    }
+                    
+                }
+            }
+            elseif ($today->isWeekend()) 
+            {
+                
+
+                for ($x=0; $x < $weekend_hours; $x+=2) 
+                {   
+                    if(!(empty($sessions)))
+                    {
+                        $rand = array_rand($sessions, 1);
+
+                        $schedule -> sessions() -> create
+                        ([
+                            'module' => $sessions[$rand]['module'],
+                            'date' => $today->toDateString()
+                        ]);
+
+                        $sessions[$rand]['hours'] =  $sessions[$rand]['hours'] - 2;
+
+                        if ($sessions[$rand]['hours'] <= 0) 
+                        {
+                            unset($sessions[$rand]);
+                        }
+                        
+                    }
+                }
+            }
+        }
     }
 }

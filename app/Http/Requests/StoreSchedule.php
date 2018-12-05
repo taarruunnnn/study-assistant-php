@@ -39,17 +39,18 @@ class StoreSchedule extends FormRequest
         if ($user->schedule === null) 
         {
 
+            $weekday_hours = request('weekdays');
+            $weekend_hours = request('weekends');
+
             $schedule = $user-> schedule()-> create([
                 'start' => request('start'),
                 'end' => request('end'),
+                'weekday_hours' => request('weekdays'),
+                'weekend_hours' => request('weekends')
             ]);
 
             $start_date = new Carbon(request('start'));
             $end_date = new Carbon(request('end'));
-
-            // number of study hours
-            $weekday_hours = request('weekdays');
-            $weekend_hours = request('weekends');
 
             $no_week_days = $start_date->diffInWeekdays($end_date);
             $no_weekend_days = $start_date->diffInWeekendDays($end_date);
@@ -77,7 +78,7 @@ class StoreSchedule extends FormRequest
                 $schedule-> modules() -> create
                 ([
                     'name' => $value,
-                    'rating' => $request->rating[$key],
+                    'rating' => $request->rating[$key]
                 ]);
             }
 
@@ -92,17 +93,11 @@ class StoreSchedule extends FormRequest
 
                 if ($today->isWeekday()) 
                 {
-                    $rand = 0;
-
                     for ($x=0; $x < $weekday_hours; $x+=2) 
                     { 
                         if(!(empty($sessions)))
                         {   
-                            
-                            if(!(array_key_exists($rand, $sessions)))
-                            {
-                                $rand--;
-                            }
+                            $rand = array_rand($sessions, 1);
 
                             $schedule -> sessions() -> create
                             ([
@@ -111,29 +106,25 @@ class StoreSchedule extends FormRequest
                             ]);
 
                             $sessions[$rand]['hours'] =  $sessions[$rand]['hours'] - 2;
-                            if ($sessions[$rand]['hours'] == 0) {
+                            
+                            if ($sessions[$rand]['hours'] <= 0) 
+                            {
                                 unset($sessions[$rand]);
                             }
-
-                            $sessions = array_values($sessions);
-                            $rand++;
+                        
                         }
                         
                     }
                 }
                 elseif ($today->isWeekend()) 
                 {
-                    $rand = 0;
+                    
 
                     for ($x=0; $x < $weekend_hours; $x+=2) 
                     {   
                         if(!(empty($sessions)))
                         {
-                            
-                            if(!(array_key_exists($rand, $sessions)))
-                            {
-                                $rand--;
-                            }
+                            $rand = array_rand($sessions, 1);
 
                             $schedule -> sessions() -> create
                             ([
@@ -142,12 +133,12 @@ class StoreSchedule extends FormRequest
                             ]);
 
                             $sessions[$rand]['hours'] =  $sessions[$rand]['hours'] - 2;
-                            if ($sessions[$rand]['hours'] == 0) {
+
+                            if ($sessions[$rand]['hours'] <= 0) 
+                            {
                                 unset($sessions[$rand]);
                             }
-
-                            $sessions = array_values($sessions);
-                            $rand++;
+                            
                         }
                     }
                 }

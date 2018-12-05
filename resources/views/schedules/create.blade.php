@@ -15,11 +15,11 @@
                 
                     <div class="col-sm-6">
                         <div class="input-group input-daterange">
-                            <input type="text" class="datepicker text-center form-control" id="start" name="start">
+                            <input type="text" class="datepicker text-center form-control" id="start" name="start" placeholder="Start">
                             <div class="input-group-append">
                                 <span class="input-group-text">to</span>
                             </div>
-                            <input type="text" class="datepicker text-center form-control" id="end" name="end">
+                            <input type="text" class="datepicker text-center form-control" id="end" name="end" placeholder="End">
                         </div>
 
                         @if ($errors->has('start'))
@@ -39,10 +39,32 @@
                     <label class="col-sm-3 col-form-label">How many hours per day can you study? : </label>
                 
                     <div class="col-sm-6">
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="weekdays" name="weekdays" placeholder="Weekdays">
-                            <input type="number" class="form-control" id="weekends" name="weekends" placeholder="Weekends">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <select class="form-control" name="weekdays" id="weekdays">
+                                    <option value="2">2</option>
+                                    <option value="4">4</option>
+                                    <option value="6">6</option>
+                                    <option value="8">8</option>
+                                    <option value="10">10</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <label for="weekdays">On Weekdays</label>
+                            </div>
+                            <div class="col-sm-6">
+                                    <select class="form-control" name="weekends" id="weekends">
+                                        <option value="2">2</option>
+                                        <option value="4">4</option>
+                                        <option value="6">6</option>
+                                        <option value="8">8</option>
+                                        <option value="10">10</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                    <label for="weekends">On Weekdends</label>
+                                </div>
                         </div>
+                        
+                            
 
                         @if ($errors->has('weekdays'))
                             <span class="invalid-feedback" role="alert">

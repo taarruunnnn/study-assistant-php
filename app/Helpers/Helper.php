@@ -19,10 +19,18 @@ if (!function_exists('schedule_retriever'))
             $x = 0;
             $date;
             $daysForRevision = array();
+            $modules = array();
 
             foreach ($sessions as $session) 
             {
-                $color = $colors[array_rand($colors, 1)];
+                if(!in_array($session->module, $modules, true))
+                {
+                    array_push($modules, $session->module);
+                }
+
+                $colorKey = array_search($session->module, $modules);
+
+                $color = $colors[$colorKey];
                 $x++;
                     
 

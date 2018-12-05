@@ -40,7 +40,7 @@
                         <div class="modal-body">
                             <div class="container-fluid">
                                 <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">Duration : </label>
+                                    <label class="col-sm-2 col-form-label">Duration : </label>
                                 
                                     <div class="col-sm-8">
                                         <div class="input-group input-daterange">
@@ -52,8 +52,50 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                
+                                        <label class="col-sm-3 col-form-label">How many hours per day can you study? : </label>
+                                    
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <select class="form-control" name="weekdays" id="weekdays">
+                                                        <option value="2" @if ($schedule->weekday_hours == 2) selected="selected" @endif>2</option>
+                                                        <option value="4" @if ($schedule->weekday_hours == 4) selected="selected" @endif>4</option>
+                                                        <option value="6" @if ($schedule->weekday_hours == 6) selected="selected" @endif>6</option>
+                                                        <option value="8" @if ($schedule->weekday_hours == 8) selected="selected" @endif>8</option>
+                                                        <option value="10" @if ($schedule->weekday_hours == 10) selected="selected" @endif>10</option>
+                                                        <option value="12" @if ($schedule->weekday_hours == 12) selected="selected" @endif>12</option>
+                                                    </select>
+                                                    <label for="weekdays">On Weekdays</label>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                        <select class="form-control" name="weekends" id="weekends">
+                                                            <option value="2" @if ($schedule->weekend_hours == 2) selected="selected" @endif>2</option>
+                                                            <option value="4" @if ($schedule->weekend_hours == 4) selected="selected" @endif>4</option>
+                                                            <option value="6" @if ($schedule->weekend_hours == 6) selected="selected" @endif>6</option>
+                                                            <option value="8" @if ($schedule->weekend_hours == 8) selected="selected" @endif>8</option>
+                                                            <option value="10" @if ($schedule->weekend_hours == 10) selected="selected" @endif>10</option>
+                                                            <option value="12" @if ($schedule->weekend_hours == 12) selected="selected" @endif>12</option>
+                                                        </select>
+                                                        <label for="weekends">On Weekdends</label>
+                                                    </div>
+                                            </div>
+                    
+                                            @if ($errors->has('weekdays'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('weekday') }}</strong>
+                                                </span>
+                                            @endif
+                                            @if ($errors->has('weekends'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('weekends') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                <div class="form-group row">
                                     <div class="col-sm-8">
                                         <table class="table">
                                             <thead>
@@ -199,7 +241,7 @@
             }
             
             @if(isset($schedule))
-                var i = {{ count($schedule->sessions) }};
+                var i = {{ count($schedule->modules) }};
             @endif
             var max_fields = 10;
 
