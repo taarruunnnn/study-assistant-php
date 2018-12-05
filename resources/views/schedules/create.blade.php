@@ -11,7 +11,7 @@
                 @csrf
         
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Duration : </label>
+                    <label class="col-sm-3 col-form-label">Duration : </label>
                 
                     <div class="col-sm-6">
                         <div class="input-group input-daterange">
@@ -30,6 +30,28 @@
                         @if ($errors->has('end'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('end') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">How many hours per day can you study? : </label>
+                
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="weekdays" name="weekdays" placeholder="Weekdays">
+                            <input type="number" class="form-control" id="weekends" name="weekends" placeholder="Weekends">
+                        </div>
+
+                        @if ($errors->has('weekdays'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('weekday') }}</strong>
+                            </span>
+                        @endif
+                        @if ($errors->has('weekends'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('weekends') }}</strong>
                             </span>
                         @endif
                     </div>

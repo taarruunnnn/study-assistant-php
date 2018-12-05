@@ -10,7 +10,7 @@ if (!function_exists('schedule_retriever'))
         if ($schedule = $user->schedule)
         {
             $data = [];
-            $modules = $schedule->modules;
+            $sessions = $schedule->sessions;
             
             $scheduleStart = $schedule->start;
             $scheduleEnd= $schedule->end;
@@ -20,49 +20,45 @@ if (!function_exists('schedule_retriever'))
             $date;
             $daysForRevision = array();
 
-            foreach ($modules as $module) 
+            foreach ($sessions as $session) 
             {
-                $color = $colors[$x];
+                $color = $colors[array_rand($colors, 1)];
                 $x++;
-
-                $days = $module->days;
-                foreach ($days as $day)
-                {
-                    $date = date('Y-m-d', strtotime($scheduleStart . " +".$day." days"));
+                    
 
                     $data[]= 
                     [
-                        'title' => $module->name,
-                        'start' => $date,
-                        'end' => $date,
+                        'title' => $session->module,
+                        'start' => $session->date,
+                        'end' => $session->date,
                         'color' => $color
                     ]; 
 
-                    array_push($daysForRevision, $day);
-                }
+                    // array_push($daysForRevision, $day);
+                
                     
             }
 
-            $maxDate = max($daysForRevision);
-            $maxDateTime = date('Y-m-d', strtotime($scheduleStart . " +".$maxDate." days"));
-            $s = new DateTime($maxDateTime);
-            $e = new DateTime($scheduleEnd);
+            // $maxDate = max($daysForRevision);
+            // $maxDateTime = date('Y-m-d', strtotime($scheduleStart . " +".$maxDate." days"));
+            // $s = new DateTime($maxDateTime);
+            // $e = new DateTime($scheduleEnd);
             
-            $revisionCount = $e->diff($s);
-            $revisionCount = $revisionCount->format("%a");
+            // $revisionCount = $e->diff($s);
+            // $revisionCount = $revisionCount->format("%a");
 
             
-            for ($i=1; $i <= $revisionCount; $i++) { 
-                $dateRev = date('Y-m-d', strtotime($maxDateTime . " +".$i." days"));
+            // for ($i=1; $i <= $revisionCount; $i++) { 
+            //     $dateRev = date('Y-m-d', strtotime($maxDateTime . " +".$i." days"));
 
-                    $data[]= 
-                    [
-                        'title' => 'Revision',
-                        'start' => $dateRev,
-                        'end' => $dateRev,
-                        'color' => '#000'
-                    ];
-            }
+            //         $data[]= 
+            //         [
+            //             'title' => 'Revision',
+            //             'start' => $dateRev,
+            //             'end' => $dateRev,
+            //             'color' => '#000'
+            //         ];
+            // }
 
             return $data;
             }

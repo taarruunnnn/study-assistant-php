@@ -1,211 +1,72 @@
 <?php
 
-if (!function_exists('study_scheduler'))
+use Illuminate\Support\Facades\Auth;
+
+if (!function_exists('schedule_retriever'))
 {
-    function study_scheduler($request, $schedule)
+    function schedule_retriever()
     {
-        $start = strtotime($request->input('start'));
-        $end = strtotime($request->input('end'));
+        $user = Auth::user();
+        if ($schedule = $user->schedule)
+        {
+            $data = [];
+            $modules = $schedule->modules;
+            
+            $scheduleStart = $schedule->start;
+            $scheduleEnd= $schedule->end;
 
-        $noDays = round((($end - $start)/(60 * 60 * 24)));
+            $colors = array("#00bcd4", "#03a9f4", "#607d8b", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3");
+            $x = 0;
+            $date;
+            $daysForRevision = array();
 
-        $noModules = count($request->input('module'));
-
-        $daysPerModule = intval($noDays/$noModules);
-
-        $evenDays = $daysPerModule * $noModules;
-
-        $unevenDays = $noDays - $evenDays;
-
-        $s = 'Days: '.$noDays.' | Rest Days: '.$unevenDays.' | Modules: '.$noModules.' | Days Per Module: '.$daysPerModule;
-
-        $sched = array();
-        $x = 0;
-
-        $sched[] = $s;
-
-        for ($i=0; $i < $noDays; $i++) 
-        { 
-
-            if ($x < ($noModules-1) && $i < $evenDays) 
+            foreach ($modules as $module) 
             {
-                $sched[] = 'day: '.$i.' | module: '.$x;
+                $color = $colors[$x];
                 $x++;
-            } 
-            elseif (!($x < ($noModules-1)) && $i < $evenDays) 
-            {
-                $sched[] = 'day: '.$i.' | module: '.$x;
-                $x = 0;
-            } 
-            else 
-            {
-                $rand = rand(0, $noModules);
-                $sched[] = 'uneven day '.$i.' | module: '.$rand ;
-            }
-        }
 
+                $days = $module->days;
+                foreach ($days as $day)
+                {
+                    $date = date('Y-m-d', strtotime($scheduleStart . " +".$day." days"));
 
-        $start = $request->input('start');
+                    $data[]= 
+                    [
+                        'title' => $module->name,
+                        'start' => $date,
+                        'end' => $date,
+                        'color' => $color
+                    ]; 
 
-
-
-        foreach ($request->input('module') as  $key => $value){
-            $x = $key - 1;
-            $schedule-> modules()-> create([
-                'name' => $value,
-                'start' => date('Y-m-d', strtotime($start. ' + '.$x.' days'))
-            ]);
-        }
-
-        return ($sched);
-    }
-}
-
-// v2
-
-
-if (!function_exists('schedule_retriever'))
-{
-    function schedule_retriever()
-    {
-        $user = Auth::user();
-        $schedule = $user->schedule;
-
-        $data = [];
-
-        
-        $modules = $schedule->modules;
-
-        // Calculations
-        
-        $scheduleStart = strtotime($schedule->start);
-        $scheduleEnd = strtotime($schedule->revision);
-
-        $noDays = round((($scheduleEnd - $scheduleStart)/(60 * 60 * 24)));
-        $noModules = count($modules);
-
-        $daysPerModule = intval($noDays/$noModules);
-
-
-        foreach ($modules as $module) {
-
-            // Use of php-rrule library
-
-            $rrule = new RRule([
-                'FREQ' => 'DAILY',
-                'INTERVAL' => $noModules,
-                'DTSTART' => $module->start,
-                'COUNT' => $daysPerModule
-            ]);
+                    array_push($daysForRevision, $day);
+                }
                     
-            foreach ($rrule as $date)
-            {
-                $moduleStart = $date->format('Y-m-d');
-
-                $data[]= 
-                [
-                    'title' => $module->name,
-                    'start' => $moduleStart,
-                    'end' => $moduleStart,
-                    'color' => '#2196f3'
-                ];  
             }
-        }
 
-        $rrule2 = new RRule([
-            'FREQ' => 'DAILY',
-            'DTSTART' => $schedule->revision,
-            'UNTIL' => $schedule->end,
-        ]);
+            $maxDate = max($daysForRevision);
+            $maxDateTime = date('Y-m-d', strtotime($scheduleStart . " +".$maxDate." days"));
+            $s = new DateTime($maxDateTime);
+            $e = new DateTime($scheduleEnd);
+            
+            $revisionCount = $e->diff($s);
+            $revisionCount = $revisionCount->format("%a");
 
-        foreach ($rrule2 as $date)
-        {
-            $moduleStart = $date->format('Y-m-d');
+            
+            for ($i=1; $i <= $revisionCount; $i++) { 
+                $dateRev = date('Y-m-d', strtotime($maxDateTime . " +".$i." days"));
 
-            $data[]= 
-            [
-                'title' => 'Revision',
-                'start' => $moduleStart,
-                'end' => $moduleStart,
-                'color' => '#000'
-            ];  
-        }
-        
-
-        return $data;
-    }
-}
-
-// v3
-
-if (!function_exists('schedule_retriever'))
-{
-    function schedule_retriever()
-    {
-        $user = Auth::user();
-        $schedule = $user->schedule;
-
-        $data = [];
-
-        
-        $modules = $schedule->modules;
-
-        // Calculations
-        
-        $scheduleStart = strtotime($schedule->start);
-        $scheduleEnd = strtotime($schedule->revision);
-
-        $noDays = round((($scheduleEnd - $scheduleStart)/(60 * 60 * 24)));
-        $noModules = count($modules);
-
-        $daysPerModule = intval($noDays/$noModules);
-
-
-        foreach ($modules as $module) {
-
-            // Use of php-rrule library
-
-            $rrule = new RRule([
-                'FREQ' => 'DAILY',
-                'INTERVAL' => $noModules,
-                'DTSTART' => $module->start,
-                'COUNT' => $daysPerModule
-            ]);
-                    
-            foreach ($rrule as $date)
-            {
-                $moduleStart = $date->format('Y-m-d');
-
-                $data[]= 
-                [
-                    'title' => $module->name,
-                    'start' => $moduleStart,
-                    'end' => $moduleStart,
-                    'color' => '#2196f3'
-                ];  
+                    $data[]= 
+                    [
+                        'title' => 'Revision',
+                        'start' => $dateRev,
+                        'end' => $dateRev,
+                        'color' => '#000'
+                    ];
             }
-        }
 
-        $rrule2 = new RRule([
-            'FREQ' => 'DAILY',
-            'DTSTART' => $schedule->revision,
-            'UNTIL' => $schedule->end,
-        ]);
+            return $data;
+            }
 
-        foreach ($rrule2 as $date)
-        {
-            $moduleStart = $date->format('Y-m-d');
-
-            $data[]= 
-            [
-                'title' => 'Revision',
-                'start' => $moduleStart,
-                'end' => $moduleStart,
-                'color' => '#000'
-            ];  
-        }
         
-
-        return $data;
     }
 }

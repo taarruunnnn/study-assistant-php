@@ -199,7 +199,7 @@
             }
             
             @if(isset($schedule))
-                var i = {{ count($schedule->modules) }};
+                var i = {{ count($schedule->sessions) }};
             @endif
             var max_fields = 10;
 

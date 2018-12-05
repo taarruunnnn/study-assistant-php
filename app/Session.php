@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Module extends Model
+class Session extends Model
 {
     protected $fillable = [
-        'name', 'rating'
+        'module', 'date'
     ];
 
     public function schedule()

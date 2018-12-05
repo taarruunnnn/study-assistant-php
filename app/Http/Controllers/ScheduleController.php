@@ -22,7 +22,7 @@ class ScheduleController extends Controller
     public function store(StoreSchedule $request)
     {
         
-        $req = $request->persist();
+        $request->persist();
         session()->flash('message','Schedule Created');
         return redirect()->route('schedules.show');
         
@@ -55,7 +55,7 @@ class ScheduleController extends Controller
     public function destroy()
     {
         $user = Auth::user();
-        $user->schedule->modules()->delete();
+        $user->schedule->sessions()->delete();
         $user->schedule->delete();
         session()->flash('message','Schedule Deleted');
         return back();

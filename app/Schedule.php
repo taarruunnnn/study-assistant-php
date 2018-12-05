@@ -15,6 +15,11 @@ class Schedule extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function sessions()
+    {
+        return $this->hasMany('App\Session');
+    }
+
     public function modules()
     {
         return $this->hasMany('App\Module');
