@@ -12476,3 +12476,7 @@ span.twitter-typeahead {
   margin-top: 10px;
 }
 
+.ajax-loader {
+  display: none;
+}
+

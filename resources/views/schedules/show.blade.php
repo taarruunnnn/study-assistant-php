@@ -40,7 +40,7 @@
                         <div class="modal-body">
                             <div class="container-fluid">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Duration : </label>
+                                    <label class="col-sm-4 col-form-label">Duration : </label>
                                 
                                     <div class="col-sm-8">
                                         <div class="input-group input-daterange">
@@ -54,7 +54,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">How many hours per day can you study? : </label>
+                                        <label class="col-sm-6 col-form-label">How many hours per day can you study? : </label>
                                     
                                         <div class="col-sm-6">
                                             <div class="row">
@@ -96,12 +96,14 @@
                                     </div>
 
                                 <div class="form-group row">
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-12">
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Module Name</th>
                                                     <th scope="col">Rating</th>
+                                                    <th></th>
+                                                    <th scope="col">Avg Rating</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-body">
@@ -109,7 +111,7 @@
                                                     <tr>
                                                         <td>
                                                             <div class="input-group">
-                                                            <input type="text" class="form-control" id="module{{ $key }}" name="module[{{ $key }}]" value="{{ $module->name }}">
+                                                            <input type="text" class="form-control module-names" id="module{{ $key }}" name="module[{{ $key }}]" value="{{ $module->name }}">
                                                                 <div class="input-group-append">
                                                                 </div>
                                                             </div>
@@ -133,13 +135,19 @@
                                                         <td>
                                                             <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
                                                         </td>
+                                                        <td><div class="avg mt-2 text-center" id="avg{{ $key }}"></div></td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
                                         <div class="row">
-                                                <button class="btn ml-4" id="btn-add"><i class="fas fa-plus"></i></button>
+                                            <button class="btn ml-4" id="btn-add"><i class="fas fa-plus"></i></button>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-secondary" id="analyze">Analyze Modules</button>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -169,6 +177,10 @@
     <script>
         $(document).ready(function(){
 
+            $("#analyze").click(function(e){
+                e.preventDefault();
+                analyzeModules();
+            });
 
             $('#start').datepicker('update', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('update', '@if(isset($schedule)){{ $schedule->end }}@endif');
@@ -211,7 +223,7 @@
                 var moduleDiv = `<tr>
                                     <td>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="module`+ i +`" name="module[`+ i +`]">
+                                            <input type="text" class="form-control module-names" id="module`+ i +`" name="module[`+ i +`]">
                                             <div class="input-group-append">
                                             </div>
                                         </div>
@@ -235,6 +247,7 @@
                                     <td>
                                         <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
                                     </td>
+                                    <td><div class="avg mt-2 text-center" id="avg`+i+`"></div></td>
                                 </tr>`
                 
                 return moduleDiv
@@ -264,6 +277,61 @@
                 console.log('tr');
                 i--;
             });
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            analyzeModules()
+
+            function analyzeModules()
+            {
+                
+                var values = new Array();
+                $(".module-names").each(function(){
+                    values.push($(this).val());
+                });
+
+                console.log(values)
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('schedule.analyze') }}',
+                    data: {modules: values},
+                    success: function(analysis){
+                        displayAnalysis(analysis);
+                    },
+                    error: function(message){
+                        console.log(message);
+                    }
+                });
+            }
+
+            function displayAnalysis(analysis)
+            {
+                console.log(analysis);
+
+                for (var key in analysis)
+                {
+                    if (analysis.hasOwnProperty(key))
+                    {
+                        var module = key;
+                        var rating = analysis[key];
+
+                        for (var x = 0; x <= i; x++)
+                        {
+                            var textBoxForModule = $("#module" + x);
+                            if ($(textBoxForModule).val() == module)
+                            {
+                                var avg = '#avg'+x
+                                $(avg).text(rating);
+                            }
+                        }
+                    }
+                }
+            }
             
         });
   

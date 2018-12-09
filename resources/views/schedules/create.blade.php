@@ -80,21 +80,23 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Enter Your Modules : </label>
+                    <label class="col-sm-6 col-form-label">Enter Your Modules : </label>
 
-                    <div class="col-sm-8">
+                    <div class="col-sm-9">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Module Name</th>
                                     <th scope="col">Rating</th>
+                                    <th></th>
+                                    <th scope="col">Avg Rating</th>
                                 </tr>
                             </thead>
                             <tbody class="table-body">
                                 <tr>
                                     <td>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="module0" name="module[0]">
+                                            <input type="text" class="form-control module-names" id="module0" name="module[0]">
                                             <div class="input-group-append">
                                             </div>
                                         </div>
@@ -118,19 +120,24 @@
                                     <td>
                                         <button class="btn" id="btn-add"><i class="fas fa-plus"></i></button>
                                     </td>
+                                    <td><div class="avg mt-2 text-center" id="avg0"><img src="{{ URL::asset( 'storage/ajax-loader.gif') }}" alt="Loader" class="ajax-loader"></div></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <button class="btn btn-secondary" id="analyze">Analyze Modules</button>
+                    </div>
+                </div>
                 
                 <div class="form-group row">
                     <div class="col-sm-10">
-                      <button type="submit" class="btn btn-primary">Create Schedule</button>
+                      <button type="submit" class="btn btn-primary float-right">Create Schedule</button>
                     </div>
-                  </div>
+                </div>
             </form>
         </div>
     </div>
@@ -140,13 +147,15 @@
 
 @section('script')
     <script>
-        $(document).ready(function(){         
+        $(document).ready(function(){   
+
+            $("#analyze").click(analyzeModules);
 
             function addModuleInput(i){
                 var moduleDiv = `<tr>
                                     <td>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" id="module`+ i +`" name="module[`+ i +`]">
+                                            <input type="text" class="form-control module-names" id="module`+ i +`" name="module[`+ i +`]">
                                             <div class="input-group-append">
                                             </div>
                                         </div>
@@ -170,6 +179,7 @@
                                     <td>
                                         <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
                                     </td>
+                                    <td><div class="avg mt-2 text-center" id="avg`+ i +`"><img src="{{ URL::asset( 'storage/ajax-loader.gif') }}" alt="Loader" class="ajax-loader"></div></td>
                                 </tr>`
                 
                 return moduleDiv
@@ -197,6 +207,62 @@
                 console.log('tr');
                 i--;
             });
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+
+            function analyzeModules(e)
+            {
+                e.preventDefault();
+
+                $(".ajax-loader").show();
+
+                var values = new Array();
+                $(".module-names").each(function(){
+                    values.push($(this).val());
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('schedule.analyze') }}',
+                    data: {modules: values},
+                    success: function(analysis){
+                        $(".ajax-loader").hide();
+                        displayAnalysis(analysis);
+                    },
+                    error: function(message){
+                        console.log(message);
+                    }
+                });
+            }
+
+            function displayAnalysis(analysis)
+            {
+                console.log(analysis);
+
+                for (var key in analysis)
+                {
+                    if (analysis.hasOwnProperty(key))
+                    {
+                        var module = key;
+                        var rating = analysis[key];
+
+                        for (var x = 0; x <= i; x++)
+                        {
+                            var textBoxForModule = $("#module" + x);
+                            if ($(textBoxForModule).val() == module)
+                            {
+                                var avg = '#avg'+x
+                                $(avg).text(rating);
+                            }
+                        }
+                    }
+                }
+            }
         });
     </script>
 @endsection

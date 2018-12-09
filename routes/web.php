@@ -33,3 +33,4 @@ Route::get('/schedules/create', 'ScheduleController@create')->name('schedules.cr
 Route::post('/schedules/store', 'ScheduleController@store')->name('schedules.store');
 Route::get('/schedules/delete', 'ScheduleController@destroy')->name('schedules.destroy');
 Route::post('/schedules/update', 'ScheduleController@update')->name('schedules.update');
+Route::post('/schedules/analyze', 'ScheduleController@analyze')->name('schedule.analyze');
