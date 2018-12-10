@@ -93,9 +93,9 @@ class UpdateSchedule extends FormRequest
 
         for ($i=0; $i < $no_days; $i++) 
         {
-            $today = $start_date->copy()->addDays($i);
+            $looping_day = $start_date->copy()->addDays($i);
 
-            if ($today->isWeekday()) 
+            if ($looping_day->isWeekday()) 
             {
                 for ($x=0; $x < $weekday_hours; $x+=2) 
                 { 
@@ -106,7 +106,7 @@ class UpdateSchedule extends FormRequest
                         $schedule -> sessions() -> create
                         ([
                             'module' => $sessions[$rand]['module'],
-                            'date' => $today->toDateString()
+                            'date' => $looping_day->toDateString()
                         ]);
 
                         $sessions[$rand]['hours'] =  $sessions[$rand]['hours'] - 2;
@@ -120,7 +120,7 @@ class UpdateSchedule extends FormRequest
                     
                 }
             }
-            elseif ($today->isWeekend()) 
+            elseif ($looping_day->isWeekend()) 
             {
                 
 
@@ -133,7 +133,7 @@ class UpdateSchedule extends FormRequest
                         $schedule -> sessions() -> create
                         ([
                             'module' => $sessions[$rand]['module'],
-                            'date' => $today->toDateString()
+                            'date' => $looping_day->toDateString()
                         ]);
 
                         $sessions[$rand]['hours'] =  $sessions[$rand]['hours'] - 2;
