@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Session extends Model
 {
     protected $fillable = [
-        'module', 'date'
+        'module', 'date', 'status'
     ];
 
     public function schedule()

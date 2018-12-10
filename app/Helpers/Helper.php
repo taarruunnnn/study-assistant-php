@@ -41,32 +41,8 @@ if (!function_exists('schedule_retriever'))
                         'end' => $session->date,
                         'color' => $color
                     ]; 
-
-                    // array_push($daysForRevision, $day);
-                
-                    
+    
             }
-
-            // $maxDate = max($daysForRevision);
-            // $maxDateTime = date('Y-m-d', strtotime($scheduleStart . " +".$maxDate." days"));
-            // $s = new DateTime($maxDateTime);
-            // $e = new DateTime($scheduleEnd);
-            
-            // $revisionCount = $e->diff($s);
-            // $revisionCount = $revisionCount->format("%a");
-
-            
-            // for ($i=1; $i <= $revisionCount; $i++) { 
-            //     $dateRev = date('Y-m-d', strtotime($maxDateTime . " +".$i." days"));
-
-            //         $data[]= 
-            //         [
-            //             'title' => 'Revision',
-            //             'start' => $dateRev,
-            //             'end' => $dateRev,
-            //             'color' => '#000'
-            //         ];
-            // }
 
             return $data;
             }

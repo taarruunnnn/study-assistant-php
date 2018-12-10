@@ -7,6 +7,8 @@ require('@fortawesome/fontawesome-free/js/all');
 
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
+global.Timer = require('easytimer.js')
+
 
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({

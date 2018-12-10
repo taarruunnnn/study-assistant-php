@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -23,11 +24,22 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
-    }
+        $data = schedule_retriever();
+        
+        $modules = array();
 
-    public function checkSchedule()
-    {
-        $user = Auth::user();
+        if(!empty($data))
+        {
+            foreach($data as $d)
+            {
+                $date = new Carbon($d['start']);
+                if($date->isToday())
+                {
+                    array_push($modules, $d['title']);
+                }
+            }
+        }
+        
+        return view('dashboard', compact('modules'));
     }
 }

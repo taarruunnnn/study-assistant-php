@@ -235,6 +235,8 @@
                         displayAnalysis(analysis);
                     },
                     error: function(message){
+                        $(".ajax-loader").hide();
+                        failedAjax();
                         console.log(message);
                     }
                 });
@@ -262,6 +264,14 @@
                         }
                     }
                 }
+            }
+
+            function failedAjax()
+            {
+                $(".avg").each(function(index, obj)
+                {
+                    $(this).text("N/A");
+                });
             }
         });
     </script>

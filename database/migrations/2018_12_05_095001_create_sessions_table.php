@@ -17,6 +17,7 @@ class CreateSessionsTable extends Migration
             $table->increments('id');
             $table->string('module');
             $table->string('date');
+            $table->boolean('status')->default(0);
             $table->integer('schedule_id');
             $table->timestamps();
         });

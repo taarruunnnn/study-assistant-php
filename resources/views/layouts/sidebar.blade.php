@@ -23,5 +23,13 @@
             <a href="#">Reports</a>
         </li>
     </ul>
+    <div id="CTA">
+        <ul class="list-unstyled">
+            <li>
+                <a href="/session" class="btn btn-success">START STUDY SESSION &nbsp; <i class="fas fa-clock"></i></a>
+            </li>
+        </ul>
+    </div>
+    
 
 </nav>

@@ -12308,6 +12308,11 @@ ul ul a {
   background: #1d87dc;
 }
 
+#sidebar #CTA {
+  padding: 20px;
+  width: 250px;
+}
+
 /* ---------------------------------------------------
     HEADER
 ----------------------------------------------------- */
@@ -12478,5 +12483,27 @@ span.twitter-typeahead {
 
 .ajax-loader {
   display: none;
+}
+
+#sessionTimer .values {
+  font-size: 85px;
+}
+
+@media only screen and (max-width: 700px) {
+  #sessionTimer .values {
+    font-size: 75px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  #sessionTimer .values {
+    font-size: 55px;
+  }
+}
+
+@media only screen and (max-width: 300px) {
+  #sessionTimer .values {
+    font-size: 45px;
+  }
 }
 
