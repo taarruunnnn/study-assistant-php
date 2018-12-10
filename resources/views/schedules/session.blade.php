@@ -22,11 +22,11 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <div class="card mt-4" style="width:25rem">
+                <div class="card mt-4">
                     <div id="sessionTimer" class="card-body">
                         <h5 class="card-title">Start the timer</h5>
                         <div class="values">00:00:00</div>
-                        <div class="text-center">
+                        <div>
                             <button class="startButton btn btn-primary btn-lg"><i class="fas fa-play"></i></button>
                             <button class="pauseButton btn btn-primary btn-lg" ><i class="fas fa-pause"></i></button>
                             <button class="stopButton btn btn-primary btn-lg"><i class="fas fa-stop"></i></button>
@@ -35,7 +35,7 @@
                 </div>     
             </div>
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card mt-4">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Today's Sessions</h4>
                         <h6 class="card-subtitle mb-2 text-muted">To Study</h6>
@@ -76,6 +76,9 @@
             });
             $('#sessionTimer .startButton').click(function () {
                 timer.start({countdown: true, startValues: {seconds: 10}});
+                window.onbeforeunload = function() {
+                    return true;
+                };
             });
             $('#sessionTimer .pauseButton').click(function () {
                 timer.pause();
@@ -83,11 +86,14 @@
             $('#sessionTimer .stopButton').click(function () {
                 timer.stop();
                 $sessionTimer.html(duration);
+                window.onbeforeunload = null;
             });
             timer.addEventListener('started', function (e) {
                 $sessionTimer.html(timer.getTimeValues().toString());
             });
             timer.addEventListener('targetAchieved', function (e) {
+                window.onbeforeunload = null;
+                $sessionTimer.html("Completed");
                 sessionComplete();
             });
 
