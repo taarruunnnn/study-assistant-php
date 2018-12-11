@@ -45,25 +45,56 @@ class UpdateSchedule extends FormRequest
 
         $schedule->save();
 
-        // Modules
-
-        $schedule->modules()->delete();
-        $schedule->sessions()->delete();
-
         $weekday_hours = request('weekdays');
         $weekend_hours = request('weekends');
 
         $start_date = new Carbon(request('start'));
         $end_date = new Carbon(request('end'));
+        $modified_date = Carbon::today();
+
+        //find count of sessions passed
+        $sessions =  $schedule->sessions;
+        $modules = $schedule->modules;
+
+        $module_list = [];
+        foreach ($modules as $module) 
+        {
+            $module_list[] = [
+                'name' => $module['name'],
+                'count' => 0
+            ];
+
+        }
+
+        $schedule->modules()->delete();
+
+        foreach ($sessions as $session) 
+        {
+            foreach ($module_list as $key => $module_list_item) 
+            {
+                if($session['module'] == $module_list_item['name'] && $session['status'] == true)
+                {
+                    $module_list[$key]['count']++;
+                }
+            }
+
+            $session_date = new Carbon($session['date']);
+
+            if($session_date->greaterThanOrEqualTo($modified_date))
+            {
+                $session->delete();
+            }
+        }
 
         $no_week_days = $start_date->diffInWeekdays($end_date);
         $no_weekend_days = $start_date->diffInWeekendDays($end_date);
         $no_days = $start_date->diffInDays($end_date);
+        $no_days_modified = $modified_date->diffInDays($end_date);
 
         $total_study_hours = ($no_week_days * $weekday_hours) + ($no_weekend_days * $weekend_hours);
 
+        
         $total_rating = 0;
-
         foreach (request('rating') as $rating) 
         {
             $total_rating += $rating;
@@ -74,26 +105,39 @@ class UpdateSchedule extends FormRequest
         foreach(request('module') as $key => $value)
         {
             $hours_per_module = intval($total_study_hours * (($request->rating[$key])/$total_rating));
+
+            foreach ($module_list as $module_list_item) 
+            {
+                if($module_list_item['name'] == $value)
+                {
+                    $hours_per_module -= ($module_list_item['count'] * 2);
+                }
+            }
             
             $sessions[$key]['module'] = $value;
             $sessions[$key]['rating'] = $request->rating[$key];
             $sessions[$key]['hours'] = $hours_per_module;
 
-            $schedule-> modules() -> create
-            ([
+            $module = $schedule->modules()->firstOrCreate([
                 'name' => $value,
                 'rating' => $request->rating[$key]
             ]);
+
+            // $module->rating = $request->rating[$key];
+            // $module->save();
+            
         }
+        
 
         // Sorting the array based on hours
         usort($sessions, function($a, $b){
             return $a['hours'] <=> $b['hours'];
         });
 
-        for ($i=0; $i < $no_days; $i++) 
+        
+        for ($i=0; $i < $no_days_modified; $i++) 
         {
-            $looping_day = $start_date->copy()->addDays($i);
+            $looping_day = $modified_date->copy()->addDays($i);
 
             if ($looping_day->isWeekday()) 
             {
@@ -123,7 +167,6 @@ class UpdateSchedule extends FormRequest
             elseif ($looping_day->isWeekend()) 
             {
                 
-
                 for ($x=0; $x < $weekend_hours; $x+=2) 
                 {   
                     if(!(empty($sessions)))
@@ -147,5 +190,8 @@ class UpdateSchedule extends FormRequest
                 }
             }
         }
+
+        return $sessions;
+
     }
 }

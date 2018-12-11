@@ -16,7 +16,7 @@ class CreateModulesTable extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('rating');
+            $table->integer('rating')->default(0);
             $table->integer('schedule_id');
             $table->timestamps();
         });
