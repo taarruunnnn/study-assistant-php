@@ -33,20 +33,32 @@ if (!function_exists('schedule_retriever'))
                 $color = $colors[$colorKey];
                 $x++;
                     
-
+                if($session['status'] == false)
+                {
                     $data[]= 
                     [
                         'title' => $session->module,
                         'start' => $session->date,
                         'end' => $session->date,
                         'color' => $color
-                    ]; 
+                    ];
+                }
+                elseif ($session['status'] == true) 
+                {
+                    $data[]= 
+                    [
+                        'title' => $session->module,
+                        'start' => $session->date,
+                        'end' => $session->date,
+                        'color' => '#787879'
+                    ];
+                }
+                     
     
             }
 
             return $data;
-            }
+        }
 
-        
     }
 }

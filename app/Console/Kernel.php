@@ -4,8 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Auth;
-use App\User;
+use Illuminate\Support\Carbon;
+use App\Session;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,15 +27,20 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         
-        // $schedule->call(function(){
-        //     $user = User::find(1);
-        //     $studySchedule = $user->schedule;
-        //     $studySchedule->modules()->create
-        //     ([
-        //         'name' => "TASK",
-        //         'rating' => 1
-        //     ]);
-        // })->everyMinute();
+        $schedule->call(function(){
+            $sessions = Session::all();
+            foreach ($sessions as $key => $session) 
+            {
+                $session_date = new Carbon($session['date']);
+                $today = Carbon::today();
+
+                if ($session_date->lessThan($today)) 
+                {
+                    $session->status = true;
+                    $session->save();
+                }
+            }
+        })->everyMinute();
     }
 
     /**
