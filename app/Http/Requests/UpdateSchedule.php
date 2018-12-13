@@ -72,7 +72,7 @@ class UpdateSchedule extends FormRequest
         {
             foreach ($module_list as $key => $module_list_item) 
             {
-                if($session['module'] == $module_list_item['name'] && $session['status'] == true)
+                if($session['module'] == $module_list_item['name'] && $session['status'] == "failed")
                 {
                     $module_list[$key]['count']++;
                 }
@@ -122,9 +122,6 @@ class UpdateSchedule extends FormRequest
                 'name' => $value,
                 'rating' => $request->rating[$key]
             ]);
-
-            // $module->rating = $request->rating[$key];
-            // $module->save();
             
         }
         

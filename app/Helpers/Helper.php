@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use App\User;
+use Illuminate\Support\Carbon;
 
 if (!function_exists('schedule_retriever'))
 {
@@ -15,7 +17,7 @@ if (!function_exists('schedule_retriever'))
             $scheduleStart = $schedule->start;
             $scheduleEnd= $schedule->end;
 
-            $colors = array("#00bcd4", "#03a9f4", "#607d8b", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3");
+            $colors = array("#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3");
             $x = 0;
             $date;
             $daysForRevision = array();
@@ -33,24 +35,37 @@ if (!function_exists('schedule_retriever'))
                 $color = $colors[$colorKey];
                 $x++;
                     
-                if($session['status'] == false)
+                if($session['status'] == "incomplete")
                 {
                     $data[]= 
                     [
+                        'id' => $session->id,
                         'title' => $session->module,
                         'start' => $session->date,
                         'end' => $session->date,
                         'color' => $color
                     ];
                 }
-                elseif ($session['status'] == true) 
+                elseif ($session['status'] == "failed") 
                 {
                     $data[]= 
                     [
+                        'id' => $session->id,
                         'title' => $session->module,
                         'start' => $session->date,
                         'end' => $session->date,
-                        'color' => '#787879'
+                        'color' => '#ec3737'
+                    ];
+                }
+                elseif ($session['status'] == "completed") 
+                {
+                    $data[]= 
+                    [
+                        'id' => $session->id,
+                        'title' => $session->module,
+                        'start' => $session->date,
+                        'end' => $session->date,
+                        'color' => '#38c172'
                     ];
                 }
                      
@@ -61,4 +76,6 @@ if (!function_exists('schedule_retriever'))
         }
 
     }
+    
 }
+

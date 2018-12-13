@@ -36,9 +36,17 @@ class SessionController extends Controller
     {
         $sessionId = $request['sessionId'];
         $session = Session::find($sessionId);
-        $session->status = 1;
+        $session->status = "completed";
+        $session->completed_time = Carbon::now();
         $session->save();
 
         return $sessionId;
     }
+
+    public function refresh()
+    {
+        missed_sessions();
+        return back();
+    }
+
 }

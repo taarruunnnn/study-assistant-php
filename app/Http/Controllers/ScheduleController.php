@@ -8,6 +8,7 @@ use App\Http\Requests\StoreSchedule;
 use App\Http\Requests\UpdateSchedule;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ServerRequestInterface;
+use App\Session;
 
 class ScheduleController extends Controller
 {
@@ -19,6 +20,11 @@ class ScheduleController extends Controller
     public function create()
     {
         return view('schedules.create');
+    }
+
+    public function create2()
+    {
+        return view('schedules.create2');
     }
 
     public function analyze(Request $request)
@@ -64,6 +70,22 @@ class ScheduleController extends Controller
         $request->persist();
         session()->flash('message','Schedule Updated');
         return redirect()->route('schedules.show');
+    }
+
+    public function move(Request $request)
+    {
+        $events = $request->events;
+        foreach ($events as $event) 
+        {
+            $id = $event['id'];
+            $date = $event['date'];
+            $session = Session::findOrFail($id);
+            $session->date = $date;
+            $session->status = "incomplete";
+            $session->save();
+        }
+        session()->flash('status', 'Task was successful!');
+        return "Successfully moved";
     }
 
     public function destroy()

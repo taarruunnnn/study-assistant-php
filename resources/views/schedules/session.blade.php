@@ -12,7 +12,7 @@
             <div class="col-sm-3">
                 <select name="modules" id="modules" class="form-control">
                     @foreach ($modules as $module)
-                        @if ($module['status'] == false)
+                        @if ($module['status'] == "incomplete")
                             <option value="{{ $module['id'] }}">{{ $module['module'] }}</option>
                         @endif
                        
@@ -41,7 +41,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">To Study</h6>
                         <ul>
                             @foreach ($modules as $module)
-                                @if ($module['status'] == false)
+                                @if ($module['status'] == "incomplete")
                                     <li>2 Hours of {{ $module['module'] }}</li>
                                 @endif
                             @endforeach
@@ -49,7 +49,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">Completed</h6>
                         <ul>
                             @foreach ($modules as $module)
-                                @if ($module['status'] == true)
+                                @if ($module['status'] == "completed")
                                     <li>2 Hours of {{ $module['module'] }}</li>
                                 @endif
                             @endforeach

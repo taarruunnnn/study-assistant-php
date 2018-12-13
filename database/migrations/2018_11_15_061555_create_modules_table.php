@@ -17,6 +17,7 @@ class CreateModulesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('rating')->default(0);
+            $table->string('grade')->nullable();
             $table->integer('schedule_id');
             $table->timestamps();
         });

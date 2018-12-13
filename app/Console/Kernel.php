@@ -29,14 +29,14 @@ class Kernel extends ConsoleKernel
         
         $schedule->call(function(){
             $sessions = Session::all();
-            foreach ($sessions as $key => $session) 
+            $today = Carbon::today();
+            foreach($sessions as $session)
             {
-                $session_date = new Carbon($session['date']);
-                $today = Carbon::today();
-
-                if ($session_date->lessThan($today)) 
+                $date = new Carbon($session->date);
+                $status = $session->status;
+                if ($date->lessThan($today) && $status == "incomplete") 
                 {
-                    $session->status = true;
+                    $session->status = "failed";
                     $session->save();
                 }
             }

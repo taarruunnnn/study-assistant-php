@@ -20,7 +20,7 @@
             </ul>
         </li>
         <li>
-            <a href="#">Reports</a>
+            <a href="{{ route('reports.show') }}">Reports</a>
         </li>
     </ul>
     <div id="CTA">

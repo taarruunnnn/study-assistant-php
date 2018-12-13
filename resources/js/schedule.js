@@ -7,7 +7,7 @@ require('@fortawesome/fontawesome-free/js/all');
 
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
-require('moment');
+global.moment = require('moment');
 
 require('fullcalendar');
 
@@ -19,7 +19,8 @@ $(document).ready(function () {
 
     $('.datepicker').datepicker({
         maxViewMode: 'years',
-        format: "yyyy-mm-dd"
+        format: "yyyy-mm-dd",
+        todayHighlight: true
     });
 
     $('#sidebarCollapse').on('click', function () {

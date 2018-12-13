@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                     <div id='calendar'></div>
             </div>  
             @if (Auth::user()->schedule === null)
@@ -15,9 +15,12 @@
                     </form>
                 </div>
             @else
-            <div class="col-sm-2">
+            <div class="col-sm-2 ml-4">
                 <div class="row">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
+                    <button class="btn btn-primary w-75" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
+                </div>
+                <div class="row mt-3">
+                    <button type="button" class="btn btn-secondary w-75" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
                 </div>
             </div>
             @endif
@@ -54,7 +57,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                        <label class="col-sm-6 col-form-label">How many hours per day can you study? : </label>
+                                        <label class="col-sm-6 col-form-label">How many hours per day can you study? : (PROBLEMATIC)</label>
                                     
                                         <div class="col-sm-6">
                                             <div class="row">
@@ -170,12 +173,40 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="moveSessions" tabindex="-1" role="dialog" aria-labelledby="moveSessionsLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="moveSessionsLabel">Move Sessions</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="moveCalendar">
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="save-move">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
+
+    
 @endsection
 
 @section('script')
     <script>
         $(document).ready(function(){
+
+            var movedSessions = new Array();
+
+            var today = moment().startOf('day').toISOString();
 
             $("#analyze").click(function(e){
                 e.preventDefault();
@@ -195,6 +226,7 @@
                 @if(isset($data))
                     @foreach ($data as $d)
                         {
+                            id: '{{$d['id']}}',
                             title: '{{$d['title']}}',
                             start: '{{$d['start']}}',
                             end: '{{$d['end']}}',
@@ -203,6 +235,44 @@
                     @endforeach
                 @endif
                 ]
+            });
+            
+            @if(isset($schedule))
+            $('#moveCalendar').fullCalendar({
+                themeSystem: 'bootstrap4',
+                height: 500,
+                firstDay: 1,
+                eventColor: '#2196f3',
+                eventTextColor: '#FFF',
+                eventStartEditable: true,
+                eventConstraint: {
+                    start: today,
+                    end: '{{ $schedule->end }}'
+                },
+                eventDrop: function(event, delta, revertFunc){
+                    console.log(event.title + " was dropped on "+ event.start.format());
+
+                    movedSessions.push({id: event.id, date: event.start.format()});
+                },
+                events: [
+                @if(isset($data))
+                    @foreach ($data as $d)
+                        {
+                            id: '{{$d['id']}}',
+                            title: '{{$d['title']}}',
+                            start: '{{$d['start']}}',
+                            end: '{{$d['end']}}',
+                            color: '{{$d['color']}}'
+                        },
+                    @endforeach
+                @endif
+                ]
+            });
+            @endif
+
+            $("#save-move").click(function(e){
+                e.preventDefault();
+                moveSessions(movedSessions);
             });
 
             $( "#scheduleDelete" ).click(function(e) {
@@ -294,8 +364,6 @@
                     values.push($(this).val());
                 });
 
-                console.log(values)
-
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('schedule.analyze') }}',
@@ -331,6 +399,25 @@
                         }
                     }
                 }
+            }
+
+            function moveSessions(events)
+            {
+                console.log(events);
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('schedule.move') }}',
+                    data: {events: events},
+                    success: function(message){
+                        console.log(message);
+                        $("#moveSessions").modal('hide');
+                        location.reload();
+                    },
+                    error: function(message){
+                        console.log(message);
+                    }
+                });
             }
             
         });
