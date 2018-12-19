@@ -17,11 +17,6 @@ $(document).ready(function () {
         theme: "minimal"
     });
 
-    $('.datepicker').datepicker({
-        maxViewMode: 'years',
-        format: "yyyy-mm-dd",
-        todayHighlight: true
-    });
 
     $('#sidebarCollapse').on('click', function () {
            $('#sidebar, #content').toggleClass('active');

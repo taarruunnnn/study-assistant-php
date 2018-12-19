@@ -57,7 +57,7 @@
                                 </div>
 
                                 <div class="form-group row">
-                                        <label class="col-sm-6 col-form-label">How many hours per day can you study? : (PROBLEMATIC)</label>
+                                        <label class="col-sm-6 col-form-label">How many hours per day can you study?</label>
                                     
                                         <div class="col-sm-6">
                                             <div class="row">
@@ -106,7 +106,6 @@
                                                     <th scope="col">Module Name</th>
                                                     <th scope="col">Rating</th>
                                                     <th></th>
-                                                    <th scope="col">Avg Rating</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-body">
@@ -138,7 +137,6 @@
                                                         <td>
                                                             <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
                                                         </td>
-                                                        <td><div class="avg mt-2 text-center" id="avg{{ $key }}"></div></td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -208,14 +206,31 @@
 
             var today = moment().startOf('day').toISOString();
 
-            $("#analyze").click(function(e){
-                e.preventDefault();
-                analyzeModules();
+            $('#start').datepicker({
+                maxViewMode: 'years',
+                format: "yyyy-mm-dd",
+                todayHighlight: true,
+            }).on('changeDate', function(selected){
+                var minDate = new Date(selected.date.valueOf());
+                $('#end').datepicker('setStartDate', minDate);
+            });
+
+            $('#end').datepicker({
+                maxViewMode: 'years',
+                format: "yyyy-mm-dd",
+                todayHighlight: true,
+            }).on('changeDate', function (selected) {
+                var maxDate = new Date(selected.date.valueOf());
+                $('#start').datepicker('setEndDate', maxDate);
             });
 
             $('#start').datepicker('update', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('update', '@if(isset($schedule)){{ $schedule->end }}@endif');
-            
+
+            $('#start').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
+            $('#end').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
+
+
             $('#calendar').fullCalendar({
                 themeSystem: 'bootstrap4',
                 height: 500,
@@ -251,7 +266,6 @@
                 },
                 eventDrop: function(event, delta, revertFunc){
                     console.log(event.title + " was dropped on "+ event.start.format());
-
                     movedSessions.push({id: event.id, date: event.start.format()});
                 },
                 events: [
@@ -348,58 +362,6 @@
                 i--;
             });
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            analyzeModules()
-
-            function analyzeModules()
-            {
-                
-                var values = new Array();
-                $(".module-names").each(function(){
-                    values.push($(this).val());
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('schedule.analyze') }}',
-                    data: {modules: values},
-                    success: function(analysis){
-                        displayAnalysis(analysis);
-                    },
-                    error: function(message){
-                        console.log(message);
-                    }
-                });
-            }
-
-            function displayAnalysis(analysis)
-            {
-                console.log(analysis);
-
-                for (var key in analysis)
-                {
-                    if (analysis.hasOwnProperty(key))
-                    {
-                        var module = key;
-                        var rating = analysis[key];
-
-                        for (var x = 0; x <= i; x++)
-                        {
-                            var textBoxForModule = $("#module" + x);
-                            if ($(textBoxForModule).val() == module)
-                            {
-                                var avg = '#avg'+x
-                                $(avg).text(rating);
-                            }
-                        }
-                    }
-                }
-            }
 
             function moveSessions(events)
             {
