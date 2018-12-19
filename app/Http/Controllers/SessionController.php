@@ -12,24 +12,28 @@ class SessionController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $sessions = $user->schedule->sessions;
         $modules = [];
-        
-        foreach ($sessions as $session) 
+        if ($schedule = $user->schedule)
         {
-            $date = new Carbon( $session['date']);
-
-            if($date->isToday())
+            $session = $schedule->sessions;
+            
+            foreach ($sessions as $session) 
             {
-                $modules[] = [
-                    'id' => $session['id'],
-                    'module' => $session['module'],
-                    'status' => $session['status']
-                ];
+                $date = new Carbon( $session['date']);
+
+                if($date->isToday())
+                {
+                    $modules[] = [
+                        'id' => $session['id'],
+                        'module' => $session['module'],
+                        'status' => $session['status']
+                    ];
+                }
             }
         }
-        
+
         return view('schedules.session', compact('modules'));
+        
     }
 
     public function complete(Request $request)

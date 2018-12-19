@@ -39,6 +39,16 @@ class ScheduleController extends Controller
         return $dec;
     }
 
+    public function analyze2(Request $request)
+    {
+        $module = 'module='.$request['module'];
+        
+        $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
+        $response = $client->request('GET', '/ratings', ['query' => $module]);
+        $results = json_decode($response->getBody(), true);
+        return $results;
+    }
+
     public function store(StoreSchedule $request)
     {
         

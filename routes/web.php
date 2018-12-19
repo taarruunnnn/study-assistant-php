@@ -35,6 +35,7 @@ Route::post('/schedules/store', 'ScheduleController@store')->name('schedules.sto
 Route::get('/schedules/delete', 'ScheduleController@destroy')->name('schedules.destroy');
 Route::post('/schedules/update', 'ScheduleController@update')->name('schedules.update');
 Route::post('/schedules/analyze', 'ScheduleController@analyze')->name('schedule.analyze');
+Route::post('/schedules/analyze2', 'ScheduleController@analyze2')->name('schedule.analyze2');
 Route::post('/schedules/move', 'ScheduleController@move')->name('schedule.move');
 
 Route::get('/session', 'SessionController@show')->name('session.show');

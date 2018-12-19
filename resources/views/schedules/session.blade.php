@@ -75,10 +75,14 @@
                 $sessionTimer.html(timer.getTimeValues().toString());
             });
             $('#sessionTimer .startButton').click(function () {
-                timer.start({countdown: true, startValues: {seconds: 10}});
-                window.onbeforeunload = function() {
-                    return true;
-                };
+                if( $('#modules').val() ) 
+                {
+                    timer.start({countdown: true, startValues: {seconds: 10}});
+                    window.onbeforeunload = function() {
+                        return true;
+                    };
+                }
+                
             });
             $('#sessionTimer .pauseButton').click(function () {
                 timer.pause();

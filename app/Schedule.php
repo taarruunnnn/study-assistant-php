@@ -20,11 +20,6 @@ class Schedule extends Model
         return $this->hasMany('App\Session');
     }
 
-    public function archived_sessions()
-    {
-        return $this->hasMany('App\ArchivedSession');
-    }
-
     public function modules()
     {
         return $this->hasMany('App\Module');
