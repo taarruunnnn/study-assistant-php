@@ -15,7 +15,7 @@ class SessionController extends Controller
         $modules = [];
         if ($schedule = $user->schedule)
         {
-            $session = $schedule->sessions;
+            $sessions = $schedule->sessions;
             
             foreach ($sessions as $session) 
             {
