@@ -9,6 +9,8 @@ require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
 global.Timer = require('easytimer.js')
 
+require('chart.js');
+
 
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({

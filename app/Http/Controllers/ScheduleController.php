@@ -22,24 +22,7 @@ class ScheduleController extends Controller
         return view('schedules.create');
     }
 
-    public function create2()
-    {
-        return view('schedules.create2');
-    }
-
     public function analyze(Request $request)
-    {
-        $modules = $request['modules'];
-        $query = http_build_query($modules, null, '&');
-        $string = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '=', $query);
-
-        $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
-        $response = $client->request('GET', '/ratings', ['query' => $string]);
-        $dec = json_decode($response->getBody(), true);
-        return $dec;
-    }
-
-    public function analyze2(Request $request)
     {
         $module = 'module='.$request['module'];
         

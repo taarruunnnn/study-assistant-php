@@ -24,4 +24,9 @@ class Schedule extends Model
     {
         return $this->hasMany('App\Module');
     }
+
+    public function session_counts()
+    {
+        return $this->hasMany('App\SessionCount');
+    }
 }

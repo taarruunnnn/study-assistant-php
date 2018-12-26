@@ -17,7 +17,7 @@ if (!function_exists('schedule_retriever'))
             $scheduleStart = $schedule->start;
             $scheduleEnd= $schedule->end;
 
-            $colors = array("#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3");
+            $colors = array("#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#f442c8", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3");
             $x = 0;
             $date;
             $daysForRevision = array();

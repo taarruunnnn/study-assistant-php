@@ -142,6 +142,27 @@ class StoreSchedule extends FormRequest
                         }
                     }
                 }
+
+                // Adds to sessions count
+                $month = $today->englishMonth;
+                $session_counts = $schedule->session_counts()->where('month', $month)->first();
+
+                if ($session_counts === null)
+                {
+                    $schedule->session_counts()->create
+                    ([
+                        'month' => $month,
+                        'count' => 1
+                    ]);
+                }
+                else
+                {
+                    $count = $session_counts->count;
+                    $count++;
+                    $session_counts->count = $count;
+                    $session_counts->save();
+                }
+                
             }
         }
     }

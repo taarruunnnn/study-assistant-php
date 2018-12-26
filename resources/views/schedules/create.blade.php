@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="card" id="grades">
-                        <div class="card-body">
+                        <div class="card-body" id="grades-container">
                             <canvas id="myChart" width="300" height="432"></canvas>
                         </div>
                     </div>
@@ -170,7 +170,6 @@
 @endsection
 
 @section('script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
     <script>
         $(document).ready(function(){
 
@@ -213,7 +212,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('schedule.analyze2') }}',
+                    url: '{{ route('schedule.analyze') }}',
                     data: {module: moduleName},
                     success: function(data){
                         displayAnalysis(data);
@@ -263,6 +262,9 @@
                 if (data['grades'] != "N/A")
                 {
                     $("#grades").css('display', 'inline-block');
+
+                    $('#myChart').remove();
+                    $('#grades-container').append('<canvas id="myChart" width="300" height="432"></canvas>')
                     
                     grades = JSON.parse(data.grades).grade;
 
@@ -315,7 +317,7 @@
                     {
                         tod = tod - 12;
                         // PM
-                        $('#timeofday-text').text(data['tod'] + "PM");
+                        $('#timeofday-text').text(tod + "PM");
                     }
                    
                 }

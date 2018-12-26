@@ -17,10 +17,10 @@
             @else
             <div class="col-sm-2 ml-4">
                 <div class="row">
-                    <button class="btn btn-primary w-75" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
                 </div>
                 <div class="row mt-3">
-                    <button type="button" class="btn btn-secondary w-75" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
                 </div>
             </div>
             @endif
@@ -146,11 +146,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <button class="btn btn-secondary" id="analyze">Analyze Modules</button>
-                                    </div>
-                                </div>
                                 <div class="row mt-4">
                                     <div class="col-sm-10">
                                         <button type="button" class="btn btn-danger" id="scheduleDelete">Delete Schedule</button>
@@ -205,6 +200,12 @@
             var movedSessions = new Array();
 
             var today = moment().startOf('day').toISOString();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             $('#start').datepicker({
                 maxViewMode: 'years',

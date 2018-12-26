@@ -4,8 +4,8 @@
 
 @section('content')
 
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row ml-2">
         <div class="card-deck">
             <div class="card text-white bg-dark">
                 <div class="card-body">

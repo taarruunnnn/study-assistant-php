@@ -11,6 +11,8 @@ global.moment = require('moment');
 
 require('fullcalendar');
 
+require('chart.js');
+
 
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
