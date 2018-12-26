@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Schedule;
+use App\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -16,12 +18,30 @@ class UsersTableSeeder extends Seeder
             'email' => 'john@example.com',
             'birth' => '1995',
             'gender' => 'M',
-            'university' => 'University of Randomness',
+            'university' => 'University of Moratuwa',
             'major' => 'Computer Science',
             'country' => 'GB',
             'password' => bcrypt('password'),
         ]);
 
-        factory(App\User::class, 10)->create();
+        $user = User::create([
+            'name' => 'Jane Doe',
+            'email' => 'jane@example.com',
+            'birth' => '1995',
+            'gender' => 'F',
+            'university' => 'University of Moratuwa',
+            'major' => 'Law',
+            'country' => 'LK',
+            'password' => bcrypt('password'),
+        ]);
+
+        $schedule = new Schedule();
+        $schedule->createSchedule($user, factory(App\Schedule::class)->make());
+
+        
+        factory(App\User::class, 10)->create()->each(function ($user){
+            $schedule = new Schedule();
+            $schedule->createSchedule($user, factory(App\Schedule::class)->make());
+        });
     }
 }

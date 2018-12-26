@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateSchedule;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Session;
+use App\Schedule;
 
 class ScheduleController extends Controller
 {
@@ -34,8 +35,9 @@ class ScheduleController extends Controller
 
     public function store(StoreSchedule $request)
     {
-        
-        $request->persist();
+        $user = Auth::user();
+        $schedule = new Schedule();
+        $schedule->createSchedule($user, $request);
         session()->flash('message','Schedule Created');
         return redirect()->route('schedules.show');
         

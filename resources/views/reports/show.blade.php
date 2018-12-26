@@ -143,7 +143,7 @@
                         datasets: [{
                             data: completed_count,
                             label: "Completed Sessions",
-                            borderColor: "#8e5ea2",
+                            borderColor: "#38c172",
                             fill: false
                         },
                         {
