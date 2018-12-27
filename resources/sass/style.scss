@@ -147,23 +147,13 @@ ul ul a {
     position: absolute;
     top: 0;
     right: 0;
+    padding-bottom: 30px;
 }
 
 #content.active {
     width: 100%;
 }
 
-#footer{
-    text-align: center;
-    font-size: 12px;
-    color: gray;
-    padding-top: 20px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    z-index: -1;
-}
 
 
 /* ---------------------------------------------------
@@ -293,6 +283,10 @@ span.twitter-typeahead {
 #hours, #rating, #timeofday, #grades, #related{
     display: none;
 }
+
+.clickable-row { 
+    cursor: pointer; 
+} 
 
   @media only screen and (max-width: 700px) {
     #sessionTimer .values {

@@ -41,4 +41,7 @@ Route::get('/session/complete', 'SessionController@complete')->name('session.com
 Route::get('/session/refresh', 'SessionController@refresh')->name('session.refresh');
 
 Route::get('/reports', 'ReportController@show')->name('reports.show');
+Route::get('/reports/view/{report}', 'ReportController@view')->name('reports.view');
+Route::get('/reports/generate', 'ReportController@generate')->name('report.generate');
 Route::post('/reports/analyze', 'ReportController@analyze')->name('report.analyze');
+Route::post('/reports/save', 'ReportController@save')->name('report.save');

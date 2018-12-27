@@ -5,73 +5,44 @@
 @section('content')
 
     <div class="container">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title mb-4">Schedule Summary</h4>
-                        <div class="report-body">
-                            <p class="text-dark">Number of Modules in this Schedule : 
-                                <span class="text-primary">
-                                    @if (! empty($modules))
-                                        {{ $modules->count() }}
-                                    @else
-                                        0
-                                    @endif
-                                </span>
-                            </p>
-
-                            <p class="text-dark">Number of Sessions Completed : 
-                                <span class="text-primary">    
-                                    @if (! empty($sessions))
-                                        {{ $sessions->where('status', 'completed')->count() }}
-                                    @else
-                                        0
-                                    @endif
-                                </span>
-                            </p>
-                            
-                            <p class="text-dark">Number of Sessions Missed : 
-                                <span class="text-primary">
-                                    @if (! empty($modules))
-                                        {{ $sessions->where('status', 'failed')->count() }}
-                                    @else
-                                        0
-                                    @endif
-                                </span>
-                            </p>
-
-                            <p class="text-dark">Number of Sessions to Complete : 
-                                <span class="text-primary">
-                                    @if (! empty($modules))
-                                        {{ $sessions->where('status', 'incomplete')->count() }}
-                                    @else
-                                        0
-                                    @endif
-                                </span>
-                            </p>
-
-                            <p class="text-dark">Progress of Schedule : 
-                                <span class="text-primary">
-                                    @if (! empty($progress))
-                                        {{ $progress }}&#37;
-                                    @else
-                                        0
-                                    @endif
-                                </span>
-                            </p>
+        @if ($reports == "N/A")
+            <div class="row d-flex justify-content-center">
+                <h4>Create a Schedule to begin reporting</h4>
+            </div>
+        @else
+            <div class="row d-flex justify-content-center mb-4">
+                <a href="{{ route('report.generate') }}" class="btn btn-primary">Generate Report</a>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                        @if (! empty($reports))
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Previous Reports</h5>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">Progress</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($reports as $key => $report)
+                                            <tr class="clickable-row" data-href='{{ url("reports/view/{$report->id}") }}'>
+                                                <td>{{ $key+1 }}</td>
+                                                <td>{{ $report->created_at }}</td>
+                                                <td>{{ $report->progress }}%</td>
+                                            </tr> 
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <canvas id="myChart" width="400" height="220"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 
 @endsection
@@ -79,92 +50,9 @@
 @section('script')
 <script>
     $(document).ready(function(){
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+        $(".clickable-row").click(function(){
+            window.location = $(this).data("href");
         });
-
-        @if (! empty($schedule))
-        var schedule_id = {{ $schedule->id }}
-        analyze(schedule_id)
-        @endif
-
-
-        function analyze(schedule_id)
-        {
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('report.analyze') }}',
-                data: {schedule: schedule_id},
-                success: function(data){
-                    displayAnalysis(data)
-                },
-                error: function(message){
-                    console.log(message);
-                }
-            });
-        }
-
-        function displayAnalysis(data)
-        {
-            if (data['sessions'] != null)
-            {
-                var ctx = document.getElementById("myChart");
-
-                completed_sessions = JSON.parse(data.sessions).Completed;
-                total_sessions = JSON.parse(data.sessions).Total;
-
-                months = new Array();
-                completed_count = new Array();
-                total_count = new Array();
-
-                for (var session in completed_sessions) {
-                    if (completed_sessions.hasOwnProperty(session)) {
-                        months.push(session);
-                        completed_count.push(completed_sessions[session])
-                    }
-                }
-
-                for (var session in total_sessions) {
-                    if (total_sessions.hasOwnProperty(session)) {
-                        total_count.push(total_sessions[session])
-                    }
-                }
-
-                console.log(months)
-                console.log(completed_count)
-
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: months,
-                        datasets: [{
-                            data: completed_count,
-                            label: "Completed Sessions",
-                            borderColor: "#38c172",
-                            fill: false
-                        },
-                        {
-                            data: total_count,
-                            label: "Scheduled Sessions",
-                            borderColor: "#3e95cd",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        title: {
-                            display: true,
-                            text: 'Schedule Progress',
-                        }
-                    }
-                })
-            }
-        }
-
-
     });
-
 </script>
 @endsection

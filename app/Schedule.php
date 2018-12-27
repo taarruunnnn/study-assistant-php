@@ -23,6 +23,11 @@ class Schedule extends Model
         return $this->hasMany('App\Session');
     }
 
+    public function reports()
+    {
+        return $this->hasMany('App\Report');
+    }
+
     public function modules()
     {
         return $this->hasMany('App\Module');

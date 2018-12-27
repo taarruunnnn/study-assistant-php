@@ -22,6 +22,17 @@
                 <div class="row mt-3">
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
                 </div>
+                <div class="row mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            @if(isset($schedule))
+                                <p>Schedule Start : {{ $schedule->start }}</p>
+                                <p>Schedule End : {{ $schedule->end }}</p>
+                            @endif
+                            <p>This calendar shows your study schedule data. Sessions which you have already completed will appear in <span class="text-success">GREEN COLOR</span></p>
+                        </div>
+                    </div>
+                </div>
             </div>
             @endif
         </div>
