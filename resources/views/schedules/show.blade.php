@@ -4,6 +4,17 @@
 
 @section('content')
     <div class="container-fluid">
+        @if($toarchive === true)
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-danger text-center" role="alert">
+                        This schedule has ended. Please archive it.
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
         <div class="row">
             <div class="col-sm-9">
                     <div id='calendar'></div>
@@ -16,12 +27,24 @@
                 </div>
             @else
             <div class="col-sm-2 ml-4">
-                <div class="row">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
-                </div>
-                <div class="row mt-3">
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
-                </div>
+                @if($toarchive === false)
+                    <div class="row">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
+                    </div>
+                    <div class="row mt-3">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
+                    </div>
+                @endif
+                @if($toarchive === true)
+                    <div class="row mt-3">
+                        <button type="button" class="btn btn-danger" id="archiveBtn"><i class="fas fa-archive"></i>&nbsp;&nbsp;Archive Sessions</button>
+                        <p id="confirmArchive" class="mt-2" style="display:none">Are you sure you want to <strong>Archive Current Schedule?</strong>
+                            <br/>
+                            <a class="btn btn-outline-danger btn-sm" href="{{ route('schedules.archive') }}">Yes</a>
+                            <a class="btn btn-outline-secondary btn-sm" id="cancelArchive">No</a>
+                        </p>
+                    </div>
+                @endif
                 <div class="row mt-3">
                     <div class="card">
                         <div class="card-body">
@@ -200,7 +223,6 @@
             </div>
         </div>
     @endif
-
     
 @endsection
 
@@ -393,6 +415,10 @@
                     }
                 });
             }
+
+            $('#archiveBtn').click(function(){
+                $('#confirmArchive').toggle("slow");
+            });
             
         });
   

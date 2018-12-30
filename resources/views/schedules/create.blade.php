@@ -183,7 +183,7 @@
                 maxViewMode: 'years',
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
-                startDate: "today"
+                // startDate: "today"
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
                 $('#end').datepicker('setStartDate', minDate);

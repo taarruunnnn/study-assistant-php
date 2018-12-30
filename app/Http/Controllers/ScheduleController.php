@@ -10,6 +10,8 @@ use GuzzleHttp\Client;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Session;
 use App\Schedule;
+use App\CompletedModule;
+use Illuminate\Support\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -47,15 +49,25 @@ class ScheduleController extends Controller
     {
         $user = Auth::user();
         $data = schedule_retriever();
+        $toarchive = false;
 
         if ($schedule = $user->schedule)
         {
+            $today = Carbon::today();
+            $schedule_end = new Carbon($schedule->end);
+            
+
+            if($today->greaterThanOrEqualTo($schedule_end))
+            {
+                $toarchive = true;
+            }
+
             $modules = $schedule->modules;
-            return view('schedules.show', compact('data', 'schedule', 'modules'));
+            return view('schedules.show', compact('data', 'schedule', 'modules', 'toarchive'));
         } 
         else 
         {
-            return view('schedules.show', compact('data'));
+            return view('schedules.show', compact('data', 'toarchive'));
         }
         
     }
@@ -92,4 +104,14 @@ class ScheduleController extends Controller
         session()->flash('message','Schedule Deleted');
         return back();
     }
+
+    public function archive()
+    {
+        $completedModule = new CompletedModule();
+        $completedModule->archive();
+
+        session()->flash('message','Schedule Archived');
+        return redirect()->route('schedules.show');
+    }
+
 }

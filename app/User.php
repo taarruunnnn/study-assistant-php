@@ -32,4 +32,10 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Schedule');
     }
+
+    public function completed_modules()
+    {
+        return $this->hasMany('App\CompletedModule');
+    }
+    
 }

@@ -35,6 +35,7 @@ Route::get('/schedules/delete', 'ScheduleController@destroy')->name('schedules.d
 Route::post('/schedules/update', 'ScheduleController@update')->name('schedules.update');
 Route::post('/schedules/analyze', 'ScheduleController@analyze')->name('schedule.analyze');
 Route::post('/schedules/move', 'ScheduleController@move')->name('schedule.move');
+Route::get('/schedules/archive', 'ScheduleController@archive')->name('schedules.archive');
 
 Route::get('/session', 'SessionController@show')->name('session.show');
 Route::get('/session/complete', 'SessionController@complete')->name('session.complete');
