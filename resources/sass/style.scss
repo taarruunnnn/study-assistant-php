@@ -337,6 +337,31 @@ span.twitter-typeahead {
     z-index: 999;
 }
 
+
+// DASHBOARD
+
+#dash-percentage{
+    font-size: 60px;
+    display: block;
+    margin-top: 24px;
+}
+
+#dash .dash-title {
+    color: #929292;
+}
+
+#dash p, #dash li {
+    color: #3f3f3f;
+}
+
+#dash ul{
+    list-style-type: circle;
+}
+
+#time{
+    font-size: 50px;
+    color:#3f3f3f
+}
   @media only screen and (max-width: 700px) {
     #sessionTimer .values {
         font-size: 75px;

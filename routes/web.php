@@ -26,7 +26,8 @@ Route::get('user/{user}', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}', 'UserController@update')->name('user.update');
 Route::delete('users/delete/{user}', 'UserController@destroy')->name('user.delete');
 
-Route::get('users/universities', 'ListUniversities');
+Route::get('users/universities', 'TypeaheadController@universities');
+Route::get('users/modules', 'TypeaheadController@modules');
 
 Route::get('/schedules', 'ScheduleController@show')->name('schedules.show');
 Route::get('/schedules/create', 'ScheduleController@create')->name('schedules.create');

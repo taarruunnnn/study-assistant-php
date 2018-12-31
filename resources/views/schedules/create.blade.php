@@ -12,8 +12,8 @@
                         </div>
                 <div class="row d-flex justify-content-center">
                     <form class="form-inline">
-                        <div class="form-group mb-2">
-                            <input type="text" class="form-control" id="module-name" placeholder="Module Name">
+                        <div class="form-group mb-2" id="typeahead-modules">
+                            <input type="text" class="form-control typeahead" id="module-name" placeholder="Module Name">
                         </div>
                         <div class="form-group mx-sm-3 mb-2">
                             <select class="form-control" id="module-rating">

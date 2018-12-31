@@ -7,7 +7,9 @@ require('@fortawesome/fontawesome-free/js/all');
 
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
-global.Timer = require('easytimer.js')
+global.Timer = require('easytimer.js');
+
+global.moment = require('moment');
 
 require('chart.js');
 

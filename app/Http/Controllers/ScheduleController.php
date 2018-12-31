@@ -100,6 +100,7 @@ class ScheduleController extends Controller
         $user = Auth::user();
         $user->schedule->modules()->delete();
         $user->schedule->sessions()->delete();
+        $user->schedule->reports()->delete();
         $user->schedule->delete();
         session()->flash('message','Schedule Deleted');
         return back();

@@ -37,7 +37,9 @@ $(document).ready(function () {
         }
     });
 
-    $('#typeahead-university .typeahead').typeahead(null, {
+    $('#typeahead-university .typeahead').typeahead({
+        minLength: 3,
+        }, {
         name: 'universities',
         source: bloodhound,
         display: function(data){

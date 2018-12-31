@@ -49,8 +49,8 @@
                     <div class="card">
                         <div class="card-body">
                             @if(isset($schedule))
-                                <p>Schedule Start : {{ $schedule->start }}</p>
-                                <p>Schedule End : {{ $schedule->end }}</p>
+                                <p>Schedule Start :<br/> {{ $schedule->start }}</p>
+                                <p>Schedule End :<br/> {{ $schedule->end }}</p>
                             @endif
                             <p>This calendar shows your study schedule data. Sessions which you have already completed will appear in <span class="text-success">GREEN COLOR</span></p>
                         </div>
@@ -244,6 +244,7 @@
                 maxViewMode: 'years',
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
+                startDate: new Date(),
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
                 $('#end').datepicker('setStartDate', minDate);
@@ -260,8 +261,6 @@
 
             $('#start').datepicker('update', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('update', '@if(isset($schedule)){{ $schedule->end }}@endif');
-
-            $('#start').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
 
 

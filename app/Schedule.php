@@ -33,11 +33,6 @@ class Schedule extends Model
         return $this->hasMany('App\Module');
     }
 
-    public function session_counts()
-    {
-        return $this->hasMany('App\SessionCount');
-    }
-
     // Methods
     public $user;
     public $request;
@@ -173,7 +168,7 @@ class Schedule extends Model
                             $session->save();
                         }
                     
-                        $this->sessionCounter($today, $schedule);
+                        // $this->sessionCounter($today, $schedule);
 
                     }
                     
@@ -202,7 +197,7 @@ class Schedule extends Model
                             unset($modules[$rand]);
                         }
                         
-                        $this->sessionCounter($today, $schedule);
+                        // $this->sessionCounter($today, $schedule);
 
                     }
                     
@@ -210,28 +205,5 @@ class Schedule extends Model
             }
 
         }
-    }
-
-    public function sessionCounter($today, $schedule)
-    {
-        $month = $today->englishMonth;
-        $session_counts = $schedule->session_counts()->where('month', $month)->first();
-
-        if ($session_counts === null)
-        {
-            $schedule->session_counts()->create
-            ([
-                'month' => $month,
-                'count' => 1
-            ]);
-        }
-        else
-        {
-            $count = $session_counts->count;
-            $count++;
-            $session_counts->count = $count;
-            $session_counts->save();
-        }
-    }
-    
+    }    
 }

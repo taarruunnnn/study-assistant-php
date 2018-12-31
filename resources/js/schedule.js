@@ -7,9 +7,11 @@ require('@fortawesome/fontawesome-free/js/all');
 
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
+require('fullcalendar');
+
 global.moment = require('moment');
 
-require('fullcalendar');
+global.Bloodhound = require('corejs-typeahead/dist/typeahead.bundle');
 
 require('chart.js');
 
@@ -17,6 +19,25 @@ require('chart.js');
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
+    });
+
+    var bloodhound = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: '/users/modules?q=%QUERY%',
+            wildcard: '%QUERY%'
+        }
+    });
+
+    $('#typeahead-modules .typeahead').typeahead({
+        minLength: 3,
+        }, {
+        name: 'modules',
+        source: bloodhound,
+        display: function(data){
+            return data
+        }
     });
 
 

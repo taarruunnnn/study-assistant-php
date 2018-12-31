@@ -62,7 +62,7 @@
                                     @if (! empty($progress))
                                         {{ $progress }}&#37;
                                     @else
-                                        0
+                                        0&#37;
                                     @endif
                                 </span>
                             </p>
@@ -220,7 +220,7 @@
                 @endif
             }
 
-            if (data['comparedtime'] != "N/A")
+            if (!(data['comparedtime'] == "N/A" || data['comparedtime'] == null))
             {
                 $("#canvasCompare").show();
                 var ctx2 = document.getElementById("chartCompare");
