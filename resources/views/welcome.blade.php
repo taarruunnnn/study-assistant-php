@@ -1,41 +1,48 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@extends('layouts.app')
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+@section('title', 'Login - Study Assistant')
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Lato:300|Open+Sans" rel="stylesheet">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container">
-        @if ($flash = session('message'))
-            <div class="alert alert-success">
-                {{ $flash }}
-            </div>
-        @endif
-        <div class="row hero-header justify-content-center align-items-center">
-            <div class="jumbotron text-center p-5 bg-light">
-                <h1 class="display-2 m-4">STUDY ASSISTANT</h1>
-                <p>A <em>Smart, Dynamic </em>&<em> Flexible</em> Self Study Time Management Application for Students.</p>
+@section('content')
+<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+    <div class="card p-5 my-5">
+        <h2 class="card-title text-center my-3" id="login-header">Study Assistant</h2>
+        <form method="POST" action="{{ route('login') }}" class="mt-4">
+            @csrf
+            <div class="form-group row">
+                <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" aria-describedby="email" placeholder="Enter email" name="email" value="{{ old('email') }}" required autofocus>
                 
-                <p class="lead">
-                  <a href="{{ route('login') }}" class="btn btn-dark btn-lg m-2" href="#" role="button">Sign In</a>
-                  <a href="{{ route('register') }}" class="btn btn-dark btn-lg m-2" href="#" role="button">Register</a>
-                </p>
-              </div>
+                @if ($errors->has('email'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
+                @endif
+            </div>
+            <div class="form-group row">
+                <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" id="password" placeholder="Password" name="password" required>
+            
+                @if ($errors->has('password'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                @endif
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                <label class="form-check-label" for="remember">Keep Me Logged In</label>
+            </div>
+            <div class="form-group row d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+            </div>
+        </form>
+
+        <div class="mt-4">
+            <span id="form-register"><a href="{{ route('register') }}">Create an account &rarr;</a></span><br/>
+            <span id="form-forgot"><a href="{{ route('password.request') }}">Forgot Password</a></span>
         </div>
-      </div>
-</body>
-</html>
+    </div>
+</div>
+
+@stop
+

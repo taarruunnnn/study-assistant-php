@@ -12181,6 +12181,33 @@ a.text-dark:focus {
   }
 }
 
+#welcome {
+  height: 90vh;
+  background: #2196F3;
+}
+
+#login-header {
+  font-family: 'Merriweather', serif;
+}
+
+#form-register,
+#form-back {
+  color: #2b5883;
+}
+
+#form-register:hover,
+#form-back:hover {
+  color: #3a96ee;
+}
+
+#form-back {
+  font-size: 25px;
+}
+
+#form-forgot {
+  color: #969696;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background: #fafafa;
