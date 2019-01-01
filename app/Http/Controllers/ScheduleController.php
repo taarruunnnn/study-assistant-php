@@ -12,6 +12,7 @@ use App\Session;
 use App\Schedule;
 use App\CompletedModule;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpFoundation\Response;
 
 class ScheduleController extends Controller
 {
@@ -113,6 +114,18 @@ class ScheduleController extends Controller
 
         session()->flash('message','Schedule Archived');
         return redirect()->route('schedules.show');
+    }
+
+    public function archiveUpdate(Request $request)
+    {
+        $moduleId = $request->module;
+        $grade = $request->grade;
+
+        $completedModule = CompletedModule::where('id', $moduleId)->first();
+        $completedModule->grade = $grade;
+        $completedModule->save();
+
+        return "SUCCESS";
     }
 
 }

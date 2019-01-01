@@ -2,7 +2,6 @@ require('./bootstrap');
 
 require('malihu-custom-scrollbar-plugin');
 
-require('@fortawesome/fontawesome-free/js/all');
 
 global.Bloodhound = require('corejs-typeahead/dist/typeahead.bundle');
 
@@ -38,7 +37,7 @@ $(document).ready(function () {
     });
 
     $('#typeahead-university .typeahead').typeahead({
-        minLength: 3,
+        minLength: 2,
         }, {
         name: 'universities',
         source: bloodhound,

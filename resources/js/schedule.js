@@ -3,8 +3,6 @@ require('./bootstrap');
 
 require('malihu-custom-scrollbar-plugin');
 
-require('@fortawesome/fontawesome-free/js/all');
-
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
 require('fullcalendar');
@@ -31,7 +29,7 @@ $(document).ready(function () {
     });
 
     $('#typeahead-modules .typeahead').typeahead({
-        minLength: 3,
+        minLength: 1,
         }, {
         name: 'modules',
         source: bloodhound,

@@ -353,8 +353,8 @@
                     <td>
                         <input type="text" class="form-control module-names-list" id="module`+ i +`" name="module[`+ i +`]">
                     </td>
-                    <td>
-                        <input type="text" class="form-control" id="rating`+ i +`" name="rating[`+ i +`]" size="2">
+                    <td class="rating-col">
+                        <input type="number" class="form-control" id="rating`+ i +`" name="rating[`+ i +`]" min="1" max="10">
                     </td>
                     <td>
                         <button class="btn btn-outline-danger btn-remove" type="button"><i class="fas fa-minus"></i></button>
@@ -383,6 +383,7 @@
                     $("#module-name").val("");
                     $("#module-rating").prop('selectedIndex',0);
                     $("#btn-submit").prop("disabled", false);
+                    $('.typeahead').typeahead('val', '');
                     i++;
                 }else{
                     $("#btn-add").prop("disabled", true);

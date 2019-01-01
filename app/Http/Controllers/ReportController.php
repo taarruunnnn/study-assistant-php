@@ -22,14 +22,15 @@ class ReportController extends Controller
         if ($schedule = Auth::user()->schedule)
         {
             $reports = $schedule->reports;
-            return view('reports.show', compact('reports'));
         }
         else
         {
             $reports = "N/A";
-            return view('reports.show', compact('reports'));
         }
-        
+
+        $archived = Auth::user()->completed_modules;
+
+        return view('reports.show', compact('reports', 'archived'));
     }
 
     public function view(Report $report)

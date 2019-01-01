@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'university' => ['required', 'string', 'max:100'],
             'major' => ['required', 'string', 'max:30'],
             'birth' => ['required', 'digits:4', 'integer', 'min:1970'],
-            'gender' => ['nullable', 'string', 'max:1'],
+            'gender' => ['required', 'string', 'max:1'],
             'country' => ['required', 'string', 'max:2'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);

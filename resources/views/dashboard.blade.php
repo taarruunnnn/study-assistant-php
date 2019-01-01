@@ -46,7 +46,7 @@
                 <div class="card-body">
                     <h5 class="card-title dash-title text-center">Modules Summary</h5>
                     <hr/>
-                    @if (! empty($module_list))
+                    @if (! empty($schedule))
                         <canvas id="pie-chart" width="250" height="350"></canvas>
                     @else
                         <p>No Schedule data to display</p>
@@ -150,34 +150,34 @@
                 var modules = new Array();
                 var ratings = new Array();
                 @foreach ($modules as $module)
-                     modules.push('{{$module->name}}')
-                     ratings.push('{{$module->rating}}')
+                    modules.push('{{$module->name}}')
+                    ratings.push('{{$module->rating}}')
                 @endforeach
 
-            new Chart(document.getElementById("pie-chart"), {
-                type: 'pie',
-                data: {
-                labels: modules,
-                datasets: [{
-                    label: "Rating",
-                    backgroundColor: ["#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"],
-                    data: ratings
-                }]
-                },
-                options: {
-                title: {
-                    display: true,
-                    text: 'Modules & their Ratings in Current Schedule'
-                },
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                    labels: {
-                        fontSize: 9
-                        }
-                }
-                }
-            });
+                new Chart(document.getElementById("pie-chart"), {
+                    type: 'pie',
+                    data: {
+                    labels: modules,
+                    datasets: [{
+                        label: "Rating",
+                        backgroundColor: ["#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"],
+                        data: ratings
+                    }]
+                    },
+                    options: {
+                    title: {
+                        display: true,
+                        text: 'Modules & their Ratings in Current Schedule'
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            fontSize: 9
+                            }
+                    }
+                    }
+                });
             @endif
 
 

@@ -16,9 +16,10 @@ class CreateCompletedModulesTable extends Migration
         Schema::create('completed_modules', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('rating');
+            $table->integer('rating');
             $table->string('grade')->nullable()->default(null);
-            $table->string('sessions');
+            $table->integer('completed_sessions');
+            $table->integer('failed_sessions');
             $table->integer('user_id');
             $table->timestamps();
         });

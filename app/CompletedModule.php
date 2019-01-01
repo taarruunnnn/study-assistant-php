@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class CompletedModule extends Model
 {
     protected $fillable = [
-        'name', 'rating', 'grade', 'sessions'
+        'name', 'rating', 'grade', 'completed_sessions', 'failed_sessions'
     ];
 
     public function user()
@@ -27,12 +27,20 @@ class CompletedModule extends Model
         foreach($modules as $module)
         {
             $sessions = $schedule->sessions;
-            $count = 0;
+            $completedCount = 0;
+            $failedCount = 0;
             foreach($sessions as $session)
             {
                 if($session->module == $module->name)
                 {
-                    $count++;
+                    if($session->status == 'completed')
+                    {
+                        $completedCount++;
+                    }
+                    elseif($session->status == 'failed' || $session->status == 'incomplete')
+                    {
+                        $failedCount++;
+                    }
                 }
             }
 
@@ -40,7 +48,8 @@ class CompletedModule extends Model
             ([
                 'name' => $module->name,
                 'rating' => $module->rating,
-                'sessions' => $count
+                'completed_sessions' => $completedCount,
+                'failed_sessions' => $failedCount
             ]);
 
             $module->delete();

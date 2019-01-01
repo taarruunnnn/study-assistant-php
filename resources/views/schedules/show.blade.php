@@ -244,7 +244,7 @@
                 maxViewMode: 'years',
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
-                startDate: new Date(),
+                // startDate: new Date(),
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
                 $('#end').datepicker('setStartDate', minDate);
@@ -261,6 +261,7 @@
 
             $('#start').datepicker('update', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('update', '@if(isset($schedule)){{ $schedule->end }}@endif');
+            $('#start').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
 
 

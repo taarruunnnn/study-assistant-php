@@ -3,7 +3,7 @@ require('./bootstrap');
 
 require('malihu-custom-scrollbar-plugin');
 
-require('@fortawesome/fontawesome-free/js/all');
+// require('@fortawesome/fontawesome-free/js/all');
 
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 

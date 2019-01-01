@@ -52,20 +52,15 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="birth" class="col-md-4 col-form-label text-md-right">Gender</label>
+                    <label for="gender" class="col-md-4 col-form-label text-md-right">Gender</label>
                 
                     <div class="btn-group btn-group-toggle col-md-6" data-toggle="buttons">
                         <label class="btn btn-secondary">
-                            <input type="radio" name="gender" id="male" autocomplete="off" value="M" > Male
+                            <input type="radio" name="gender" id="male" autocomplete="off" value="M" required> Male
                         </label>
                         <label class="btn btn-secondary">
                             <input type="radio" name="gender" id="female" autocomplete="off" value="F"> Female
                         </label>
-                        @if ($errors->has('gender'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('gender') }}</strong>
-                            </span>
-                        @endif
                     </div>
                 </div>
 
