@@ -17815,9 +17815,14 @@ span.twitter-typeahead {
   border-color: #2196f3;
 }
 
-#confirmDelete {
+#confirmDelete,
+#confirmEventDelete {
   display: none;
   margin-top: 10px;
+}
+
+#eventDelete {
+  display: none;
 }
 
 .ajax-loader {
@@ -17871,6 +17876,10 @@ span.twitter-typeahead {
   font-size: 40px;
   color: #3f3f3f;
   font-family: 'Orbitron', sans-serif;
+}
+
+.calendarEvent {
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 700px) {

@@ -312,9 +312,13 @@ span.twitter-typeahead {
 
 // schedule modal
 
-#confirmDelete {
+#confirmDelete, #confirmEventDelete {
     display: none;
     margin-top: 10px;
+}
+
+#eventDelete{
+    display: none;
 }
 
 .ajax-loader{
@@ -367,6 +371,12 @@ span.twitter-typeahead {
     color:#3f3f3f;
     font-family: 'Orbitron', sans-serif;
 }
+
+.calendarEvent{
+    cursor: pointer;
+}
+
+
   @media only screen and (max-width: 700px) {
     #sessionTimer .values {
         font-size: 75px;

@@ -43,7 +43,8 @@ if (!function_exists('schedule_retriever'))
                         'title' => $session->module,
                         'start' => $session->date,
                         'end' => $session->date,
-                        'color' => $color
+                        'color' => $color,
+                        'description' => 'session'
                     ];
                 }
                 elseif ($session['status'] == "failed") 
@@ -54,7 +55,8 @@ if (!function_exists('schedule_retriever'))
                         'title' => $session->module,
                         'start' => $session->date,
                         'end' => $session->date,
-                        'color' => '#ec3737'
+                        'color' => '#ec3737',
+                        'description' => 'session'
                     ];
                 }
                 elseif ($session['status'] == "completed") 
@@ -65,11 +67,29 @@ if (!function_exists('schedule_retriever'))
                         'title' => $session->module,
                         'start' => $session->date,
                         'end' => $session->date,
-                        'color' => '#38c172'
+                        'color' => '#38c172',
+                        'description' => 'session'
                     ];
                 }
                      
     
+            }
+
+            if ($events = $schedule->events)
+            {
+                foreach($events as $event)
+                {
+                    $data[]= 
+                    [
+                        'id' => $event->id,
+                        'title' => $event->description,
+                        'start' => $event->date,
+                        'end' => $event->date,
+                        'color' => '#bd4747',
+                        'description' => 'event',
+                        'className' => 'calendarEvent'
+                    ];
+                }
             }
 
             return $data;

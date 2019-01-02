@@ -40,6 +40,10 @@ Route::post('/schedules/move', 'ScheduleController@move')->name('schedule.move')
 Route::get('/schedules/archive', 'ScheduleController@archive')->name('schedules.archive');
 Route::post('/schedules/archive/update', 'ScheduleController@archiveUpdate')->name('schedules.archive.update');
 
+Route::post('/events/store', 'EventController@store')->name('events.store');
+Route::post('/events/update', 'EventController@update')->name('events.update');
+Route::post('/events/destroy', 'EventController@destroy')->name('events.destroy');
+
 Route::get('/session', 'SessionController@show')->name('session.show');
 Route::get('/session/complete', 'SessionController@complete')->name('session.complete');
 Route::get('/session/refresh', 'SessionController@refresh')->name('session.refresh');

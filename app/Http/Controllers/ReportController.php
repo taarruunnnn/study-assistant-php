@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use App\Http\Requests\StoreReport;
 use App\Report;
 use function GuzzleHttp\json_encode;
+use Spatie\Activitylog\Models\Activity;
 
 class ReportController extends Controller
 {
@@ -25,12 +26,17 @@ class ReportController extends Controller
         }
         else
         {
+            $schedule = null;
             $reports = "N/A";
         }
 
+        $user_id = Auth::user()->id;
+
+        $logs = Activity::all()->where('causer_id', $user_id);
+
         $archived = Auth::user()->completed_modules;
 
-        return view('reports.show', compact('reports', 'archived'));
+        return view('reports.show', compact('reports', 'archived', 'logs', 'schedule'));
     }
 
     public function view(Report $report)
@@ -48,7 +54,6 @@ class ReportController extends Controller
             "sessions" => json_decode($sessionsDb),
             "comparedtime" => json_decode($timeSpend)
         );
-
 
         $data = json_encode($data);
         $live = false;

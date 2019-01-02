@@ -33,6 +33,11 @@ class Schedule extends Model
         return $this->hasMany('App\Module');
     }
 
+    public function events()
+    {
+        return $this->hasMany('App\Event');
+    }
+
     // Methods
     public $user;
     public $request;

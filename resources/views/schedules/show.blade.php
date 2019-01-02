@@ -34,6 +34,9 @@
                     <div class="row mt-3">
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
                     </div>
+                    <div class="row mt-3">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
+                    </div>
                 @endif
                 @if($toarchive === true)
                     <div class="row mt-3">
@@ -222,6 +225,52 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="addEventLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addEventLabel">Event</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <form action="{{ route('events.store') }}" id="eventForm" method="POST">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <label for="eventdate" class="col-sm-3 col-form-label">Date</label>
+                                            <input type="text" class="datepicker text-center form-control col-sm-6" id="eventdate" name="eventdate">
+                                        </div>
+                                        <div class="row mt-4">
+                                            <label for="description" class="col-sm-3 col-form-label">Description</label>
+                                            <textarea rows="2" class="form-control col-sm-9" id="description" name="description"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <button type="button" class="btn btn-danger" id="eventDelete">Delete Event</button>
+                                    <p id="confirmEventDelete">Are you sure you want to <strong>Delete This Event?</strong>
+                                        <br/>
+                                        <a class="btn btn-outline-primary btn-sm" id="eventDeleteYes">Yes</a>
+                                        <a class="btn btn-outline-secondary btn-sm" id="canceleventDelete">No</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="createEvent">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
     
 @endsection
@@ -231,6 +280,7 @@
         $(document).ready(function(){
 
             var movedSessions = new Array();
+            var eventIdGlobal = "";
 
             var today = moment().startOf('day').toISOString();
 
@@ -259,11 +309,19 @@
                 $('#start').datepicker('setEndDate', maxDate);
             });
 
+            $('#eventdate').datepicker({
+                maxViewMode: 'years',
+                format: "yyyy-mm-dd",
+                todayHighlight: true,
+            });
+
             $('#start').datepicker('update', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('update', '@if(isset($schedule)){{ $schedule->end }}@endif');
             $('#start').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
             $('#end').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
 
+            $('#eventdate').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
+            $('#eventdate').datepicker('setEndDate', '@if(isset($schedule)){{ $schedule->end }}@endif');
 
             $('#calendar').fullCalendar({
                 themeSystem: 'bootstrap4',
@@ -279,11 +337,25 @@
                             title: '{{$d['title']}}',
                             start: '{{$d['start']}}',
                             end: '{{$d['end']}}',
-                            color: '{{$d['color']}}'
+                            color: '{{$d['color']}}',
+                            description: '{{$d['description']}}',
+                            @if(isset($d['className']))
+                            className: '{{$d['className']}}'
+                            @endif
                         },
                     @endforeach
                 @endif
-                ]
+                ],
+                eventClick: function(calEvent, jsEvent, view){
+                    if(calEvent.description == 'event')
+                    {
+                        $("#addEvent").modal();
+                        var id = calEvent.id;
+                        var start = calEvent.start;
+                        var title = calEvent.title;
+                        eventDetails(id, start, title);
+                    }
+                }
             });
             
             @if(isset($schedule))
@@ -305,13 +377,15 @@
                 events: [
                 @if(isset($data))
                     @foreach ($data as $d)
-                        {
-                            id: '{{$d['id']}}',
-                            title: '{{$d['title']}}',
-                            start: '{{$d['start']}}',
-                            end: '{{$d['end']}}',
-                            color: '{{$d['color']}}'
-                        },
+                        @if($d['description'] == 'session')
+                            {
+                                id: '{{$d['id']}}',
+                                title: '{{$d['title']}}',
+                                start: '{{$d['start']}}',
+                                end: '{{$d['end']}}',
+                                color: '{{$d['color']}}'
+                            },
+                        @endif
                     @endforeach
                 @endif
                 ]
@@ -419,6 +493,51 @@
             $('#archiveBtn').click(function(){
                 $('#confirmArchive').toggle("slow");
             });
+
+            $('#createEvent').click(function(){
+                $('form#eventForm').submit();
+            })
+
+            // Remove modal data on exit
+            $('#addEvent').on('hidden.bs.modal', function(){
+                $('#eventdate').val("").datepicker("update");
+                $('#description').val("");
+                $("#eventId").remove();
+                $('#eventDelete').css('display','none');
+                eventIdGlobal = "";
+            });
+
+            $( "#eventDelete" ).click(function(e) {
+                e.preventDefault();
+                $("#confirmEventDelete").toggle("slow");
+            });
+
+            $('#cancelEventDelete').click(function(e) {
+                e.preventDefault();
+                $("#confirmEventDelete").hide("slow");
+            });
+
+            $('#eventDeleteYes').click(function(e){
+                e.preventDefault();
+                $('<form action="{{ route('events.destroy') }}" method="POST">@csrf<input type="hidden" name="id" value="'+eventIdGlobal+'"></form>').appendTo('body').submit();
+            })
+
+            function eventDetails(id, start, title)
+            {
+                var startDate = new Date(start);
+                var eventId = id;
+                eventIdGlobal = id;
+                $('#eventdate').datepicker('update', startDate);
+                $('#description').val(title);
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'eventId',
+                    name: 'id',
+                    value: eventId
+                }).appendTo('#eventForm');
+                $('#eventForm').attr("action", "{{ route('events.update') }}");
+                $('#eventDelete').css('display','block');
+            }
             
         });
   

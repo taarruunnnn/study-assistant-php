@@ -6,35 +6,70 @@
 
     <div class="container">
         <div class="row d-flex justify-content-center mb-4">
-            <a href="{{ route('report.generate') }}" class="btn btn-primary">Generate Report</a>
+            @if (! empty($schedule))
+                <a href="{{ route('report.generate') }}" class="btn btn-primary">Generate Report</a>
+            @endif
         </div>
         <div class="row">
             <div class="col-sm-8">
-                @if (!($reports == "N/A"))
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Previous Reports</h5>
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col">Progress</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($reports as $key => $report)
-                                        <tr class="clickable-row" data-href='{{ url("reports/view/{$report->id}") }}'>
-                                            <td>{{ $key+1 }}</td>
-                                            <td>{{ $report->created_at }}</td>
-                                            <td>{{ $report->progress }}%</td>
-                                        </tr> 
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="row">
+                    <div class="col">
+                        @if (!($reports == "N/A"))
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Previous Reports</h5>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">Progress</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($reports as $key => $report)
+                                                <tr class="clickable-row" data-href='{{ url("reports/view/{$report->id}") }}'>
+                                                    <td>{{ $key+1 }}</td>
+                                                    <td>{{ $report->created_at }}</td>
+                                                    <td>{{ $report->progress }}%</td>
+                                                </tr> 
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                @endif
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        @if (! empty($logs))
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">User Logs</h5>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($logs as $key => $log)
+                                                <tr >
+                                                    <td>{{ $key+1 }}</td>
+                                                    <td>{{ $log->created_at }}</td>
+                                                    <td>{{ $log->description }}</td>
+                                                </tr> 
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
             <div class="col-sm-4">
                 @if (! empty($archived))

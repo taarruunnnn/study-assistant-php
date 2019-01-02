@@ -41,6 +41,9 @@ class ScheduleController extends Controller
         $user = Auth::user();
         $schedule = new Schedule();
         $schedule->createSchedule($user, $request);
+
+        activity()->log('Created Schedule');
+
         session()->flash('message','Schedule Created');
         return redirect()->route('schedules.show');
         
@@ -76,6 +79,9 @@ class ScheduleController extends Controller
     public function update(UpdateSchedule $request)
     {
         $request->persist();
+
+        activity()->log('Updated Schedule');
+
         session()->flash('message','Schedule Updated');
         return redirect()->route('schedules.show');
     }
@@ -92,6 +98,9 @@ class ScheduleController extends Controller
             $session->status = "incomplete";
             $session->save();
         }
+
+        activity()->log('Moved Session');
+
         session()->flash('status', 'Task was successful!');
         return "Successfully moved";
     }
@@ -103,6 +112,9 @@ class ScheduleController extends Controller
         $user->schedule->sessions()->delete();
         $user->schedule->reports()->delete();
         $user->schedule->delete();
+
+        activity()->log('Deleted Schedule');
+
         session()->flash('message','Schedule Deleted');
         return back();
     }
@@ -111,6 +123,8 @@ class ScheduleController extends Controller
     {
         $completedModule = new CompletedModule();
         $completedModule->archive();
+
+        activity()->log('Archived Schedule');
 
         session()->flash('message','Schedule Archived');
         return redirect()->route('schedules.show');
