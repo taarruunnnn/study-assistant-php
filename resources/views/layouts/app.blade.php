@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" id="app">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,17 +21,17 @@
 
 </head>
 <body id="welcome">
-    <div class="container">
-        <div class="row my-2">
-            <main class="py-4">
-                @if ($flash = session('message'))
+    <div class="container d-flex align-items-center justify-content-center">
+        @if ($flash = session('message'))
+            <div class="row my-2">
+                <main class="py-4">
                     <div class="alert alert-success">
                         {{ $flash }}
                     </div>
-                @endif
-            </main>
-        </div>
-        <div class="row">
+                </main>
+            </div>
+        @endif
+        <div class="row w-100">
             @yield('content')
         </div>
     </div>

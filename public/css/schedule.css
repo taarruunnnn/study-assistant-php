@@ -17485,9 +17485,15 @@ a.text-dark:focus {
   }
 }
 
+#app,
 #welcome {
-  height: 90vh;
+  height: 100%;
   background: #2196F3;
+}
+
+#welcome .container {
+  min-height: 100vh;
+  padding: 15px;
 }
 
 #login-header {
@@ -17683,6 +17689,7 @@ ul ul a {
   top: 0;
   right: 0;
   padding-bottom: 30px;
+  height: 100%;
 }
 
 #content.active {

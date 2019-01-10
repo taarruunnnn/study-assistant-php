@@ -3,7 +3,7 @@
 @section('title','Create Schedule')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid h-75">
         @if($toarchive === true)
             <div class="row">
                 <div class="col">
@@ -15,7 +15,7 @@
         @endif
 
 
-        <div class="row">
+        <div class="row h-100">
             <div class="col-sm-9">
                     <div id='calendar'></div>
             </div>  
@@ -329,6 +329,7 @@
                 firstDay: 1,
                 eventColor: '#2196f3',
                 eventTextColor: '#FFF',
+                height: 'parent',
                 events: [
                 @if(isset($data))
                     @foreach ($data as $d)
