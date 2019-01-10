@@ -183,6 +183,7 @@
                 maxViewMode: 'years',
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
+                autoclose: true,
                 // startDate: "today"
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
@@ -193,6 +194,7 @@
                 maxViewMode: 'years',
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
+                autoclose: true,
                 startDate: "today"
             }).on('changeDate', function (selected) {
                 var maxDate = new Date(selected.date.valueOf());

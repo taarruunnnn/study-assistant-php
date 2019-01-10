@@ -14,30 +14,23 @@ class ApiController extends Controller
     {
         $request->validate([
             'email' => 'required|string|email',
-            'password' => 'required|string',
-            'remember_me' => 'boolean'
+            'password' => 'required|string'
         ]);
         
         $credentials = request(['email', 'password']);
         if(!Auth::attempt($credentials))
         {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Incorrect Credentials'
             ], 401);
         }
 
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
         return response()->json([
             'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString(),
             'message' => 'Successfully logged in'
         ]);
     }
@@ -79,17 +72,22 @@ class ApiController extends Controller
                         array_push($module_list, array('id' => $session->id, 'module' => $session->module, 'status' => $session->status));
                     }
                 }
+
+                if(empty($module_list))
+                {
+                    array_push($module_list, array('id' => 0, 'module' => null, 'status' => null));
+                }
             }
             else
             {
                 $module_list = array();
-                array_push($module_list, array('id' => 0, 'module' => 'null', 'status' => 'null'));
+                array_push($module_list, array('id' => 0, 'module' => null, 'status' => null));
             }
         }
         else
         {
             $module_list = array();
-            array_push($module_list, array('id' => 0, 'module' => 'null', 'status' => 'null'));
+            array_push($module_list, array('id' => 0, 'module' => null, 'status' => null));
         }
         
         return response()->json([

@@ -293,6 +293,7 @@
             $('#start').datepicker({
                 maxViewMode: 'years',
                 format: "yyyy-mm-dd",
+                autoclose: true,
                 todayHighlight: true,
                 // startDate: new Date(),
             }).on('changeDate', function(selected){
@@ -304,6 +305,7 @@
                 maxViewMode: 'years',
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
+                autoclose: true,
             }).on('changeDate', function (selected) {
                 var maxDate = new Date(selected.date.valueOf());
                 $('#start').datepicker('setEndDate', maxDate);
@@ -311,6 +313,7 @@
 
             $('#eventdate').datepicker({
                 maxViewMode: 'years',
+                autoclose: true,
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
             });
