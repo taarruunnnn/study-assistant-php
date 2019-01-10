@@ -94,7 +94,7 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title dash-title text-center">Schedule Summary</h5>
+                        <h5 class="card-title dash-title text-center">Schedule Overview</h5>
                         <hr/>
                         <p>You have finished {{ $finished }} sessions</p>
                         <p>You have {{ $left }} sessions left</p>
