@@ -38,3 +38,5 @@ Route::group([
     Route::get('session/{id}/complete', 'ApiController@sessionComplete');
     Route::get('dashboard/check', 'ApiController@sessionCheck');
 });
+
+Route::post('/test/dummydata', 'TestDataController@create');

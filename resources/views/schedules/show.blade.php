@@ -16,31 +16,31 @@
 
 
         <div class="row h-100">
-            <div class="col-sm-9">
+            <div class="col-lg-9">
                     <div id='calendar'></div>
             </div>  
             @if (Auth::user()->schedule === null)
-                <div class="col-sm-2">
+                <div class="col-lg-2">
                     <form action="{{ route('schedules.create') }}">
                         <input type="submit" class="btn btn-primary" value="Create Schedule" >
                     </form>
                 </div>
             @else
-            <div class="col-sm-2 ml-4">
+            <div class="col-lg-2 ml-4 mt-4">
                 @if($toarchive === false)
                     <div class="row">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
                     </div>
                     <div class="row mt-3">
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
+                        <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
                     </div>
                     <div class="row mt-3">
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
+                        <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
                     </div>
                 @endif
                 @if($toarchive === true)
                     <div class="row mt-3">
-                        <button type="button" class="btn btn-danger" id="archiveBtn"><i class="fas fa-archive"></i>&nbsp;&nbsp;Archive Sessions</button>
+                        <button type="button" class="btn btn-danger btn-block" id="archiveBtn"><i class="fas fa-archive"></i>&nbsp;&nbsp;Archive Sessions</button>
                         <p id="confirmArchive" class="mt-2" style="display:none">Are you sure you want to <strong>Archive Current Schedule?</strong>
                             <br/>
                             <a class="btn btn-outline-danger btn-sm" href="{{ route('schedules.archive') }}">Yes</a>

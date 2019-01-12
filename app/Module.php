@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Module extends Model
 {
     protected $fillable = [
-        'name', 'rating'
+        'name', 'rating', 'grade'
     ];
 
     public function schedule()
