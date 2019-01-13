@@ -67,10 +67,6 @@
                                 </span>
                             </p>
 
-                            <p class="text-dark" id="timeofdayP" style="display:none">Most Studied Hour of Day : 
-                                <span class="text-primary" id="timeofdayspan">
-                                </span>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -311,30 +307,6 @@
 
                 document.getElementById("reportForm").appendChild(input);
                 @endif
-            }
-
-            if (!(data['timeofday'] == "N/A" || data['timeofday'] == null))
-            {
-                time = data['timeofday'];
-
-                if(time < 12)
-                {
-                    // AM
-                    $('#timeofdayspan').text(time + " AM");
-                }
-                else if(time == 12)
-                {
-                    // PM
-                    $('#timeofdayspan').text(time + " PM");
-                }
-                else
-                {
-                    time = time - 12;
-                    // PM
-                    $('#timeofdayspan').text(time + " PM");
-                }
-
-                $('#timeofdayP').show();
             }
 
             if (!(data['studytimes'] == "N/A" || data['studytimes'] == null))
