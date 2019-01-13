@@ -43,40 +43,46 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data Data that is to be validated
+     * 
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'university' => ['required', 'string', 'max:100'],
-            'major' => ['required', 'string', 'max:30'],
-            'birth' => ['required', 'digits:4', 'integer', 'min:1970'],
-            'gender' => ['required', 'string', 'max:1'],
-            'country' => ['required', 'string', 'max:2'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
+        return Validator::make(
+            $data, [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'university' => ['required', 'string', 'max:100'],
+                'major' => ['required', 'string', 'max:30'],
+                'birth' => ['required', 'digits:4', 'integer', 'min:1970'],
+                'gender' => ['required', 'string', 'max:1'],
+                'country' => ['required', 'string', 'max:2'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ]
+        );
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data Request data that is used to create user
+     * 
      * @return \App\User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'country' => $data['country'],
-            'birth' => $data['birth'],
-            'gender' => $data['gender'],
-            'university' => $data['university'],
-            'major' => $data['major'],
-            'password' => Hash::make($data['password']),
-        ]);
+        return User::create(
+            [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'country' => $data['country'],
+                'birth' => $data['birth'],
+                'gender' => $data['gender'],
+                'university' => $data['university'],
+                'major' => $data['major'],
+                'password' => Hash::make($data['password']),
+            ]
+        );
     }
 }

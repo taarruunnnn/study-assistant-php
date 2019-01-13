@@ -8,8 +8,21 @@ use App\Session;
 
 use Illuminate\Http\Request;
 
+/**
+ * Session controller is used to handle functions
+ * related to App\Session
+ */
 class SessionController extends Controller
 {
+    /**
+     * Show Function
+     * 
+     * Sessions are collected from database
+     * and send to user to start a 
+     * study timer
+     *
+     * @return View
+     */
     public function show()
     {
         $user = Auth::user();
@@ -33,6 +46,16 @@ class SessionController extends Controller
         return view('schedules.session', compact('modules'));
     }
 
+    /**
+     * Complete Function
+     * 
+     * Sessions are marked complete once user
+     * finishes studying
+     *
+     * @param Request $request Request object received via POST
+     * 
+     * @return int
+     */
     public function complete(Request $request)
     {
         $sessionId = $request['sessionId'];
@@ -44,9 +67,4 @@ class SessionController extends Controller
         return $sessionId;
     }
 
-    public function refresh()
-    {
-        missed_sessions();
-        return back();
-    }
 }

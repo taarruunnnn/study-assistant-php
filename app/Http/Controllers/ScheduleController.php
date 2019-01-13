@@ -14,18 +14,45 @@ use App\CompletedModule;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Schedule Controller is used to handle functions related to
+ * App\Schedule
+ */
 class ScheduleController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     * Only authenticated users can access its methods
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Create Function
+     * 
+     * The view to create schedules is returned
+     *
+     * @return View
+     */
     public function create()
     {
         return view('schedules.create');
     }
 
+    /**
+     * Analyze Function
+     * 
+     * On user request, modules are analyzed by sending them to
+     * the Python Web Server and the response is forwarded to user
+     *
+     * @param Request $request Request object received via AJAX POST
+     * 
+     * @return string JSON is decoded into string
+     */
     public function analyze(Request $request)
     {
         $module = 'module='.$request['module'];
@@ -36,6 +63,16 @@ class ScheduleController extends Controller
         return $results;
     }
 
+    /**
+     * Store Function
+     * 
+     * Schedule is created using createSchedule function
+     * is App\Schedule
+     *
+     * @param StoreSchedule $request Request object received via POST
+     * 
+     * @return Redirect
+     */
     public function store(StoreSchedule $request)
     {
         $user = Auth::user();
@@ -48,10 +85,17 @@ class ScheduleController extends Controller
         return redirect()->route('schedules.show');
     }
 
+    /**
+     * Show Function
+     * 
+     * Schedule data is showed to the user
+     *
+     * @return View
+     */
     public function show()
     {
         $user = Auth::user();
-        $data = schedule_retriever();
+        $data = scheduleRetriever();
         $toarchive = false;
 
         if ($schedule = $user->schedule) {
@@ -70,6 +114,15 @@ class ScheduleController extends Controller
         }
     }
 
+    /**
+     * Schedule Update
+     * 
+     * Schedule is updated upon user request
+     *
+     * @param UpdateSchedule $request Request object received via POST
+     * 
+     * @return Redirect
+     */
     public function update(UpdateSchedule $request)
     {
         $request->persist();
@@ -80,6 +133,15 @@ class ScheduleController extends Controller
         return redirect()->route('schedules.show');
     }
 
+    /**
+     * Move Function
+     * 
+     * Sessions are moved as per user request
+     *
+     * @param Request $request Request object received via POST
+     * 
+     * @return string
+     */
     public function move(Request $request)
     {
         $events = $request->events;
@@ -98,6 +160,13 @@ class ScheduleController extends Controller
         return "Successfully moved";
     }
 
+    /**
+     * Destroy Function
+     * 
+     * Schedule data is deleted upon user request
+     *
+     * @return Redirect
+     */
     public function destroy()
     {
         $user = Auth::user();
@@ -112,6 +181,13 @@ class ScheduleController extends Controller
         return back();
     }
 
+    /**
+     * Archive Function
+     * 
+     * Once schedule is over, modules are archived
+     *
+     * @return Redirect
+     */
     public function archive()
     {
         $completedModule = new CompletedModule();
@@ -123,6 +199,15 @@ class ScheduleController extends Controller
         return redirect()->route('schedules.show');
     }
 
+    /**
+     * Archive Update
+     * 
+     * Grades of the archived modules are updated
+     *
+     * @param Request $request Request object received via AJAX POST
+     * 
+     * @return string
+     */
     public function archiveUpdate(Request $request)
     {
         $moduleId = $request->module;

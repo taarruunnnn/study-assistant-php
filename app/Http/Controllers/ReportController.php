@@ -11,13 +11,31 @@ use App\Report;
 use function GuzzleHttp\json_encode;
 use Spatie\Activitylog\Models\Activity;
 
+/**
+ * Report controller is used to handle functions
+ * related to App\Report
+ */
 class ReportController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     * Only authenticated users can access its methods
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Show Function
+     * 
+     * Shows the reporting page to user
+     * with queried data
+     *
+     * @return View
+     */
     public function show()
     {
         if ($schedule = Auth::user()->schedule) {
@@ -38,6 +56,15 @@ class ReportController extends Controller
         return view('reports.show', compact('reports', 'archived', 'logs', 'schedule'));
     }
 
+    /**
+     * View Function
+     * 
+     * Shows data about individual reports
+     *
+     * @param Report $report GET Request data is used to gather a user report
+     * 
+     * @return View
+     */
     public function view(Report $report)
     {
         $modulesCount = $report->no_modules;
@@ -62,6 +89,14 @@ class ReportController extends Controller
         return view('reports.report', compact('live', 'modulesCount', 'sessionsComplete', 'sessionsMissed', 'sessionsIncomplete', 'progress', 'sessionsDb', 'timeSpend', 'date', 'data'));
     }
 
+    /**
+     * Generate Function
+     * 
+     * User data is gathered to generate a report 
+     * and send it to user
+     *
+     * @return View
+     */
     public function generate()
     {
         if ($schedule = Auth::user()->schedule) {
@@ -79,6 +114,13 @@ class ReportController extends Controller
         return view('reports.report', compact('schedule', 'modules', 'sessions', 'progress', 'live'));
     }
 
+    /**
+     * Analyze Request
+     *
+     * @param Request $request Request object received via an AJAX POST
+     * 
+     * @return string JSON is decoded into a string and sent
+     */
     public function analyze(Request $request)
     {
         $schedule = 'schedule='.$request->schedule;
@@ -89,6 +131,15 @@ class ReportController extends Controller
         return $results;
     }
 
+    /**
+     * Save Function
+     * 
+     * Report is saved on user request
+     *
+     * @param StoreReport $request Request object received via POST
+     * 
+     * @return Redirect
+     */
     public function save(StoreReport $request)
     {
         $request->persist();
@@ -96,6 +147,14 @@ class ReportController extends Controller
         return redirect()->route('reports.show');
     }
 
+    /**
+     * Destroy Function
+     * 
+     * Reports and Logs belonging to the user
+     * are deleted as per the request of the user
+     *
+     * @return void
+     */
     public function destroy()
     {
         $reports = Auth::user()->schedule->reports();

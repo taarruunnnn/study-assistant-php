@@ -7,10 +7,15 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Dashboard Controller is used to handle
+ * functions related to the dashboard
+ */
 class DashboardController extends Controller
 {
     /**
      * Create a new controller instance.
+     * Only authenticated users can access its methods
      *
      * @return void
      */
@@ -20,13 +25,16 @@ class DashboardController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Index Function
+     * 
+     * Queries the database for schedule information
+     * and sends them to the dashboard view.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data = schedule_retriever();
+        $data = scheduleRetriever();
         
         $module_list = array();
 

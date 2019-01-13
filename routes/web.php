@@ -48,7 +48,6 @@ Route::post('/events/destroy', 'EventController@destroy')->name('events.destroy'
 
 Route::get('/session', 'SessionController@show')->name('session.show');
 Route::get('/session/complete', 'SessionController@complete')->name('session.complete');
-Route::get('/session/refresh', 'SessionController@refresh')->name('session.refresh');
 
 Route::get('/reports', 'ReportController@show')->name('reports.show');
 Route::get('/reports/view/{report}', 'ReportController@view')->name('reports.view');

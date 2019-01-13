@@ -8,15 +8,30 @@ use App\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Test Data Controller is only used to 
+ * populate databases for testing purposes.
+ * It responds to a specific API call
+ */
 class TestDataController extends Controller
 {
     public $user;
     public $request;
     
+    /**
+     * Create function
+     * 
+     * This function obtains data from a CSV file
+     * and uses this data to populate the databases
+     * with test data
+     *
+     * @param Request $request Request object received via API POST
+     * 
+     * @return Response
+     */
     public function create(Request $request)
     {
         $faker = Faker\Factory::create();
-
 
         $pathToCsv = \storage_path('app/public/data2.csv');
 
@@ -41,18 +56,20 @@ class TestDataController extends Controller
                 $uni = 'University of '.$faker->city;
             }
 
-            $user = User::create([
-                'name' => $name,
-                'email' => $faker->unique()->safeEmail,
-                'email_verified_at' => now(),
-                'birth' => $faker->year($max = 'now'),
-                'gender' => $faker->randomElement($array = array('M','F')),
-                'country' => 'Sri Lanka',
-                'university' => $uni,
-                'major' => $value[3],
-                'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-                'remember_token' => str_random(10),
-            ]);
+            $user = User::create(
+                [
+                    'name' => $name,
+                    'email' => $faker->unique()->safeEmail,
+                    'email_verified_at' => now(),
+                    'birth' => $faker->year($max = 'now'),
+                    'gender' => $faker->randomElement($array = array('M','F')),
+                    'country' => 'Sri Lanka',
+                    'university' => $uni,
+                    'major' => $value[3],
+                    'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+                    'remember_token' => str_random(10),
+                ]
+            );
 
             for ($x = 0; $x < 6; $x++) {
                 $key = (4*$x);
@@ -69,19 +86,23 @@ class TestDataController extends Controller
                     $failed_sessions = intval(($total_sessions*70)/100);
                 }
 
-                $completed_module = $user->completed_modules()->create([
-                    'name' => $value[4 + $key],
-                    'rating' =>$value[5 + $key],
-                    'grade' => $grade,
-                    'completed_sessions' => $completed_sessions,
-                    'failed_sessions' => $failed_sessions
-                ]);
+                $completed_module = $user->completed_modules()->create(
+                    [
+                        'name' => $value[4 + $key],
+                        'rating' =>$value[5 + $key],
+                        'grade' => $grade,
+                        'completed_sessions' => $completed_sessions,
+                        'failed_sessions' => $failed_sessions
+                    ]
+                );
             }
         }
 
-        return response()->json([
-            'user' => $user,
-            'completed_sessions' => $user->completed_modules()->get()
-        ]);
+        return response()->json(
+            [
+                'user' => $user,
+                'completed_sessions' => $user->completed_modules()->get()
+            ]
+        );
     }
 }

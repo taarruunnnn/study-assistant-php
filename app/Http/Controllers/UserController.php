@@ -7,19 +7,46 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateUser;
 use Illuminate\Http\Request;
 
+/**
+ * User Controller is used to handle functions 
+ * related to App\User
+ */
 class UserController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     * Only authenticated users can access its methods
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this-> middleware('auth');
     }
 
+    /**
+     * Edit Function
+     * 
+     * Send a view to user which they can use
+     * to edit their information
+     *
+     * @return View
+     */
     public function edit()
     {
         $user = Auth::user();
         return view('users.edit', compact('user'));
     }
 
+    /**
+     * Update Function
+     * 
+     * User details are updated as requested
+     *
+     * @param UpdateUser $request Request object received via POST
+     * 
+     * @return Redirect
+     */
     public function update(UpdateUser $request)
     {
         $user = Auth::user();
@@ -43,6 +70,13 @@ class UserController extends Controller
         return back();
     }
 
+    /**
+     * Destroy Function
+     * 
+     * Used to delete user
+     *
+     * @return View
+     */
     public function destroy()
     {
         $user = Auth::user();
