@@ -39,7 +39,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'birth' => $faker->year($max = 'now'),
-        'gender' => $faker->randomElement($array = array ('M','F')),
+        'gender' => $faker->randomElement($array = array('M','F')),
         'country' => 'UK',
         'university' => 'University of '.$faker->city,
         'major' => $majors[rand(0, count($majors) - 1)],

@@ -39,8 +39,8 @@ $factory->define(App\Schedule::class, function (Faker $faker) {
         'test' => '1',
         'start' => $start,
         'end' => $end,
-        'weekdays' => $faker->randomElement($array = array ('2','4','6')),
-        'weekends' => $faker->randomElement($array = array ('2','4','6')),
+        'weekdays' => $faker->randomElement($array = array('2','4','6')),
+        'weekends' => $faker->randomElement($array = array('2','4','6')),
         'module' => $faker->randomElements($array = $modules, $count = 4),
         'rating' => $faker->randomElements($array = array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10'), $count = 4)
     ];

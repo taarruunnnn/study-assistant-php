@@ -44,9 +44,8 @@ class ScheduleController extends Controller
 
         activity()->log('Created Schedule');
 
-        session()->flash('message','Schedule Created');
+        session()->flash('message', 'Schedule Created');
         return redirect()->route('schedules.show');
-        
     }
 
     public function show()
@@ -55,25 +54,20 @@ class ScheduleController extends Controller
         $data = schedule_retriever();
         $toarchive = false;
 
-        if ($schedule = $user->schedule)
-        {
+        if ($schedule = $user->schedule) {
             $today = Carbon::today();
             $schedule_end = new Carbon($schedule->end);
             
 
-            if($today->greaterThanOrEqualTo($schedule_end))
-            {
+            if ($today->greaterThanOrEqualTo($schedule_end)) {
                 $toarchive = true;
             }
 
             $modules = $schedule->modules;
             return view('schedules.show', compact('data', 'schedule', 'modules', 'toarchive'));
-        } 
-        else 
-        {
+        } else {
             return view('schedules.show', compact('data', 'toarchive'));
         }
-        
     }
 
     public function update(UpdateSchedule $request)
@@ -82,15 +76,14 @@ class ScheduleController extends Controller
 
         activity()->log('Updated Schedule');
 
-        session()->flash('message','Schedule Updated');
+        session()->flash('message', 'Schedule Updated');
         return redirect()->route('schedules.show');
     }
 
     public function move(Request $request)
     {
         $events = $request->events;
-        foreach ($events as $event) 
-        {
+        foreach ($events as $event) {
             $id = $event['id'];
             $date = $event['date'];
             $session = Session::findOrFail($id);
@@ -115,7 +108,7 @@ class ScheduleController extends Controller
 
         activity()->log('Deleted Schedule');
 
-        session()->flash('message','Schedule Deleted');
+        session()->flash('message', 'Schedule Deleted');
         return back();
     }
 
@@ -126,7 +119,7 @@ class ScheduleController extends Controller
 
         activity()->log('Archived Schedule');
 
-        session()->flash('message','Schedule Archived');
+        session()->flash('message', 'Schedule Archived');
         return redirect()->route('schedules.show');
     }
 
@@ -134,7 +127,7 @@ class ScheduleController extends Controller
     {
         $moduleId = $request->module;
         $grade = $request->grade;
-        if($grade === "null"){
+        if ($grade === "null") {
             $grade = null;
         }
 
@@ -144,5 +137,4 @@ class ScheduleController extends Controller
 
         return "SUCCESS";
     }
-
 }

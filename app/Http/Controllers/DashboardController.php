@@ -30,20 +30,16 @@ class DashboardController extends Controller
         
         $module_list = array();
 
-        if(!empty($data))
-        {
-            foreach($data as $d)
-            {
+        if (!empty($data)) {
+            foreach ($data as $d) {
                 $date = new Carbon($d['start']);
-                if($date->isToday())
-                {
+                if ($date->isToday()) {
                     array_push($module_list, $d['title']);
                 }
             }
         }
 
-        if ($schedule = Auth::user()->schedule)
-        {
+        if ($schedule = Auth::user()->schedule) {
             $modules = $schedule->modules;
             $sessions = $schedule->sessions;
 

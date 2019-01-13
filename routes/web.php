@@ -12,7 +12,7 @@ use App\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['middleware' => ['guest']], function(){
+Route::group(['middleware' => ['guest']], function () {
     Route::get('/', function () {
         return view('welcome');
     })->name('welcome');

@@ -24,7 +24,7 @@ class EventController extends Controller
             'description' => $request->description
         ]);
         
-        session()->flash('message','Event Created');
+        session()->flash('message', 'Event Created');
         return redirect()->route('schedules.show');
     }
 
@@ -35,7 +35,7 @@ class EventController extends Controller
         $event->description = $request->description;
         $event->save();
 
-        session()->flash('message','Event Updated');
+        session()->flash('message', 'Event Updated');
         return redirect()->route('schedules.show');
     }
 
@@ -44,7 +44,7 @@ class EventController extends Controller
         $event = Event::find($request->id);
         $event->delete();
 
-        session()->flash('message','Event Deleted');
+        session()->flash('message', 'Event Deleted');
         return redirect()->route('schedules.show');
     }
 }

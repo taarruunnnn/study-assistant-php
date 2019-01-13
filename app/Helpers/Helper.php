@@ -4,13 +4,11 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Carbon;
 
-if (!function_exists('schedule_retriever'))
-{
+if (!function_exists('schedule_retriever')) {
     function schedule_retriever()
     {
         $user = Auth::user();
-        if ($schedule = $user->schedule)
-        {
+        if ($schedule = $user->schedule) {
             $data = [];
             $sessions = $schedule->sessions;
             
@@ -23,10 +21,8 @@ if (!function_exists('schedule_retriever'))
             $daysForRevision = array();
             $modules = array();
 
-            foreach ($sessions as $session) 
-            {
-                if(!in_array($session->module, $modules, true))
-                {
+            foreach ($sessions as $session) {
+                if (!in_array($session->module, $modules, true)) {
                     array_push($modules, $session->module);
                 }
 
@@ -35,9 +31,8 @@ if (!function_exists('schedule_retriever'))
                 $color = $colors[$colorKey];
                 $x++;
                     
-                if($session['status'] == "incomplete")
-                {
-                    $data[]= 
+                if ($session['status'] == "incomplete") {
+                    $data[]=
                     [
                         'id' => $session->id,
                         'title' => $session->module,
@@ -46,10 +41,8 @@ if (!function_exists('schedule_retriever'))
                         'color' => $color,
                         'description' => 'session'
                     ];
-                }
-                elseif ($session['status'] == "failed") 
-                {
-                    $data[]= 
+                } elseif ($session['status'] == "failed") {
+                    $data[]=
                     [
                         'id' => $session->id,
                         'title' => $session->module,
@@ -58,10 +51,8 @@ if (!function_exists('schedule_retriever'))
                         'color' => '#ec3737',
                         'description' => 'session'
                     ];
-                }
-                elseif ($session['status'] == "completed") 
-                {
-                    $data[]= 
+                } elseif ($session['status'] == "completed") {
+                    $data[]=
                     [
                         'id' => $session->id,
                         'title' => $session->module,
@@ -71,15 +62,11 @@ if (!function_exists('schedule_retriever'))
                         'description' => 'session'
                     ];
                 }
-                     
-    
             }
 
-            if ($events = $schedule->events)
-            {
-                foreach($events as $event)
-                {
-                    $data[]= 
+            if ($events = $schedule->events) {
+                foreach ($events as $event) {
+                    $data[]=
                     [
                         'id' => $event->id,
                         'title' => $event->description,
@@ -94,8 +81,5 @@ if (!function_exists('schedule_retriever'))
 
             return $data;
         }
-
     }
-    
 }
-

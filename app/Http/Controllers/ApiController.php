@@ -18,8 +18,7 @@ class ApiController extends Controller
         ]);
         
         $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials))
-        {
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Incorrect Credentials'
             ], 401);
@@ -37,8 +36,7 @@ class ApiController extends Controller
 
     public function checkAuth(Request $request)
     {
-        if ($request->user())
-        {
+        if ($request->user()) {
             return response()->json([
                 'message' => 'Logged'
             ]);
@@ -57,35 +55,26 @@ class ApiController extends Controller
     {
         $user = $request->user();
 
-        if ($schedule = $user->schedule)
-        {
+        if ($schedule = $user->schedule) {
             $sessions = $user->schedule->sessions()->get();
             $module_list = array();
 
-            if(!empty($sessions))
-            {
-                foreach($sessions as $session)
-                {
+            if (!empty($sessions)) {
+                foreach ($sessions as $session) {
                     $date = new Carbon($session->date);
-                    if($date->isToday())
-                    {
+                    if ($date->isToday()) {
                         array_push($module_list, array('id' => $session->id, 'module' => $session->module, 'status' => $session->status));
                     }
                 }
 
-                if(empty($module_list))
-                {
+                if (empty($module_list)) {
                     array_push($module_list, array('id' => 0, 'module' => null, 'status' => null));
                 }
-            }
-            else
-            {
+            } else {
                 $module_list = array();
                 array_push($module_list, array('id' => 0, 'module' => null, 'status' => null));
             }
-        }
-        else
-        {
+        } else {
             $module_list = array();
             array_push($module_list, array('id' => 0, 'module' => null, 'status' => null));
         }
@@ -96,7 +85,8 @@ class ApiController extends Controller
         ]);
     }
 
-    public function getSession($id){
+    public function getSession($id)
+    {
         $session = Session::find($id);
         return response()->json([
             'id' => $id,
@@ -117,39 +107,32 @@ class ApiController extends Controller
         ]);
     }
 
-    public function sessionCheck(Request $request){
+    public function sessionCheck(Request $request)
+    {
         $user = $request->user();
         $count = 0;
 
-        if ($schedule = $user->schedule)
-        {
+        if ($schedule = $user->schedule) {
             $sessions = $user->schedule->sessions()->get();
 
-            if(!empty($sessions))
-            {
-                foreach($sessions as $session)
-                {
+            if (!empty($sessions)) {
+                foreach ($sessions as $session) {
                     $date = new Carbon($session->date);
-                    if($date->isToday() && !($session->status == 'completed'))
-                    {
+                    if ($date->isToday() && !($session->status == 'completed')) {
                         $count++;
                     }
                 }
             }
         }
 
-        if ($count > 0)
-        {
+        if ($count > 0) {
             return response()->json([
                 'toStudy' => true
             ]);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'toStudy' => false
             ]);
         }
     }
-
 }

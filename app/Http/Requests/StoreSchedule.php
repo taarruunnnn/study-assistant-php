@@ -25,13 +25,10 @@ class StoreSchedule extends FormRequest
      */
     public function rules()
     {
-
         return [
             'start' => 'required|date',
             'end' => 'required|date',
             'rating.*' => 'required|numeric|max:10'
         ];
     }
-
-
 }

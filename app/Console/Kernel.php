@@ -26,16 +26,13 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        
-        $schedule->call(function(){
+        $schedule->call(function () {
             $sessions = Session::all();
             $today = Carbon::today();
-            foreach($sessions as $session)
-            {
+            foreach ($sessions as $session) {
                 $date = new Carbon($session->date);
                 $status = $session->status;
-                if ($date->lessThan($today) && $status == "incomplete") 
-                {
+                if ($date->lessThan($today) && $status == "incomplete") {
                     $session->status = "failed";
                     $session->save();
                 }

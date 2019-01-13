@@ -35,18 +35,15 @@ $factory->define(App\CompletedModule::class, function (Faker $faker) {
     $rating = $ratArray[array_rand($ratArray)];
 
 
-        if ($rating == 1)
-        {
-            $completed = $faker->numberBetween($min=50, $max=60);
-            $failed = $faker->numberBetween($min=1, $max=5);
-            $grade = $faker->randomElement($array = array('A+', 'A', 'A-'));
-        }
-        elseif ($rating == 10)
-        {
-            $completed = $faker->numberBetween($min=60, $max=70);
-            $failed = $faker->numberBetween($min=10, $max=35);
-            $grade = $faker->randomElement($array = array('C', 'C-', 'F', ));
-        }
+    if ($rating == 1) {
+        $completed = $faker->numberBetween($min=50, $max=60);
+        $failed = $faker->numberBetween($min=1, $max=5);
+        $grade = $faker->randomElement($array = array('A+', 'A', 'A-'));
+    } elseif ($rating == 10) {
+        $completed = $faker->numberBetween($min=60, $max=70);
+        $failed = $faker->numberBetween($min=10, $max=35);
+        $grade = $faker->randomElement($array = array('C', 'C-', 'F', ));
+    }
             
 
     

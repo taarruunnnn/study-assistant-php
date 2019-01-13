@@ -24,28 +24,21 @@ class CompletedModule extends Model
 
         $modules = $schedule->modules;
 
-        foreach($modules as $module)
-        {
+        foreach ($modules as $module) {
             $sessions = $schedule->sessions;
             $completedCount = 0;
             $failedCount = 0;
-            foreach($sessions as $session)
-            {
-                if($session->module == $module->name)
-                {
-                    if($session->status == 'completed')
-                    {
+            foreach ($sessions as $session) {
+                if ($session->module == $module->name) {
+                    if ($session->status == 'completed') {
                         $completedCount++;
-                    }
-                    elseif($session->status == 'failed' || $session->status == 'incomplete')
-                    {
+                    } elseif ($session->status == 'failed' || $session->status == 'incomplete') {
                         $failedCount++;
                     }
                 }
             }
 
-            $completed_module = $user->completed_modules()->create
-            ([
+            $completed_module = $user->completed_modules()->create([
                 'name' => $module->name,
                 'rating' => $module->rating,
                 'completed_sessions' => $completedCount,
@@ -56,6 +49,5 @@ class CompletedModule extends Model
         }
         
         $schedule->delete();
-
     }
 }

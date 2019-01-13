@@ -31,8 +31,7 @@ class StoreReport extends FormRequest
 
     public function persist()
     {
-        if($schedule = Auth::user()->schedule)
-        {
+        if ($schedule = Auth::user()->schedule) {
             $modules = $schedule->modules;
             $sessions = $schedule->sessions;
 
@@ -46,8 +45,7 @@ class StoreReport extends FormRequest
             $sessions_incomplete = $sessions->where('status', 'incomplete')->count();
 
 
-            $schedule->reports()->create
-            ([
+            $schedule->reports()->create([
                 'no_modules' => $no_modules,
                 'sessions_completed' => $sessions_completed,
                 'sessions_missed' => $sessions_missed,
@@ -57,7 +55,6 @@ class StoreReport extends FormRequest
                 'time_spent' => request('comparedtime'),
                 'study_times' => request('studytimes')
             ]);
-
         }
     }
 }

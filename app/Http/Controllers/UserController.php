@@ -32,23 +32,23 @@ class UserController extends Controller
         $user->birth = $request->input('birth');
         $user->gender = $request->input('gender');
 
-        if ( ! $request->input('password') == '')
-        {
+        if (! $request->input('password') == '') {
             $user->password = bcrypt($request->input('password'));
         }
 
         $user->save();
 
-        session()->flash('message','User Updated');
+        session()->flash('message', 'User Updated');
 
         return back();
     }
 
-    public function destroy(){
+    public function destroy()
+    {
         $user = Auth::user();
         $user->delete();
 
-        session()->flash('message','User Deleted');
+        session()->flash('message', 'User Deleted');
 
         return view('welcome');
     }

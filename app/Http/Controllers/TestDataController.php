@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class TestDataController extends Controller
 {
-
     public $user;
     public $request;
     
@@ -24,19 +23,21 @@ class TestDataController extends Controller
         $csv = fopen($pathToCsv, 'r');
         $userArr = [];
         $flag = true;
-        while(($line = fgetcsv($csv)) !== FALSE){
-            if($flag){$flag = false; continue;}
+        while (($line = fgetcsv($csv)) !== false) {
+            if ($flag) {
+                $flag = false;
+                continue;
+            }
             array_push($userArr, $line);
         }
 
-        foreach($userArr as $value){
-
+        foreach ($userArr as $value) {
             $name = $value[1];
-            if ($name == ''){
+            if ($name == '') {
                 $name = $faker->name;
             }
             $uni = $value[2];
-            if ($uni == ''){
+            if ($uni == '') {
                 $uni = 'University of '.$faker->city;
             }
 
@@ -45,7 +46,7 @@ class TestDataController extends Controller
                 'email' => $faker->unique()->safeEmail,
                 'email_verified_at' => now(),
                 'birth' => $faker->year($max = 'now'),
-                'gender' => $faker->randomElement($array = array ('M','F')),
+                'gender' => $faker->randomElement($array = array('M','F')),
                 'country' => 'Sri Lanka',
                 'university' => $uni,
                 'major' => $value[3],
@@ -53,14 +54,14 @@ class TestDataController extends Controller
                 'remember_token' => str_random(10),
             ]);
 
-            for($x = 0; $x < 6; $x++){
+            for ($x = 0; $x < 6; $x++) {
                 $key = (4*$x);
                 $total_sessions = $value[6 + $key] * 26;
             
                 $grade = $value[7 + $key];
                 $good_grades = array('A+', 'A', 'A-', 'B+', 'B', 'B-');
 
-                if(in_array($grade, $good_grades)){
+                if (in_array($grade, $good_grades)) {
                     $completed_sessions = intval(($total_sessions*90)/100);
                     $failed_sessions = intval(($total_sessions*10)/100);
                 } else {

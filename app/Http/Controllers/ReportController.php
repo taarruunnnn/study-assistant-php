@@ -20,19 +20,16 @@ class ReportController extends Controller
 
     public function show()
     {
-        if ($schedule = Auth::user()->schedule)
-        {
+        if ($schedule = Auth::user()->schedule) {
             $reports = $schedule->reports;
-        }
-        else
-        {
+        } else {
             $schedule = null;
             $reports = null;
         }
 
         $user_id = Auth::user()->id;
 
-        if (!($logs = Activity::all()->where('causer_id', $user_id))){
+        if (!($logs = Activity::all()->where('causer_id', $user_id))) {
             $logs = null;
         }
 
@@ -67,8 +64,7 @@ class ReportController extends Controller
 
     public function generate()
     {
-        if ($schedule = Auth::user()->schedule)
-        {
+        if ($schedule = Auth::user()->schedule) {
             $modules = $schedule->modules;
             $sessions = $schedule->sessions;
 
@@ -103,13 +99,13 @@ class ReportController extends Controller
     public function destroy()
     {
         $reports = Auth::user()->schedule->reports();
-        if($reports){
+        if ($reports) {
             $reports->delete();
         }
 
         $user_id = Auth::user()->id;
         $logs = Activity::where('causer_id', $user_id);
-        if($logs){
+        if ($logs) {
             $logs->get()->each->delete();
         }
 
