@@ -27,12 +27,14 @@ class ReportController extends Controller
         else
         {
             $schedule = null;
-            $reports = "N/A";
+            $reports = null;
         }
 
         $user_id = Auth::user()->id;
 
-        $logs = Activity::all()->where('causer_id', $user_id);
+        if (!($logs = Activity::all()->where('causer_id', $user_id))){
+            $logs = null;
+        }
 
         $archived = Auth::user()->completed_modules->where('grade', null);
 

@@ -14,7 +14,7 @@
             <div class="col-sm-8">
                 <div class="row">
                     <div class="col">
-                        @if (!($reports == "N/A"))
+                        @if ($reports != null)
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Previous Reports</h5>
@@ -116,7 +116,7 @@
         </div>
         <div class="row my-5">
             <div class="col text-center">
-                @if (count($reports) != 0 || count($logs) != 0)
+                @if ($reports != null || $logs != null)
                     <button class="btn btn-danger" id="reportDelete">Delete Logs and Reports</button>
                     <p id="confirmDelete">Are you sure you want to <strong>Delete Current Schedule?</strong>
                         <br/>
