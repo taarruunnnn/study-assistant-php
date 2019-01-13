@@ -16245,6 +16245,10 @@ p {
   color: #999;
 }
 
+.container {
+  margin-bottom: 30px;
+}
+
 a,
 a:hover,
 a:focus {
@@ -16523,7 +16527,8 @@ span.twitter-typeahead {
   display: none;
 }
 
-#sessionTimer .values {
+#sessionTimer .values,
+#breakTimer .values {
   font-size: 85px;
 }
 
@@ -16576,7 +16581,7 @@ span.twitter-typeahead {
   cursor: pointer;
 }
 
-.card-subtitle {
+#dash .card-subtitle {
   margin-top: 10px;
   font-size: 13px;
   text-align: center;
@@ -16611,19 +16616,22 @@ span.twitter-typeahead {
 }
 
 @media only screen and (max-width: 700px) {
-  #sessionTimer .values {
+  #sessionTimer .values,
+  #breakTimer .values {
     font-size: 75px;
   }
 }
 
 @media only screen and (max-width: 400px) {
-  #sessionTimer .values {
+  #sessionTimer .values,
+  #breakTimer .values {
     font-size: 55px;
   }
 }
 
 @media only screen and (max-width: 300px) {
-  #sessionTimer .values {
+  #sessionTimer .values,
+  #breakTimer .values {
     font-size: 45px;
   }
 }
