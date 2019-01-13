@@ -5,11 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
-
+/**
+ * The schedule model is used to interact with schedules
+ * created by users.
+ */
 class Schedule extends Model
 {
     /**
-     * Mass assignable variables
+     * Mass Assignable Variables
      *
      * @var array
      */
@@ -19,7 +22,7 @@ class Schedule extends Model
 
     
     /**
-     * User relationship
+     * User Relationship
      *
      * @return Relationship
      */
@@ -29,7 +32,7 @@ class Schedule extends Model
     }
 
     /**
-     * Sessions relationship
+     * Sessions Relationship
      *
      * @return Relationship
      */
@@ -39,7 +42,7 @@ class Schedule extends Model
     }
 
     /**
-     * Reports relationship
+     * Reports Relationship
      *
      * @return Relationship
      */
@@ -49,7 +52,7 @@ class Schedule extends Model
     }
 
     /**
-     * Modules relationship
+     * Modules Relationship
      *
      * @return Relationship
      */
@@ -59,7 +62,7 @@ class Schedule extends Model
     }
 
     /**
-     * Events relationship
+     * Events Relationship
      *
      * @return Relationship
      */
