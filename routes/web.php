@@ -55,3 +55,4 @@ Route::get('/reports/view/{report}', 'ReportController@view')->name('reports.vie
 Route::get('/reports/generate', 'ReportController@generate')->name('report.generate');
 Route::post('/reports/analyze', 'ReportController@analyze')->name('report.analyze');
 Route::post('/reports/save', 'ReportController@save')->name('report.save');
+Route::get('/reports/destroy', 'ReportController@destroy')->name('report.destroy');

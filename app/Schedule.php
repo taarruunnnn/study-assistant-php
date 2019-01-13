@@ -172,9 +172,6 @@ class Schedule extends Model
                             $session->status = "completed";
                             $session->save();
                         }
-                    
-                        // $this->sessionCounter($today, $schedule);
-
                     }
                     
                 }
@@ -201,8 +198,6 @@ class Schedule extends Model
                         {
                             unset($modules[$rand]);
                         }
-                        
-                        // $this->sessionCounter($today, $schedule);
 
                     }
                     

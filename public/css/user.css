@@ -16415,32 +16415,6 @@ ul ul a {
 }
 
 /* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
-
-@media (max-width: 768px) {
-  #sidebarCollapse {
-    visibility: visible;
-  }
-
-  #sidebar {
-    margin-left: -250px;
-  }
-
-  #sidebar.active {
-    margin-left: 0;
-  }
-
-  #content {
-    width: 100%;
-  }
-
-  #content.active {
-    width: calc(100% - 250px);
-  }
-}
-
-/* ---------------------------------------------------
     TYPEAHEAD - DROPDOWN AUTOCOMPLETE
 ----------------------------------------------------- */
 
@@ -16600,6 +16574,33 @@ span.twitter-typeahead {
 
 .calendarEvent {
   cursor: pointer;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+  #sidebarCollapse {
+    visibility: visible;
+  }
+
+  #sidebar {
+    width: 25%;
+    margin-left: -250px;
+  }
+
+  #sidebar.active {
+    margin-left: 0;
+  }
+
+  #content {
+    width: 100%;
+  }
+
+  #content.active {
+    width: 75%;
+  }
 }
 
 @media only screen and (max-width: 700px) {

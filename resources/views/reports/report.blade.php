@@ -66,6 +66,11 @@
                                     @endif
                                 </span>
                             </p>
+
+                            <p class="text-dark" id="timeofdayP" style="display:none">Most Studied Hour of Day : 
+                                <span class="text-primary" id="timeofdayspan">
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -79,9 +84,17 @@
             </div>
             <div class="col-sm-6">
                 @if ((! empty($schedule)) || $live == false)
-                <div class="card" style="display:none" id="canvasProgress">
+                <div class="card mt-3" style="display:none" id="canvasProgress">
                     <div class="card-body">
                         <canvas id="chartProgress" width="400" height="300"></canvas>
+                    </div>
+                </div>
+                @endif
+
+                @if ((! empty($schedule)) || $live == false)
+                <div class="card mt-3" style="display:none" id="canvasTimes">
+                    <div class="card-body">
+                        <canvas id="chartTimes" width="400" height="300"></canvas>
                     </div>
                 </div>
                 @endif
@@ -299,8 +312,120 @@
                 document.getElementById("reportForm").appendChild(input);
                 @endif
             }
-        }
 
+            if (!(data['timeofday'] == "N/A" || data['timeofday'] == null))
+            {
+                time = data['timeofday'];
+
+                if(time < 12)
+                {
+                    // AM
+                    $('#timeofdayspan').text(time + " AM");
+                }
+                else if(time == 12)
+                {
+                    // PM
+                    $('#timeofdayspan').text(time + " PM");
+                }
+                else
+                {
+                    time = time - 12;
+                    // PM
+                    $('#timeofdayspan').text(time + " PM");
+                }
+
+                $('#timeofdayP').show();
+            }
+
+            if (!(data['studytimes'] == "N/A" || data['studytimes'] == null))
+            {
+                $("#canvasTimes").show();
+                var ctx2 = document.getElementById("chartTimes");
+
+                @if ($live == true)
+                    var times_data = JSON.parse(data.studytimes);
+                @else
+                    var times_data = data.studytimes;
+                @endif
+
+                var sorted_times = [];
+                for (var time in times_data) {
+                    sorted_times.push([time, times_data[time]]);
+                }
+
+                sorted_times.sort(function(a, b) {
+                    return a[0] - b[0];
+                });
+
+
+                var len = sorted_times.length;
+                var timeofday = new Array();
+                var timecount = new Array();
+
+                for(var i = 0; i < len; i++){
+                    timeofday.push(sorted_times[i][0]);
+                    timecount.push(sorted_times[i][1])
+                }
+
+                for(var x = 0; x < len; x++)
+                {
+                    if(timeofday[x] < 12){
+                        timeofday[x] = timeofday[x] + "AM"; 
+                    }
+                    else if(timeofday[x] == 12){
+                        timeofday[x] = timeofday[x] + "PM"; 
+                    }
+                    else{
+                        timeofday[x] = (timeofday[x] - 12) + "AM";
+                    }
+                }
+
+                new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                    labels: timeofday,
+                    datasets: [
+                        {
+                            label: "Sessions Completed",
+                            backgroundColor: "#3e95cd",
+                            data: timecount
+                        }
+                    ]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Most Active Time of Day'
+                        },
+                        scales: {
+                            yAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Number of Sessions',
+                                    fontColor: '#9c9c9c'
+                                }
+                            }],
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Time of Day',
+                                    fontColor: '#9c9c9c'
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                @if ($live == true)
+                var input = document.createElement("input");
+                input.setAttribute("type", "hidden");
+                input.setAttribute("name", "studytimes");
+                input.setAttribute("value", data['studytimes']);
+
+                document.getElementById("reportForm").appendChild(input);
+                @endif
+            }
+        }
 
     });
 

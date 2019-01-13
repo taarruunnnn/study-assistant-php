@@ -401,14 +401,15 @@
                 moveSessions(movedSessions);
             });
 
+            $('#modifySchedule').on('hidden.bs.modal', function (e) {
+                $("#confirmDelete").hide();
+            });
+
             $( "#scheduleDelete" ).click(function(e) {
                 e.preventDefault();
                 $("#confirmDelete").toggle("slow");
             });
 
-            $('#modifySchedule').on('hidden.bs.modal', function (e) {
-                $("#confirmDelete").hide();
-            });
 
             $('#cancelScheduleDelete').click(function(e) {
                 e.preventDefault();

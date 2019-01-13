@@ -134,6 +134,9 @@ class ScheduleController extends Controller
     {
         $moduleId = $request->module;
         $grade = $request->grade;
+        if($grade === "null"){
+            $grade = null;
+        }
 
         $completedModule = CompletedModule::where('id', $moduleId)->first();
         $completedModule->grade = $grade;

@@ -211,28 +211,7 @@ ul ul a {
 }
 
 
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
 
-@media (max-width: 768px) {
-    #sidebarCollapse{
-        visibility: visible;
-    }
-
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
-    #content {
-        width: 100%;
-    }
-    #content.active {
-        width: calc(100% - 250px);
-    }
-}
 
 /* ---------------------------------------------------
     TYPEAHEAD - DROPDOWN AUTOCOMPLETE
@@ -386,22 +365,46 @@ span.twitter-typeahead {
     cursor: pointer;
 }
 
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
 
-  @media only screen and (max-width: 700px) {
-    #sessionTimer .values {
-        font-size: 75px;
+@media (max-width: 768px) {
+    #sidebarCollapse{
+        visibility: visible;
     }
-  }
 
-  @media only screen and (max-width: 400px) {
-    #sessionTimer .values {
-        font-size: 55px;
+    #sidebar {
+        width: 25%;
+        margin-left: -250px;
     }
-  }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        width: 100%;
+    }
+    #content.active {
+        width: 75%;
+    }
+}
 
-  @media only screen and (max-width: 300px) {
-    #sessionTimer .values {
-        font-size: 45px;
-    }
-  }
+
+@media only screen and (max-width: 700px) {
+#sessionTimer .values {
+    font-size: 75px;
+}
+}
+
+@media only screen and (max-width: 400px) {
+#sessionTimer .values {
+    font-size: 55px;
+}
+}
+
+@media only screen and (max-width: 300px) {
+#sessionTimer .values {
+    font-size: 45px;
+}
+}
   

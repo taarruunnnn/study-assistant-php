@@ -34,7 +34,7 @@ class ReportController extends Controller
 
         $logs = Activity::all()->where('causer_id', $user_id);
 
-        $archived = Auth::user()->completed_modules;
+        $archived = Auth::user()->completed_modules->where('grade', null);
 
         return view('reports.show', compact('reports', 'archived', 'logs', 'schedule'));
     }
@@ -93,6 +93,23 @@ class ReportController extends Controller
     {
         $request->persist();
         session()->flash('message', 'Report Saved');
+        return redirect()->route('reports.show');
+    }
+
+    public function destroy()
+    {
+        $reports = Auth::user()->schedule->reports();
+        if($reports){
+            $reports->delete();
+        }
+
+        $user_id = Auth::user()->id;
+        $logs = Activity::where('causer_id', $user_id);
+        if($logs){
+            $logs->get()->each->delete();
+        }
+
+        session()->flash('message', 'Successfully deleted reports & logs');
         return redirect()->route('reports.show');
     }
 }

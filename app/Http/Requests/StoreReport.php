@@ -54,7 +54,8 @@ class StoreReport extends FormRequest
                 'sessions_incomplete' => $sessions_incomplete,
                 'progress' => $progress,
                 'sessions' => request('sessions'),
-                'time_spent' => request('comparedtime')
+                'time_spent' => request('comparedtime'),
+                'study_times' => request('studytimes')
             ]);
 
         }

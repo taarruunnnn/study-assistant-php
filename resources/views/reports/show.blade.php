@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                @if (! empty($archived))
+                @if (!( count($archived) == 0))
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Completed Modules</h5>
@@ -108,8 +108,21 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <p id="savingchanges" style="display:none">Saving changes...</p>
                     </div>
                 </div>
+                @endif
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col text-center">
+                @if (count($reports) != 0 || count($logs) != 0)
+                    <button class="btn btn-danger" id="reportDelete">Delete Logs and Reports</button>
+                    <p id="confirmDelete">Are you sure you want to <strong>Delete Current Schedule?</strong>
+                        <br/>
+                        <a class="btn btn-outline-primary btn-sm" href="{{ route('report.destroy') }}">Yes</a>
+                        <a class="btn btn-outline-secondary btn-sm" id="cancelReportDelete">No</a>
+                    </p>
                 @endif
             </div>
         </div>
@@ -132,9 +145,21 @@
             window.location = $(this).data("href");
         });
 
+        $( "#reportDelete" ).click(function(e) {
+            e.preventDefault();
+            $("#confirmDelete").slideToggle();
+        });
+
+
+        $('#cancelReportDelete').click(function(e) {
+            e.preventDefault();
+            $("#confirmDelete").slideUp();
+        });
+
         $(".module-rating").on('change', function(){
             var grade = this.value;
             var moduleId = $(this).attr('data-module');
+            $('#savingchanges').show();
     
             updateGrade(grade, moduleId);
         });
@@ -146,10 +171,16 @@
                 url: '{{ route('schedules.archive.update') }}',
                 data: {module: moduleId, grade : grade},
                 success: function(data){
-                    console.log(data);
+                    $('#savingchanges').text("Changes saved");
+                    setTimeout(function() {
+                        $("#savingchanges").hide('slow')
+                    }, 1000);
                 },
                 error: function(message){
-                    console.log(message);
+                    $('#savingchanges').text("Failed to save changes");
+                    setTimeout(function() {
+                        $("#savingchanges").hide('slow')
+                    }, 1000);
                 }
             });
         }

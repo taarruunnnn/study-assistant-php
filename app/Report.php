@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     protected $fillable = [
-        'no_modules', 'sessions_completed', 'sessions_missed', 'sessions_incomplete', 'progress', 'sessions', 'time_spent'
+        'no_modules', 'sessions_completed', 'sessions_missed', 'sessions_incomplete', 'progress', 'sessions', 'time_spent', 'study_times'
     ];
 
     public function schedule()
