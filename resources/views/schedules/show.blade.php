@@ -69,7 +69,7 @@
         <div class="modal fade" id="modifySchedule" tabindex="-1" role="dialog" aria-labelledby="modifyScheduleLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
-                    <form method="POST" action="{{ route('schedules.update') }}" id="editSchedule">
+                    <form method="POST" action="{{ route('schedules.store') }}" id="editSchedule">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="modifyScheduleLabel">Modify Schedule</h5>
@@ -79,6 +79,13 @@
                         </div>
                         <div class="modal-body">
                             <div class="container-fluid">
+                                <div class="row">
+                                    <p>
+                                        Please note that modifying an existing schedule will reset the progress of your schedule and create a new schedule for you.
+                                        If this is not what you want, please consider moving sessions.
+                                    </p>
+                                    <hr class="w-100 mt-0">
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Duration : </label>
                                 
@@ -295,7 +302,7 @@
                 format: "yyyy-mm-dd",
                 autoclose: true,
                 todayHighlight: true,
-                // startDate: new Date(),
+                startDate: new Date(),
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
                 $('#end').datepicker('setStartDate', minDate);

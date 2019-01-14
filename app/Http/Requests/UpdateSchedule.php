@@ -108,20 +108,22 @@ class UpdateSchedule extends FormRequest
             $sessions[$key]['rating'] = $request->rating[$key];
             $sessions[$key]['hours'] = $hours_per_module;
 
-            $module = $schedule->modules()->firstOrCreate([
-                'name' => $value,
-                'rating' => $request->rating[$key]
-            ]);
+            $module = $schedule->modules()->firstOrCreate(
+                [
+                    'name' => $value,
+                    'rating' => $request->rating[$key]
+                ]
+            );
         }
         
 
-        // Sorting the array based on hours
-        usort($sessions, function ($a, $b) {
-            return $a['hours'] <=> $b['hours'];
-        });
+        // // Sorting the array based on hours
+        // usort($sessions, function ($a, $b) {
+        //     return $a['hours'] <=> $b['hours'];
+        // });
 
         
-        for ($i=0; $i < $no_days_modified; $i++) {
+        for ($i=0; $i < $no_days_modified+20; $i++) {
             $looping_day = $modified_date->copy()->addDays($i);
 
             if ($looping_day->isWeekday()) {

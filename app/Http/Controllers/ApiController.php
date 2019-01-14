@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 use App\User;
 use App\Session;
+use Illuminate\Support\Carbon;
 
 /**
  * This controller is used to handle all
@@ -111,7 +111,11 @@ class ApiController extends Controller
 
         if ($schedule = $user->schedule) {
             $sessions = $user->schedule->sessions()->get();
+            $events = $schedule->events()->get();
+
             $module_list = array();
+            $event_list = array();
+            
 
             if (!empty($sessions)) {
                 foreach ($sessions as $session) {
@@ -127,12 +131,33 @@ class ApiController extends Controller
                     }
                 }
 
+                foreach ($events as $event) {
+                    $date = new Carbon($event->date);
+                    if ($date->isCurrentMonth()) {
+                        array_push(
+                            $event_list, array(
+                                'event' => $event->description,
+                                'date' => $event->date
+                            )
+                        );
+                    }
+                }
+            
                 if (empty($module_list)) {
                     array_push(
                         $module_list, array(
                             'id' => 0, 
                             'module' => null, 
                             'status' => null
+                        )
+                    );
+                }
+
+                if (empty($event_list)) {
+                    array_push(
+                        $event_list, array(
+                            'event' => null, 
+                            'date' => null
                         )
                     );
                 }
@@ -145,6 +170,14 @@ class ApiController extends Controller
                         'status' => null
                     )
                 );
+
+                $event_list = array();
+                array_push(
+                    $event_list, array(
+                        'event' => null, 
+                        'date' => null
+                    )
+                );
             }
         } else {
             $module_list = array();
@@ -155,12 +188,21 @@ class ApiController extends Controller
                     'status' => null
                 )
             );
+
+            $event_list = array();
+            array_push(
+                $event_list, array(
+                    'event' => null, 
+                    'date' => null
+                )
+            );
         }
         
         return response()->json(
             [
                 'name' => $user->name,
-                'sessions' => $module_list
+                'sessions' => $module_list,
+                'events' => $event_list
             ]
         );
     }

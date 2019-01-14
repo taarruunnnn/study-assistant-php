@@ -76,6 +76,10 @@ class ScheduleController extends Controller
     public function store(StoreSchedule $request)
     {
         $user = Auth::user();
+        if ($schedule = $user->schedule()) {
+            $schedule->delete();
+        }
+        
         $schedule = new Schedule();
         $schedule->createSchedule($user, $request);
 
