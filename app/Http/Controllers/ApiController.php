@@ -103,7 +103,7 @@ class ApiController extends Controller
      *
      * @param Request $request Request object received via GET/POST
      * 
-     * @return REsponse
+     * @return Response
      */
     public function dashboard(Request $request)
     {
@@ -112,12 +112,11 @@ class ApiController extends Controller
         if ($schedule = $user->schedule) {
             $sessions = $user->schedule->sessions()->get();
             $events = $schedule->events()->get();
-
-            $module_list = array();
-            $event_list = array();
-            
-
+        
             if (!empty($sessions)) {
+                $module_list = array();
+                $event_list = array();
+
                 foreach ($sessions as $session) {
                     $date = new Carbon($session->date);
                     if ($date->isToday()) {
@@ -142,44 +141,10 @@ class ApiController extends Controller
                         );
                     }
                 }
-            
-                if (empty($module_list)) {
-                    array_push(
-                        $module_list, array(
-                            'id' => 0, 
-                            'module' => null, 
-                            'status' => null
-                        )
-                    );
-                }
-
-                if (empty($event_list)) {
-                    array_push(
-                        $event_list, array(
-                            'event' => null, 
-                            'date' => null
-                        )
-                    );
-                }
-            } else {
-                $module_list = array();
-                array_push(
-                    $module_list, array(
-                        'id' => 0, 
-                        'module' => null, 
-                        'status' => null
-                    )
-                );
-
-                $event_list = array();
-                array_push(
-                    $event_list, array(
-                        'event' => null, 
-                        'date' => null
-                    )
-                );
             }
-        } else {
+        }
+
+        if (!(isset($module_list)) || empty($module_list)) {
             $module_list = array();
             array_push(
                 $module_list, array(
@@ -188,7 +153,9 @@ class ApiController extends Controller
                     'status' => null
                 )
             );
+        }
 
+        if (!(isset($event_list)) || empty($event_list)) {
             $event_list = array();
             array_push(
                 $event_list, array(

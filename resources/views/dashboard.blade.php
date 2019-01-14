@@ -201,56 +201,58 @@
             }
 
             @if (! empty($modules))
-                var modules = new Array();
-                var ratings = new Array();
-                @foreach ($modules as $module)
-                    modules.push('{{$module->name}}')
-                    ratings.push('{{$module->rating}}')
-                @endforeach
+                initModuleSummary();
+                function initModuleSummary()
+                {
+                    var modules = new Array();
+                    var ratings = new Array();
+                    @foreach ($modules as $module)
+                        modules.push('{{$module->name}}')
+                        ratings.push('{{$module->rating}}')
+                    @endforeach
 
-                var canvasModules = document.getElementById("pie-chart");
-                var ctxModules = canvasModules.getContext("2d");
+                    var canvasModules = document.getElementById("pie-chart");
+                    var ctxModules = canvasModules.getContext("2d");
 
-                var chartModules = new Chart(ctxModules, {
-                    type: 'pie',
-                    data: {
-                    labels: modules,
-                    datasets: [{
-                        label: "Rating",
-                        backgroundColor: ["#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"],
-                        data: ratings
-                    }]
-                    },
-                    options: {
-                        title: {
-                            display: true,
-                            text: 'Modules & their Ratings in Current Schedule'
+                    var chartModules = new Chart(ctxModules, {
+                        type: 'pie',
+                        data: {
+                        labels: modules,
+                        datasets: [{
+                            label: "Rating",
+                            backgroundColor: ["#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"],
+                            data: ratings
+                        }]
                         },
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                fontSize: 9
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Modules & their Ratings in Current Schedule'
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    fontSize: 9
+                                    }
+                            },
+                            events: ['mousemove'],
+                            onHover: (event, chartElement) => {
+                                event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
                                 }
-                        },
-                        events: ['mousemove'],
-                        onHover: (event, chartElement) => {
-                            event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
-                            }
-                    }
-                });
+                        }
+                    });
 
-                canvasModules.onclick = function(evt){
-                    var activePoints = chartModules.getElementsAtEvent(evt);
-                    if(activePoints[0]){
-                        var chartData = activePoints[0]['_chart'].config.data;
-                        var idx = activePoints[0]['_index'];
-                        var label = chartData.labels[idx];
-                        moduleData(label);
+                    canvasModules.onclick = function(evt){
+                        var activePoints = chartModules.getElementsAtEvent(evt);
+                        if(activePoints[0]){
+                            var chartData = activePoints[0]['_chart'].config.data;
+                            var idx = activePoints[0]['_index'];
+                            var label = chartData.labels[idx];
+                            moduleData(label);
+                        }
                     }
                 }
-
-
             @endif
             
         function moduleData(label)

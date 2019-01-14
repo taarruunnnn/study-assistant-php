@@ -2,27 +2,26 @@
 
 use App\Http\Controllers\UserController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-Route::group(['middleware' => ['guest']], function () {
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('welcome');
-});
+/**
+ * Web Routes
+ * 
+ * All routes accessed via the web are defined here
+ */
+
+Route::group(
+    ['middleware' => ['guest']], function () {
+        Route::get(
+            '/', function () {
+                return view('welcome');
+            }
+        )->name('welcome');
+    }
+);
 
 
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-
 
 Route::get('user/{user}', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}', 'UserController@update')->name('user.update');
@@ -31,16 +30,22 @@ Route::delete('users/delete/{user}', 'UserController@destroy')->name('user.delet
 Route::get('users/universities', 'TypeaheadController@universities');
 Route::get('users/modules', 'TypeaheadController@modules');
 
-Route::get('/schedules', 'ScheduleController@show')->name('schedules.show');
-Route::get('/schedules/create', 'ScheduleController@create')->name('schedules.create');
-Route::post('/schedules/store', 'ScheduleController@store')->name('schedules.store');
-Route::get('/schedules/delete', 'ScheduleController@destroy')->name('schedules.destroy');
-Route::post('/schedules/update', 'ScheduleController@update')->name('schedules.update');
-Route::post('/schedules/analyze', 'ScheduleController@analyze')->name('schedule.analyze');
-Route::post('/schedules/move', 'ScheduleController@move')->name('schedule.move');
+Route::group(
+    [
+        'prefix' => 'schedules'
+    ], function () {
+        Route::get('/', 'ScheduleController@show')->name('schedules.show');
+        Route::get('create', 'ScheduleController@create')->name('schedules.create');
+        Route::post('store', 'ScheduleController@store')->name('schedules.store');
+        Route::get('delete', 'ScheduleController@destroy')->name('schedules.destroy');
+        Route::post('update', 'ScheduleController@update')->name('schedules.update');
+        Route::post('analyze', 'ScheduleController@analyze')->name('schedule.analyze');
+        Route::post('move', 'ScheduleController@move')->name('schedule.move');
 
-Route::get('/schedules/archive', 'ScheduleController@archive')->name('schedules.archive');
-Route::post('/schedules/archive/update', 'ScheduleController@archiveUpdate')->name('schedules.archive.update');
+        Route::get('archive', 'ScheduleController@archive')->name('schedules.archive');
+        Route::post('archive/update', 'ScheduleController@archiveUpdate')->name('schedules.archive.update');
+    }
+);
 
 Route::post('/events/store', 'EventController@store')->name('events.store');
 Route::post('/events/update', 'EventController@update')->name('events.update');
@@ -49,9 +54,15 @@ Route::post('/events/destroy', 'EventController@destroy')->name('events.destroy'
 Route::get('/session', 'SessionController@show')->name('session.show');
 Route::get('/session/complete', 'SessionController@complete')->name('session.complete');
 
-Route::get('/reports', 'ReportController@show')->name('reports.show');
-Route::get('/reports/view/{report}', 'ReportController@view')->name('reports.view');
-Route::get('/reports/generate', 'ReportController@generate')->name('report.generate');
-Route::post('/reports/analyze', 'ReportController@analyze')->name('report.analyze');
-Route::post('/reports/save', 'ReportController@save')->name('report.save');
-Route::get('/reports/destroy', 'ReportController@destroy')->name('report.destroy');
+Route::group(
+    [
+        'prefix' => 'reports'
+    ], function () {
+        Route::get('/', 'ReportController@show')->name('reports.show');
+        Route::get('view/{report}', 'ReportController@view')->name('reports.view');
+        Route::get('generate', 'ReportController@generate')->name('report.generate');
+        Route::post('analyze', 'ReportController@analyze')->name('report.analyze');
+        Route::post('save', 'ReportController@save')->name('report.save');
+        Route::get('destroy', 'ReportController@destroy')->name('report.destroy');
+    }
+);

@@ -79,85 +79,94 @@
 @section('script')
     <script>
         $(function(){
-            var duration = "00:00:10";
-            var breakDuration = "00:00:05";
+            timerInit(); 
 
-            $breakTimerDom = $('#breakTimer .values');
-            $breakTimerDom.html(breakDuration);
-            
-            $sessionTimer = $('#sessionTimer .values');
-            $sessionTimer.html(duration);
+            function timerInit()
+            {
+                var duration = "00:00:10";
 
-            var timer = new Timer();
+                var $breakTimerDom = $('#breakTimer .values');
+                var $sessionTimerDom = $('#sessionTimer .values');
+                var breakDuration = "00:00:05";
+                
+                $sessionTimerDom.html(duration);
 
-            timer.addEventListener('secondsUpdated', function (e) {
-                var time = timer.getTimeValues().seconds;
-                if(time == 5)
-                {
+                var timer = new Timer();
+
+                timer.addEventListener('secondsUpdated', function (e) {
+                    var time = timer.getTimeValues().seconds;
+                    if(time == 5)
+                    {
+                        timer.pause();
+                        $('#breakText').show();
+                        $('#breakTimer').slideDown("slow");
+                        $breakTimerDom.text(breakDuration);
+
+                    }
+                    $sessionTimerDom.html(timer.getTimeValues().toString());
+                });
+
+                $('#sessionTimer .startButton').click(function () {
+                    if( $('#modules').val() ) 
+                    {
+                        timer.start({countdown: true, startValues: {seconds: 10}});
+                        window.onbeforeunload = function() {
+                            return true;
+                        };
+                        $('#breakTimer').hide("slow");
+                        $('#breakText').hide("slow");
+                    }
+                    
+                });
+
+                $('#sessionTimer .pauseButton').click(function () {
                     timer.pause();
-                    $('#breakText').show();
-                    $('#breakTimer').slideDown("slow");
-                    $breakTimerDom.text(breakDuration);
+                });
 
-                }
-                $sessionTimer.html(timer.getTimeValues().toString());
-            });
-            $('#sessionTimer .startButton').click(function () {
-                if( $('#modules').val() ) 
-                {
-                    timer.start({countdown: true, startValues: {seconds: 10}});
-                    window.onbeforeunload = function() {
-                        return true;
-                    };
-                    $('#breakTimer').hide("slow");
-                    $('#breakText').hide("slow");
-                }
-                
-            });
-            $('#sessionTimer .pauseButton').click(function () {
-                timer.pause();
-            });
-            $('#sessionTimer .stopButton').click(function () {
-                timer.stop();
-                $sessionTimer.html(duration);
-                window.onbeforeunload = null;
-            });
-            timer.addEventListener('started', function (e) {
-                $sessionTimer.html(timer.getTimeValues().toString());
-            });
-            timer.addEventListener('targetAchieved', function (e) {
-                window.onbeforeunload = null;
-                $sessionTimer.html("Completed");
-                sessionComplete();
-            });
+                $('#sessionTimer .stopButton').click(function () {
+                    timer.stop();
+                    $sessionTimerDom.html(duration);
+                    window.onbeforeunload = null;
+                });
 
+                timer.addEventListener('started', function (e) {
+                    $sessionTimerDom.html(timer.getTimeValues().toString());
+                });
 
-            // BREAK TIMER
+                timer.addEventListener('targetAchieved', function (e) {
+                    window.onbeforeunload = null;
+                    $sessionTimerDom.html("Completed");
+                    sessionComplete();
+                });
+    
+                $breakTimerDom.html(breakDuration);
 
-            var breakTimer = new Timer();
+                var breakTimer = new Timer();
 
-            breakTimer.addEventListener('secondsUpdated', function (e) {
-                $breakTimerDom.html(breakTimer.getTimeValues().toString());
-            });
-            $('#breakTimer .startButton').click(function () {
-                if( $('#modules').val() ) 
-                {
-                    breakTimer.start({countdown: true, startValues: {seconds: 05}});
-                    window.onbeforeunload = function() {
-                        return true;
-                    };
-                }
-                
-            });
-            breakTimer.addEventListener('started', function (e) {
-                $breakTimerDom.html(timer.getTimeValues().toString());
-            });
-            breakTimer.addEventListener('targetAchieved', function (e) {
-                $breakTimerDom.html("Complete");
-                $('#breakText').text("Break completed. Resume studying.");
-                window.onbeforeunload = null;
-            });
+                breakTimer.addEventListener('secondsUpdated', function (e) {
+                    $breakTimerDom.html(breakTimer.getTimeValues().toString());
+                });
+                $('#breakTimer .startButton').click(function () {
+                    if( $('#modules').val() ) 
+                    {
+                        breakTimer.start({countdown: true, startValues: {seconds: 05}});
+                        window.onbeforeunload = function() {
+                            return true;
+                        };
+                    }
+                    
+                });
+                breakTimer.addEventListener('started', function (e) {
+                    $breakTimerDom.html(timer.getTimeValues().toString());
+                });
+                breakTimer.addEventListener('targetAchieved', function (e) {
+                    $breakTimerDom.html("Complete");
+                    $('#breakText').text("Break completed. Resume studying.");
+                    window.onbeforeunload = null;
+                });
+            }
 
+            
             function sessionComplete()
             {
                 var sessionId = $('#modules').val();

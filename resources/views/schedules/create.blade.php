@@ -367,47 +367,53 @@
                 return module_list
             }
 
-            var i = 0;
-            max_fields = 10;
+            formButtonInit();
 
-            $('#btn-add').click(function(e){
-                e.preventDefault();
+            function formButtonInit()
+            {
+                var i = 0;
+                var max_fields = 10;
 
-                if(i < max_fields)
-                {
-                    var moduleName = $("#module-name").val();
-                    var moduleRating = $("#module-rating").val();
-                    
-                    $("#module-list").append(addModule(i));
+                $('#btn-add').click(function(e){
+                    e.preventDefault();
 
-                    $("#module"+ i ).val(moduleName);
-                    $("#rating"+ i ).val(moduleRating);
-                    $("#module-name").val("");
-                    $("#module-rating").prop('selectedIndex',0);
-                    $("#btn-submit").prop("disabled", false);
-                    $('.typeahead').typeahead('val', '');
-                    i++;
-                }else{
-                    $("#btn-add").prop("disabled", true);
-                }
-            });
+                    if(i < max_fields)
+                    {
+                        var moduleName = $("#module-name").val();
+                        var moduleRating = $("#module-rating").val();
+                        
+                        $("#module-list").append(addModule(i));
 
-            $('#module-list').on('click','.btn-remove', function(e){
-                e.preventDefault();
-                $(this).parents('tr').remove();
-                console.log('tr');
-                i--;
+                        $("#module"+ i ).val(moduleName);
+                        $("#rating"+ i ).val(moduleRating);
+                        $("#module-name").val("");
+                        $("#module-rating").prop('selectedIndex',0);
+                        $("#btn-submit").prop("disabled", false);
+                        $('.typeahead').typeahead('val', '');
+                        i++;
+                    }else{
+                        $("#btn-add").prop("disabled", true);
+                    }
+                });
 
-                if(i < max_fields)
-                {
-                    $("#btn-add").prop("disabled", false);
-                }
+                $('#module-list').on('click','.btn-remove', function(e){
+                    e.preventDefault();
+                    $(this).parents('tr').remove();
+                    console.log('tr');
+                    i--;
 
-                if(i < 1)
-                {
-                    $("#btn-submit").prop("disabled", true);
-                }
-            });
+                    if(i < max_fields)
+                    {
+                        $("#btn-add").prop("disabled", false);
+                    }
+
+                    if(i < 1)
+                    {
+                        $("#btn-submit").prop("disabled", true);
+                    }
+                });
+            }
+            
         });
     </script>
 @endsection

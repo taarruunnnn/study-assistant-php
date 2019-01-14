@@ -151,25 +151,30 @@
 @section('script')
     <script>
         $(function() {
-            var country = $('#country').attr("data-selected");
-            $("#country").val(country);
+            initUser();
 
-            var major = $('#major').attr("data-selected");
-            $("#major").val(major);
+            function initUser()
+            {
+                var country = $('#country').attr("data-selected");
+                $("#country").val(country);
+
+                var major = $('#major').attr("data-selected");
+                $("#major").val(major);
 
 
-            var gender = $('#gender').attr("data-selected");
-            if (gender == 'M'){
-                $("#maleBtn").button('toggle')
-            } else if (gender == 'F'){
-                $("#femaleBtn").button('toggle')
+                var gender = $('#gender').attr("data-selected");
+                if (gender == 'M'){
+                    $("#maleBtn").button('toggle')
+                } else if (gender == 'F'){
+                    $("#femaleBtn").button('toggle')
+                }
+                
+                $("#name").focus();
+
+                $("#calendarBtn").click(function() {
+                    $("#birth").datepicker('show');
+                });
             }
-            
-            $("#name").focus();
-
-            $("#calendarBtn").click(function() {
-                $("#birth").datepicker('show');
-            });
         });
     </script>
 @endsection

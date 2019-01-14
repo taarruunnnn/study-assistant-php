@@ -297,111 +297,9 @@
                 }
             });
 
-            $('#start').datepicker({
-                maxViewMode: 'years',
-                format: "yyyy-mm-dd",
-                autoclose: true,
-                todayHighlight: true,
-                startDate: new Date(),
-            }).on('changeDate', function(selected){
-                var minDate = new Date(selected.date.valueOf());
-                $('#end').datepicker('setStartDate', minDate);
-            });
-
-            $('#end').datepicker({
-                maxViewMode: 'years',
-                format: "yyyy-mm-dd",
-                todayHighlight: true,
-                autoclose: true,
-            }).on('changeDate', function (selected) {
-                var maxDate = new Date(selected.date.valueOf());
-                $('#start').datepicker('setEndDate', maxDate);
-            });
-
-            $('#eventdate').datepicker({
-                maxViewMode: 'years',
-                autoclose: true,
-                format: "yyyy-mm-dd",
-                todayHighlight: true,
-            });
-
-            $('#start').datepicker('update', '@if(isset($schedule)){{ $schedule->start }}@endif');
-            $('#end').datepicker('update', '@if(isset($schedule)){{ $schedule->end }}@endif');
-            $('#start').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
-            $('#end').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
-
-            $('#eventdate').datepicker('setStartDate', '@if(isset($schedule)){{ $schedule->start }}@endif');
-            $('#eventdate').datepicker('setEndDate', '@if(isset($schedule)){{ $schedule->end }}@endif');
-
-            $('#calendar').fullCalendar({
-                themeSystem: 'bootstrap4',
-                height: 500,
-                firstDay: 1,
-                eventColor: '#2196f3',
-                eventTextColor: '#FFF',
-                height: 'parent',
-                events: [
-                @if(isset($data))
-                    @foreach ($data as $d)
-                        {
-                            id: '{{$d['id']}}',
-                            title: '{{$d['title']}}',
-                            start: '{{$d['start']}}',
-                            end: '{{$d['end']}}',
-                            color: '{{$d['color']}}',
-                            description: '{{$d['description']}}',
-                            @if(isset($d['className']))
-                            className: '{{$d['className']}}'
-                            @endif
-                        },
-                    @endforeach
-                @endif
-                ],
-                eventClick: function(calEvent, jsEvent, view){
-                    if(calEvent.description == 'event')
-                    {
-                        $("#addEvent").modal();
-                        var id = calEvent.id;
-                        var start = calEvent.start;
-                        var title = calEvent.title;
-                        eventDetails(id, start, title);
-                    }
-                }
-            });
-            
-            @if(isset($schedule))
-            $('#moveCalendar').fullCalendar({
-                themeSystem: 'bootstrap4',
-                height: 500,
-                firstDay: 1,
-                eventColor: '#2196f3',
-                eventTextColor: '#FFF',
-                eventStartEditable: true,
-                eventConstraint: {
-                    start: today,
-                    end: '{{ $schedule->end }}'
-                },
-                eventDrop: function(event, delta, revertFunc){
-                    console.log(event.title + " was dropped on "+ event.start.format());
-                    movedSessions.push({id: event.id, date: event.start.format()});
-                },
-                events: [
-                @if(isset($data))
-                    @foreach ($data as $d)
-                        @if($d['description'] == 'session')
-                            {
-                                id: '{{$d['id']}}',
-                                title: '{{$d['title']}}',
-                                start: '{{$d['start']}}',
-                                end: '{{$d['end']}}',
-                                color: '{{$d['color']}}'
-                            },
-                        @endif
-                    @endforeach
-                @endif
-                ]
-            });
-            @endif
+            initDatepickers();
+            initCalendar();
+            initModifySchedule();
 
             $("#save-move").click(function(e){
                 e.preventDefault();
@@ -417,90 +315,10 @@
                 $("#confirmDelete").toggle("slow");
             });
 
-
             $('#cancelScheduleDelete').click(function(e) {
                 e.preventDefault();
                 $("#confirmDelete").hide("slow");
             });
-
-            function addModuleInput(i){
-                var moduleDiv = `<tr>
-                                    <td>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control module-names" id="module`+ i +`" name="module[`+ i +`]">
-                                            <div class="input-group-append">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <select class="form-control" name="rating[`+ i +`]">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
-                                    </td>
-                                    <td><div class="avg mt-2 text-center" id="avg`+i+`"></div></td>
-                                </tr>`
-                
-                return moduleDiv
-            }
-            
-            @if(isset($schedule))
-                var i = {{ count($schedule->modules) }};
-            @endif
-            var max_fields = 10;
-
-            //append when add button is clicked
-            $('#modifySchedule').on('click','#btn-add', function(e){
-                e.preventDefault();
-
-                if(i < max_fields){
-                    $(".table-body").append(addModuleInput(i));
-                    i++;
-                }else{
-                    $("#btn-add").prop("disabled", true);
-                }
-            });
-
-            //remove when remove button is clicked
-            $('.table-body').on('click','.btn-remove', function(e){
-                e.preventDefault();
-                $(this).parents('tr').remove();
-                console.log('tr');
-                i--;
-            });
-
-
-            function moveSessions(events)
-            {
-                console.log(events);
-                
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('schedule.move') }}',
-                    data: {events: events},
-                    success: function(message){
-                        console.log(message);
-                        $("#moveSessions").modal('hide');
-                        location.reload();
-                    },
-                    error: function(message){
-                        console.log(message);
-                    }
-                });
-            }
 
             $('#archiveBtn').click(function(){
                 $('#confirmArchive').toggle("slow");
@@ -533,6 +351,210 @@
                 e.preventDefault();
                 $('<form action="{{ route('events.destroy') }}" method="POST">@csrf<input type="hidden" name="id" value="'+eventIdGlobal+'"></form>').appendTo('body').submit();
             })
+
+
+            function initDatepickers()
+            {
+                $('#start').datepicker({
+                    maxViewMode: 'years',
+                    format: "yyyy-mm-dd",
+                    autoclose: true,
+                    todayHighlight: true,
+                    startDate: new Date(),
+                }).on('changeDate', function(selected){
+                    var minDate = new Date(selected.date.valueOf());
+                    $('#end').datepicker('setStartDate', minDate);
+                });
+
+                $('#end').datepicker({
+                    maxViewMode: 'years',
+                    format: "yyyy-mm-dd",
+                    todayHighlight: true,
+                    autoclose: true,
+                }).on('changeDate', function (selected) {
+                    var maxDate = new Date(selected.date.valueOf());
+                    $('#start').datepicker('setEndDate', maxDate);
+                });
+
+                $('#eventdate').datepicker({
+                    maxViewMode: 'years',
+                    autoclose: true,
+                    format: "yyyy-mm-dd",
+                    todayHighlight: true,
+                });
+
+                @if(isset($schedule))
+                    $('#start').datepicker('update', '{{ $schedule->start }}');
+                    $('#end').datepicker('update', '{{ $schedule->end }}');
+                    $('#start').datepicker('setStartDate', '{{ $schedule->start }}');
+                    $('#end').datepicker('setStartDate', '{{ $schedule->start }}');
+
+                    $('#eventdate').datepicker('setStartDate', '{{ $schedule->start }}');
+                    $('#eventdate').datepicker('setEndDate', '{{ $schedule->end }}');
+                @endif
+            }
+
+            function initCalendar()
+            {
+                $('#calendar').fullCalendar({
+                    themeSystem: 'bootstrap4',
+                    height: 500,
+                    firstDay: 1,
+                    eventColor: '#2196f3',
+                    eventTextColor: '#FFF',
+                    height: 'parent',
+                    events: [
+                    @if(isset($data))
+                        @foreach ($data as $d)
+                            {
+                                id: '{{$d['id']}}',
+                                title: '{{$d['title']}}',
+                                start: '{{$d['start']}}',
+                                end: '{{$d['end']}}',
+                                color: '{{$d['color']}}',
+                                description: '{{$d['description']}}',
+                                @if(isset($d['className']))
+                                className: '{{$d['className']}}'
+                                @endif
+                            },
+                        @endforeach
+                    @endif
+                    ],
+                    eventClick: function(calEvent, jsEvent, view){
+                        if(calEvent.description == 'event')
+                        {
+                            $("#addEvent").modal();
+                            var id = calEvent.id;
+                            var start = calEvent.start;
+                            var title = calEvent.title;
+                            eventDetails(id, start, title);
+                        }
+                    }
+                });
+            }
+
+           
+            @if(isset($schedule))
+                initMoveCalendar()
+                
+                function initMoveCalendar()
+                {
+                    $('#moveCalendar').fullCalendar({
+                        themeSystem: 'bootstrap4',
+                        height: 500,
+                        firstDay: 1,
+                        eventColor: '#2196f3',
+                        eventTextColor: '#FFF',
+                        eventStartEditable: true,
+                        eventConstraint: {
+                            start: today,
+                            end: '{{ $schedule->end }}'
+                        },
+                        eventDrop: function(event, delta, revertFunc){
+                            console.log(event.title + " was dropped on "+ event.start.format());
+                            movedSessions.push({id: event.id, date: event.start.format()});
+                        },
+                        events: [
+                        @if(isset($data))
+                            @foreach ($data as $d)
+                                @if($d['description'] == 'session')
+                                    {
+                                        id: '{{$d['id']}}',
+                                        title: '{{$d['title']}}',
+                                        start: '{{$d['start']}}',
+                                        end: '{{$d['end']}}',
+                                        color: '{{$d['color']}}'
+                                    },
+                                @endif
+                            @endforeach
+                        @endif
+                        ]
+                    });
+                }
+            @endif
+
+            function addModuleInput(i)
+            {
+                var moduleDiv = `<tr>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control module-names" id="module`+ i +`" name="module[`+ i +`]">
+                                            <div class="input-group-append">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <select class="form-control" name="rating[`+ i +`]">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
+                                    </td>
+                                    <td><div class="avg mt-2 text-center" id="avg`+i+`"></div></td>
+                                </tr>`
+                
+                return moduleDiv
+            }
+
+            function initModifySchedule()
+            {
+                @if(isset($schedule))
+                    var i = {{ count($schedule->modules) }};
+                @endif
+                
+                var max_fields = 10;
+
+                //append when add button is clicked
+                $('#modifySchedule').on('click','#btn-add', function(e){
+                    e.preventDefault();
+
+                    if(i < max_fields){
+                        $(".table-body").append(addModuleInput(i));
+                        i++;
+                    }else{
+                        $("#btn-add").prop("disabled", true);
+                    }
+                });
+
+                //remove when remove button is clicked
+                $('.table-body').on('click','.btn-remove', function(e){
+                    e.preventDefault();
+                    $(this).parents('tr').remove();
+                    console.log('tr');
+                    i--;
+                });
+            }
+
+            function moveSessions(events)
+            {
+                console.log(events);
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('schedule.move') }}',
+                    data: {events: events},
+                    success: function(message){
+                        console.log(message);
+                        $("#moveSessions").modal('hide');
+                        location.reload();
+                    },
+                    error: function(message){
+                        console.log(message);
+                    }
+                });
+            }
 
             function eventDetails(id, start, title)
             {

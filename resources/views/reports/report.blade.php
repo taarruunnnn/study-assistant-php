@@ -119,18 +119,23 @@
         });
 
         @if (! empty($schedule) && $live == true)
-            var schedule_id = {{ $schedule->id }}
-            analyze(schedule_id)
+            analyze()
         @elseif ($live == false)
-            var data = {!! json_encode($data) !!}
-            data = data.replace(/\\/g, "");
-            data = JSON.parse(data)
-            displayAnalysis(data)
+            savedReport()
+            
+            function savedReport()
+            {
+                var data = {!! json_encode($data) !!}
+                data = data.replace(/\\/g, "");
+                data = JSON.parse(data)
+                displayAnalysis(data)
+            }
         @endif
 
-
-        function analyze(schedule_id)
+        function analyze()
         {
+            var schedule_id = {{ $schedule->id }}
+
             $.ajax({
                 type: 'POST',
                 url: '{{ route('report.analyze') }}',
@@ -220,12 +225,7 @@
                 });
 
                 @if ($live == true)
-                    var input = document.createElement("input");
-                    input.setAttribute("type", "hidden");
-                    input.setAttribute("name", "sessions");
-                    input.setAttribute("value", data['sessions']);
-
-                    document.getElementById("reportForm").appendChild(input);
+                    createHiddenForm("sessions", data["sessions"]);
                 @endif
             }
 
@@ -300,12 +300,7 @@
                 });
 
                 @if ($live == true)
-                var input = document.createElement("input");
-                input.setAttribute("type", "hidden");
-                input.setAttribute("name", "comparedtime");
-                input.setAttribute("value", data['comparedtime']);
-
-                document.getElementById("reportForm").appendChild(input);
+                    createHiddenForm("comparedtime", data['comparedtime']);
                 @endif
             }
 
@@ -389,14 +384,19 @@
                 });
 
                 @if ($live == true)
-                var input = document.createElement("input");
-                input.setAttribute("type", "hidden");
-                input.setAttribute("name", "studytimes");
-                input.setAttribute("value", data['studytimes']);
-
-                document.getElementById("reportForm").appendChild(input);
+                    createHiddenForm("studytimes", data['studytimes']);
                 @endif
             }
+        }
+
+        function createHiddenForm(name, value)
+        {
+            var input = document.createElement("input");
+            input.setAttribute("type", "hidden");
+            input.setAttribute("name", name);
+            input.setAttribute("value", value);
+
+            document.getElementById("reportForm").appendChild(input);
         }
 
     });

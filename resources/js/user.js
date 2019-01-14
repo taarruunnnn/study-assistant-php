@@ -42,7 +42,7 @@ $(document).ready(function () {
         name: 'universities',
         source: bloodhound,
         display: function(data){
-            return data
+            return data;
         }
     });
 

@@ -34,7 +34,7 @@ $(document).ready(function () {
         name: 'modules',
         source: bloodhound,
         display: function(data){
-            return data
+            return data;
         }
     });
 
