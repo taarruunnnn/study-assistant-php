@@ -45,8 +45,8 @@ $(document).ready(function () {
            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
    });
 
-   $("#messageAlert").fadeTo(2000, 500).slideUp(500, function(){
-        $("#messageAlert").slideUp(500);
+   $(".alert-success").fadeTo(5000, 500).slideUp(500, function(){
+        $(".alert-success").slideUp(500);
     });
 
 });

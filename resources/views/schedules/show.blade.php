@@ -299,6 +299,7 @@
 
             initCalendar();
             initModifySchedule();
+            initDatePicker();
 
             $("#save-move").click(function(e){
                 e.preventDefault();
@@ -352,14 +353,13 @@
             })
 
 
-            (function ()
+            function initDatePicker ()
             {
                 $('#start').datepicker({
                     maxViewMode: 'years',
                     format: "yyyy-mm-dd",
                     autoclose: true,
                     todayHighlight: true,
-                    startDate: new Date(),
                 }).on('changeDate', function(selected){
                     var minDate = new Date(selected.date.valueOf());
                     $('#end').datepicker('setStartDate', minDate);
@@ -391,7 +391,7 @@
                     $('#eventdate').datepicker('setStartDate', '{{ $schedule->start }}');
                     $('#eventdate').datepicker('setEndDate', '{{ $schedule->end }}');
                 @endif
-            })();
+            }
 
             function initCalendar()
             {

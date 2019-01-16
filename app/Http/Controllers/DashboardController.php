@@ -48,7 +48,7 @@ class DashboardController extends Controller
                 }
             }
         }
-
+        
         if ($schedule = $user->schedule) {
             $modules = $schedule->modules;
             $sessions = $schedule->sessions;
@@ -59,12 +59,19 @@ class DashboardController extends Controller
 
             $missed = count($sessions->where('status', 'failed'));
             $left = count($sessions->where('status', 'incomplete'));
+
+            $missed_percentage = ($missed / $total_session_count) * 100;
+            $missed_percentage = (int) $missed_percentage;
         }
 
         $quotes_path = Storage::disk('local')->get('public/quotes.json');
         $quotes = json_decode($quotes_path, true);
         $quote = $quotes[rand(0, (count($quotes)-1))];
  
-        return view('dashboard', compact('schedule', 'modules', 'module_list', 'progress', 'finished', 'left', 'missed', 'quote'));
+        return view(
+            'dashboard', compact(
+                'schedule', 'modules', 'module_list', 'progress', 'finished', 'left', 'missed', 'missed_percentage', 'quote'
+            )
+        );
     }
 }

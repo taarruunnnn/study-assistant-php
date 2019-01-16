@@ -5,6 +5,16 @@
 @section('content')
 
 <div class="container-fluid" id="dash">
+    @if (isset($missed_percentage) && $missed_percentage > 20)
+        <div class="row ml-2">
+            <div class="col-sm-12">
+                <div class="alert alert-danger text-center animated fadeIn" role="alert">
+                    You have missed over <strong>20%</strong> of your schedule!
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="row ml-2">
         <div class="col-md-3">
             <div class="card h-100 animated fadeIn">
@@ -99,7 +109,7 @@
                         <hr/>
                         <p>You have finished {{ $finished }} sessions</p>
                         <p>You have {{ $left }} sessions left</p>
-                        <p>You have missed {{ $missed }} sessions</p>
+                        <p>You have missed {{ $missed }} sessions which is {{ $missed_percentage }}% of your schedule</p>
                     </div>
                 </div>
             </div>
@@ -472,13 +482,15 @@
             }
 
                 
-            (function() {
+            function displayTime() {
                 var time = moment().format('HH:mm:ss');
                 var date = moment().format('MMMM Do YYYY')
                 $('#time').html(time);
                 $('#date').html(date);
                 setTimeout(displayTime, 1000);
-            })();
+            }
+
+            displayTime();
 
         })
     </script>
