@@ -38,11 +38,12 @@ class ReportController extends Controller
      */
     public function show()
     {
+        $reports = [];
+        
         if ($schedule = Auth::user()->schedule) {
             $reports = $schedule->reports;
         } else {
             $schedule = null;
-            $reports = null;
         }
 
         $user_id = Auth::user()->id;
@@ -162,10 +163,11 @@ class ReportController extends Controller
      * @return void
      */
     public function destroy()
-    {
-        $reports = Auth::user()->schedule->reports();
-        if ($reports) {
-            $reports->delete();
+    {   
+        if ($schedule = Auth::user()->schedule) {
+            if ($reports = $schedule->reports()) {
+                $reports->delete();
+            }
         }
 
         $user_id = Auth::user()->id;

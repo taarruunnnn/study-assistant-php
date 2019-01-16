@@ -123,11 +123,11 @@
 </div>
 
 @if (isset($schedule))
-    <div class="modal fade" id="analysisModal" tabindex="-1" role="dialog" aria-labelledby="analysisModuleLabel" aria-hidden="true">
+    <div class="modal fade" id="analysisModal" tabindex="-1" role="dialog" aria-labelledby="analysisModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="analysisModuleLabel">Module Analysis</h5>
+                    <h5 class="modal-title" id="analysisModalLabel">Module Analysis</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -266,18 +266,18 @@
                     {
                         var moduleName = label;
 
-                            $.ajax({
-                                type: 'POST',
-                                url: '{{ route('schedule.analyze') }}',
-                                data: {module: moduleName},
-                                success: function(data){
-                                    showModal(data, moduleName);
-                                    console.log(data);
-                                },
-                                error: function(message){
-                                    console.log(message);
-                                }
-                            });
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('schedule.analyze') }}',
+                            data: {module: moduleName},
+                            success: function(data){
+                                showModal(data, moduleName);
+                                console.log(data);
+                            },
+                            error: function(message){
+                                console.log(message);
+                            }
+                        });
                     }
                 })();
             @endif
@@ -285,7 +285,7 @@
 
             function showModal(data, moduleName)
             {
-                $('#analysisModuleLabel').text("Analysis for " + moduleName + " Based on All Students");
+                $('#analysisModalLabel').text("Analysis for " + moduleName + " Based on All Students");
                 $('#analysisModal').modal();
 
                 $('#hours').css('display', 'none');
@@ -296,15 +296,8 @@
 
                 if (data['grades'] == "N/A" && data['hours'] == "N/A" && data['ratings'] == "N/A" && data['related'] == "N/A" && data['tod'] === "N/A")
                 {
-                    $('#module-header').html("No Analysis Data Available");
+                    $('#analysisModalLabel').text("No Analysis Data Available");
                     return;
-                }
-                else
-                {
-                    var moduleName = $("#module-name").val();
-                    $('#module-header').html("Analysis for " + moduleName);
-                    $('.module-name').html(moduleName);
-                    
                 }
 
                 console.log(data);
