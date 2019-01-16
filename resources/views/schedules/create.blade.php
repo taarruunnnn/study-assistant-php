@@ -315,7 +315,12 @@
                         // AM
                         $('#timeofday-text').text(tod + "AM");
                     }
-                    else if(tod >= 12)
+                    else if(tod = 12)
+                    {
+                        // PM
+                        $('#timeofday-text').text(tod + "PM");
+                    }
+                    else
                     {
                         tod = tod - 12;
                         // PM

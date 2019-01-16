@@ -123,7 +123,10 @@
                         <a class="btn btn-outline-primary btn-sm" href="{{ route('report.destroy') }}">Yes</a>
                         <a class="btn btn-outline-secondary btn-sm" id="cancelReportDelete">No</a>
                     </p>
+                @else
+                    <h4>No reports or logs to show</h4>
                 @endif
+
             </div>
         </div>
     </div>

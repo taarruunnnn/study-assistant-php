@@ -47,7 +47,8 @@ class ReportController extends Controller
 
         $user_id = Auth::user()->id;
 
-        if (!($logs = Activity::all()->where('causer_id', $user_id))) {
+        $logs = Activity::all()->where('causer_id', $user_id);
+        if (count($logs) == 0) {
             $logs = null;
         }
 

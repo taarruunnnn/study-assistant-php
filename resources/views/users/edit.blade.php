@@ -117,6 +117,11 @@
             </form>
         </div>
     </div>
+    <div class="row my-5">
+        <div class="col text-center">
+            <a href="{{ route('users.policy') }}" class="btn btn-link">Privacy Policy</a>
+        </div>
+    </div>
 </div>
 
 @endsection

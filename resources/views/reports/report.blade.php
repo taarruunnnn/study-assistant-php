@@ -120,6 +120,24 @@
 
         @if (! empty($schedule) && $live == true)
             analyze()
+            
+            function analyze()
+            {
+                var schedule_id = {{ $schedule->id }}
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('report.analyze') }}',
+                    data: {schedule: schedule_id},
+                    success: function(data){
+                        displayAnalysis(data)
+                        console.log(data)
+                    },
+                    error: function(message){
+                        console.log(message);
+                    }
+                });
+            }
         @elseif ($live == false)
             savedReport()
             
@@ -132,23 +150,7 @@
             }
         @endif
 
-        function analyze()
-        {
-            var schedule_id = {{ $schedule->id }}
-
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('report.analyze') }}',
-                data: {schedule: schedule_id},
-                success: function(data){
-                    displayAnalysis(data)
-                    console.log(data)
-                },
-                error: function(message){
-                    console.log(message);
-                }
-            });
-        }
+        
 
         function displayAnalysis(data)
         {

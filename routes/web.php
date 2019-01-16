@@ -27,6 +27,8 @@ Route::get('user/{user}', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}', 'UserController@update')->name('user.update');
 Route::delete('user/delete/{user}', 'UserController@destroy')->name('user.delete');
 
+Route::view('users/policy', 'users.policy')->name('users.policy');
+
 Route::get('users/universities', 'TypeaheadController@universities');
 Route::get('users/modules', 'TypeaheadController@modules');
 
