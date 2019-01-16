@@ -201,8 +201,7 @@
             }
 
             @if (! empty($modules))
-                initModuleSummary();
-                function initModuleSummary()
+                (function ()
                 {
                     var modules = new Array();
                     var ratings = new Array();
@@ -252,235 +251,234 @@
                             moduleData(label);
                         }
                     }
-                }
+
+                    function moduleData(label)
+                    {
+                        var moduleName = label;
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('schedule.analyze') }}',
+                                data: {module: moduleName},
+                                success: function(data){
+                                    showModal(data, moduleName);
+                                    console.log(data);
+                                },
+                                error: function(message){
+                                    console.log(message);
+                                }
+                            });
+                    }
+                })();
             @endif
             
-        function moduleData(label)
-        {
-            var moduleName = label;
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('schedule.analyze') }}',
-                    data: {module: moduleName},
-                    success: function(data){
-                        showModal(data, moduleName);
-                        console.log(data);
-                    },
-                    error: function(message){
-                        console.log(message);
-                    }
-                });
-        }
-
-        function showModal(data, moduleName)
-        {
-            $('#analysisModuleLabel').text("Analysis for " + moduleName + " Based on All Students");
-            $('#analysisModal').modal();
-
-            $('#hours').css('display', 'none');
-            $('#rating').css('display', 'none');
-            $('#grades').css('display', 'none');
-            $('#timeofday').css('display', 'none');
-            $('#related').css('display', 'none');
-
-            if (data['grades'] == "N/A" && data['hours'] == "N/A" && data['ratings'] == "N/A" && data['related'] == "N/A" && data['tod'] === "N/A")
+            function showModal(data, moduleName)
             {
-                $('#module-header').html("No Analysis Data Available");
-                return;
-            }
-            else
-            {
-                var moduleName = $("#module-name").val();
-                $('#module-header').html("Analysis for " + moduleName);
-                $('.module-name').html(moduleName);
-                
-            }
+                $('#analysisModuleLabel').text("Analysis for " + moduleName + " Based on All Students");
+                $('#analysisModal').modal();
 
-            console.log(data);
+                $('#hours').css('display', 'none');
+                $('#rating').css('display', 'none');
+                $('#grades').css('display', 'none');
+                $('#timeofday').css('display', 'none');
+                $('#related').css('display', 'none');
 
-            if (data['hours'] != "N/A")
-            { 
-                $('#hours').css('display', 'inline-block');
-                $('#hours-text').text(data['hours']);
-            }
-
-            if (data['ratings'] != "N/A")
-            {
-                $('#rating').css('display', 'inline-block');
-                $('#rating-text').text(data['ratings']);
-            }
-            
-            if (data['grades'] != "N/A")
-            {
-                $("#grades").css('display', 'inline-block');
-
-                $('#myChart').remove();
-                $('#grades-container').append('<canvas id="myChart" width="300" height="432"></canvas>')
-                
-                grades = JSON.parse(data.grades).grade;
-
-                grades_names = new Array();
-                grades_grades = new Array();
-
-                for (var key in grades) {
-                    if (grades.hasOwnProperty(key)) {
-                        grades_names.push(key);
-                        grades_grades.push(grades[key])
-                    }
+                if (data['grades'] == "N/A" && data['hours'] == "N/A" && data['ratings'] == "N/A" && data['related'] == "N/A" && data['tod'] === "N/A")
+                {
+                    $('#module-header').html("No Analysis Data Available");
+                    return;
+                }
+                else
+                {
+                    var moduleName = $("#module-name").val();
+                    $('#module-header').html("Analysis for " + moduleName);
+                    $('.module-name').html(moduleName);
+                    
                 }
 
-                console.log(grades_grades);
-                var ctx = document.getElementById("myChart").getContext('2d');
+                console.log(data);
 
-                var chart_data = {
-                    labels: grades_names,
-                    datasets: [{
-                        data: grades_grades,
-                        backgroundColor: [
-                            "#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"
-                        ],
-                    }]
-                } 
+                if (data['hours'] != "N/A")
+                { 
+                    $('#hours').css('display', 'inline-block');
+                    $('#hours-text').text(data['hours']);
+                }
 
-                var myPieChart = new Chart(ctx,{
-                    type: 'pie',
-                    data: chart_data,
-                    options: {
-                        title: {
-                            display: true,
-                            text: 'Grades Obtained for Module'
+                if (data['ratings'] != "N/A")
+                {
+                    $('#rating').css('display', 'inline-block');
+                    $('#rating-text').text(data['ratings']);
+                }
+                
+                if (data['grades'] != "N/A")
+                {
+                    $("#grades").css('display', 'inline-block');
+
+                    $('#myChart').remove();
+                    $('#grades-container').append('<canvas id="myChart" width="300" height="432"></canvas>')
+                    
+                    grades = JSON.parse(data.grades).grade;
+
+                    grades_names = new Array();
+                    grades_grades = new Array();
+
+                    for (var key in grades) {
+                        if (grades.hasOwnProperty(key)) {
+                            grades_names.push(key);
+                            grades_grades.push(grades[key])
                         }
                     }
-                });
-            }
 
-            if (data['tod'] != "N/A")
-            {
-                $('#timeofday').css('display', 'inline-block');
+                    console.log(grades_grades);
+                    var ctx = document.getElementById("myChart").getContext('2d');
 
-                var tod = data['tod']
-                if(tod < 12)
-                {
-                    // AM
-                    $('#timeofday-text').text(tod + "AM");
-                }
-                else if(tod >= 12)
-                {
-                    tod = tod - 12;
-                    // PM
-                    $('#timeofday-text').text(tod + "PM");
-                }
-                
-            }
-
-            if (data['related'] != "N/A")
-            {
-                $('#related').css('display', 'inline-block');
-
-                related_modules = JSON.parse(data.related)
-
-                var modules_array = []
-
-                for(var x in related_modules)
-                {
-                    modules_array.push(related_modules[x]);
-                }
-
-                var list = $("#related-modules");
-                list.html("");
-
-                $.each(modules_array, function(i)
-                {
-                    list.append('<li class="list-group-item">' + modules_array[i] + '</li>')
-                });
-                
-            }
-        }
-
-        function displayAnalysis(data)
-        {
-            if (data['sessions'] != null)
-            {
-                $("#canvasProgress").show();
-
-                var ctx = document.getElementById("chartProgress");
-
- 
-                var completed_sessions = JSON.parse(data.sessions).Completed;
-                var total_sessions = JSON.parse(data.sessions).Total;
-
-
-                var months = new Array();
-                var completed_count = new Array();
-                var total_count = new Array();
-
-                for (var session in completed_sessions) {
-                    if (completed_sessions.hasOwnProperty(session)) {
-                        months.push(session);
-                        completed_count.push(completed_sessions[session])
-                    }
-                }
-
-                for (var session in total_sessions) {
-                    if (total_sessions.hasOwnProperty(session)) {
-                        total_count.push(total_sessions[session])
-                    }
-                }
-
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: months,
+                    var chart_data = {
+                        labels: grades_names,
                         datasets: [{
-                            data: completed_count,
-                            label: "Completed Sessions",
-                            borderColor: "#38c172",
-                            fill: false
-                        },
-                        {
-                            data: total_count,
-                            label: "Scheduled Sessions",
-                            borderColor: "#3e95cd",
-                            fill: false
+                            data: grades_grades,
+                            backgroundColor: [
+                                "#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"
+                            ],
                         }]
-                    },
-                    options: {
-                        title: {
-                            display: true,
-                            text: 'Schedule Progress',
-                        },
-                        scales: {
-                            yAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'No. of Sessions',
-                                    fontColor: '#9c9c9c'
-                                }
-                            }],
-                            xAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: 'Months',
-                                    fontColor: '#9c9c9c'
-                                }
-                            }]
+                    } 
+
+                    var myPieChart = new Chart(ctx,{
+                        type: 'pie',
+                        data: chart_data,
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Grades Obtained for Module'
+                            }
+                        }
+                    });
+                }
+
+                if (data['tod'] != "N/A")
+                {
+                    $('#timeofday').css('display', 'inline-block');
+
+                    var tod = data['tod']
+                    if(tod < 12)
+                    {
+                        // AM
+                        $('#timeofday-text').text(tod + "AM");
+                    }
+                    else if(tod >= 12)
+                    {
+                        tod = tod - 12;
+                        // PM
+                        $('#timeofday-text').text(tod + "PM");
+                    }
+                    
+                }
+
+                if (data['related'] != "N/A")
+                {
+                    $('#related').css('display', 'inline-block');
+
+                    related_modules = JSON.parse(data.related)
+
+                    var modules_array = []
+
+                    for(var x in related_modules)
+                    {
+                        modules_array.push(related_modules[x]);
+                    }
+
+                    var list = $("#related-modules");
+                    list.html("");
+
+                    $.each(modules_array, function(i)
+                    {
+                        list.append('<li class="list-group-item">' + modules_array[i] + '</li>')
+                    });
+                    
+                }
+            }
+
+            function displayAnalysis(data)
+            {
+                if (data['sessions'] != null)
+                {
+                    $("#canvasProgress").show();
+
+                    var ctx = document.getElementById("chartProgress");
+
+    
+                    var completed_sessions = JSON.parse(data.sessions).Completed;
+                    var total_sessions = JSON.parse(data.sessions).Total;
+
+
+                    var months = new Array();
+                    var completed_count = new Array();
+                    var total_count = new Array();
+
+                    for (var session in completed_sessions) {
+                        if (completed_sessions.hasOwnProperty(session)) {
+                            months.push(session);
+                            completed_count.push(completed_sessions[session])
                         }
                     }
-                });
+
+                    for (var session in total_sessions) {
+                        if (total_sessions.hasOwnProperty(session)) {
+                            total_count.push(total_sessions[session])
+                        }
+                    }
+
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: months,
+                            datasets: [{
+                                data: completed_count,
+                                label: "Completed Sessions",
+                                borderColor: "#38c172",
+                                fill: false
+                            },
+                            {
+                                data: total_count,
+                                label: "Scheduled Sessions",
+                                borderColor: "#3e95cd",
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Schedule Progress',
+                            },
+                            scales: {
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'No. of Sessions',
+                                        fontColor: '#9c9c9c'
+                                    }
+                                }],
+                                xAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Months',
+                                        fontColor: '#9c9c9c'
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }
             }
-        }
 
-            
-        function displayTime() {
-            var time = moment().format('HH:mm:ss');
-            var date = moment().format('MMMM Do YYYY')
-            $('#time').html(time);
-            $('#date').html(date);
-            setTimeout(displayTime, 1000);
-        }
-
-        displayTime();
+                
+            (function() {
+                var time = moment().format('HH:mm:ss');
+                var date = moment().format('MMMM Do YYYY')
+                $('#time').html(time);
+                $('#date').html(date);
+                setTimeout(displayTime, 1000);
+            })();
 
         })
     </script>

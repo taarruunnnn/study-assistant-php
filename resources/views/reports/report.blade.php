@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Schedule Summary</h4>
                         <div class="report-body">
@@ -118,10 +118,9 @@
             }
         });
 
-        @if (! empty($schedule) && $live == true)
-            analyze()
-            
-            function analyze()
+        @if (!empty($schedule) && $live == true)
+        
+            (function ()
             {
                 var schedule_id = {{ $schedule->id }}
 
@@ -137,17 +136,18 @@
                         console.log(message);
                     }
                 });
-            }
+            })();
+
         @elseif ($live == false)
-            savedReport()
-            
-            function savedReport()
+        
+            (function ()
             {
                 var data = {!! json_encode($data) !!}
                 data = data.replace(/\\/g, "");
                 data = JSON.parse(data)
                 displayAnalysis(data)
-            }
+            })();
+
         @endif
 
         

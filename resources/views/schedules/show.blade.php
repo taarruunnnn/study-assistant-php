@@ -297,7 +297,6 @@
                 }
             });
 
-            initDatepickers();
             initCalendar();
             initModifySchedule();
 
@@ -353,7 +352,7 @@
             })
 
 
-            function initDatepickers()
+            (function ()
             {
                 $('#start').datepicker({
                     maxViewMode: 'years',
@@ -392,7 +391,7 @@
                     $('#eventdate').datepicker('setStartDate', '{{ $schedule->start }}');
                     $('#eventdate').datepicker('setEndDate', '{{ $schedule->end }}');
                 @endif
-            }
+            })();
 
             function initCalendar()
             {

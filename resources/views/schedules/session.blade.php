@@ -79,9 +79,8 @@
 @section('script')
     <script>
         $(function(){
-            timerInit(); 
-
-            function timerInit()
+        
+            (function timerInit()
             {
                 var duration = "00:00:10";
 
@@ -164,7 +163,7 @@
                     $('#breakText').text("Break completed. Resume studying.");
                     window.onbeforeunload = null;
                 });
-            }
+            })();
 
             
             function sessionComplete()

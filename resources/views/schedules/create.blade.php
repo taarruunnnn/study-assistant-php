@@ -372,9 +372,8 @@
                 return module_list
             }
 
-            formButtonInit();
 
-            function formButtonInit()
+            (function ()
             {
                 var i = 0;
                 var max_fields = 10;
@@ -417,7 +416,7 @@
                         $("#btn-submit").prop("disabled", true);
                     }
                 });
-            }
+            })();
             
         });
     </script>
