@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Schedule;
 use App\User;
+use Carbon\Carbon;
 
 class UsersTableSeeder extends Seeder
 {
@@ -13,15 +14,15 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert(
+        User::create(
             [
                 'name' => 'John Doe',
                 'email' => 'john@example.com',
                 'birth' => '1995',
                 'gender' => 'M',
                 'university' => 'University of Moratuwa',
-                'major' => 'Computer Science',
-                'country' => 'GB',
+                'major' => 'IT',
+                'country' => 'LK',
                 'password' => bcrypt('password'),
             ]
         );

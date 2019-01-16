@@ -543,7 +543,7 @@
                 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('schedule.move') }}',
+                    url: '{{ route('schedules.move') }}',
                     data: {events: events},
                     success: function(message){
                         console.log(message);

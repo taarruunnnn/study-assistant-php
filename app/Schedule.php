@@ -71,9 +71,6 @@ class Schedule extends Model
         return $this->hasMany('App\Event');
     }
 
-   
-    public $user;
-    public $request;
 
     /**
      * Create Schedule Function
@@ -89,8 +86,6 @@ class Schedule extends Model
     public function createSchedule($user, $request)
     {
         if ($user->schedule === null) {
-            $this->user = $user;
-            $this->request = $request;
 
             $weekday_hours = $request->weekdays;
             $weekend_hours = $request->weekends;
@@ -106,10 +101,12 @@ class Schedule extends Model
                 ]
             );
 
-            $total_study_hours = $this->totalStudyHourCalculator();
-            $total_rating = $this->totalRatingCalculator();
-            $modules = $this->moduleCreator($total_study_hours, $total_rating, $schedule);
-            $this->sessionCreator($modules, $schedule);
+            $total_study_hours = $this->totalStudyHourCalculator($request);
+            $total_rating = $this->totalRatingCalculator($request);
+            $modules = $this->moduleCreator($request, $total_study_hours, $total_rating, $schedule);
+            $this->sessionCreator($request, $modules, $schedule);
+
+            return $schedule;
         }
     }
 
@@ -119,14 +116,16 @@ class Schedule extends Model
      * Calculates the number of study hours between
      * the start date and end date of the schedule
      *
+     * @param Request $request Request object sent by user
+     * 
      * @return int
      */
-    public function totalStudyHourCalculator()
+    public function totalStudyHourCalculator($request)
     {
-        $weekday_hours = $this->request->weekdays;
-        $weekend_hours = $this->request->weekends;
-        $start = $this->request->start;
-        $end = $this->request->end;
+        $weekday_hours = $request->weekdays;
+        $weekend_hours = $request->weekends;
+        $start = $request->start;
+        $end = $request->end;
 
         $start_date = new Carbon($start);
         $end_date = new Carbon($end);
@@ -144,15 +143,17 @@ class Schedule extends Model
      * Total Rating Calculator Function
      * 
      * Calculates the sum of student ratings
+     * 
+     * @param Request $request Request object sent by user
      *
      * @return int
      */
-    public function totalRatingCalculator()
+    public function totalRatingCalculator($request)
     {
         $total_rating = 0;
 
-        foreach ($this->request->rating as $rating) {
-            $total_rating += $rating;
+        foreach ($request->rating as $rating) {
+            $total_rating += (int)$rating;
         }
 
         return $total_rating;
@@ -161,28 +162,29 @@ class Schedule extends Model
     /**
      * Module Creator Function
      *
+     * @param Request  $request           Request object sent by user
      * @param int      $total_study_hours Amount of total hours to study
      * @param int      $total_rating      Total rating of modules
      * @param Schedule $schedule          Schedule
      * 
      * @return array
      */
-    public function moduleCreator($total_study_hours, $total_rating, $schedule)
+    public function moduleCreator($request,$total_study_hours, $total_rating, $schedule)
     {
         $modules = array(); //a multidimensional array
             
-        foreach ($this->request->module as $key => $value) {
-            $average_rating = (($this->request->rating[$key])/$total_rating);
+        foreach ($request->module as $key => $value) {
+            $average_rating = (($request->rating[$key])/$total_rating);
             $hours_per_module = intval($total_study_hours * $average_rating);
             
             $modules[$key]['module'] = $value;
-            $modules[$key]['rating'] = $this->request->rating[$key];
+            $modules[$key]['rating'] = $request->rating[$key];
             $modules[$key]['hours'] = $hours_per_module;
 
             $schedule-> modules() -> create(
                 [
                     'name' => $value,
-                    'rating' => $this->request->rating[$key]
+                    'rating' => $request->rating[$key]
                 ]
             );
         }
@@ -196,17 +198,18 @@ class Schedule extends Model
      * Creates sessions that would then be saved
      * to the database
      *
+     * @param Request  $request  Request object sent by user
      * @param array    $modules  Modules array
      * @param Schedule $schedule Schedule object
      * 
      * @return void
      */
-    public function sessionCreator($modules, $schedule)
+    public function sessionCreator($request, $modules, $schedule)
     {
-        $weekday_hours = $this->request->weekdays;
-        $weekend_hours = $this->request->weekends;
-        $start = $this->request->start;
-        $end = $this->request->end;
+        $weekday_hours = $request->weekdays;
+        $weekend_hours = $request->weekends;
+        $start = $request->start;
+        $end = $request->end;
 
         $start_date = new Carbon($start);
         $end_date = new Carbon($end);
@@ -248,7 +251,7 @@ class Schedule extends Model
                          * This is added to populate the database with dummy data
                          * in order to facilitate the testing process
                          */
-                        if ($this->request->test === '1') {
+                        if ($request->test === '1') {
                             $rand_hour = rand(1, 23);
                             $td = $today->copy()->addHours($rand_hour);
                             $completed = $td->toDateTimeString();

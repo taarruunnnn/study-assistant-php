@@ -34,7 +34,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data = scheduleRetriever();
+        $user = Auth::user();
+
+        $data = scheduleRetriever($user);
         
         $module_list = array();
 
@@ -47,7 +49,7 @@ class DashboardController extends Controller
             }
         }
 
-        if ($schedule = Auth::user()->schedule) {
+        if ($schedule = $user->schedule) {
             $modules = $schedule->modules;
             $sessions = $schedule->sessions;
 

@@ -17,9 +17,8 @@ if (!function_exists('scheduleRetriever')) {
      *
      * @return array
      */
-    function scheduleRetriever()
+    function scheduleRetriever($user)
     {
-        $user = Auth::user();
         if ($schedule = $user->schedule) {
             $data = [];
             $sessions = $schedule->sessions;

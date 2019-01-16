@@ -99,7 +99,7 @@ class ScheduleController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $data = scheduleRetriever();
+        $data = scheduleRetriever($user);
         $toarchive = false;
 
         if ($schedule = $user->schedule) {
@@ -118,24 +118,24 @@ class ScheduleController extends Controller
         }
     }
 
-    /**
-     * Schedule Update
-     * 
-     * Schedule is updated upon user request
-     *
-     * @param UpdateSchedule $request Request object received via POST
-     * 
-     * @return Redirect
-     */
-    public function update(UpdateSchedule $request)
-    {
-        $request->persist();
+    // /**
+    //  * Schedule Update
+    //  * 
+    //  * Schedule is updated upon user request
+    //  *
+    //  * @param UpdateSchedule $request Request object received via POST
+    //  * 
+    //  * @return Redirect
+    //  */
+    // public function update(UpdateSchedule $request)
+    // {
+    //     $request->persist();
 
-        activity()->log('Updated Schedule');
+    //     activity()->log('Updated Schedule');
 
-        session()->flash('message', 'Schedule Updated');
-        return redirect()->route('schedules.show');
-    }
+    //     session()->flash('message', 'Schedule Updated');
+    //     return redirect()->route('schedules.show');
+    // }
 
     /**
      * Move Function

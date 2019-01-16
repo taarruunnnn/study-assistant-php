@@ -25,7 +25,7 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 Route::get('user/{user}', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}', 'UserController@update')->name('user.update');
-Route::delete('users/delete/{user}', 'UserController@destroy')->name('user.delete');
+Route::delete('user/delete/{user}', 'UserController@destroy')->name('user.delete');
 
 Route::get('users/universities', 'TypeaheadController@universities');
 Route::get('users/modules', 'TypeaheadController@modules');
@@ -37,10 +37,10 @@ Route::group(
         Route::get('/', 'ScheduleController@show')->name('schedules.show');
         Route::get('create', 'ScheduleController@create')->name('schedules.create');
         Route::post('store', 'ScheduleController@store')->name('schedules.store');
-        Route::get('delete', 'ScheduleController@destroy')->name('schedules.destroy');
-        Route::post('update', 'ScheduleController@update')->name('schedules.update');
+        Route::get('destroy', 'ScheduleController@destroy')->name('schedules.destroy');
+        // Route::post('update', 'ScheduleController@update')->name('schedules.update');
         Route::post('analyze', 'ScheduleController@analyze')->name('schedule.analyze');
-        Route::post('move', 'ScheduleController@move')->name('schedule.move');
+        Route::post('move', 'ScheduleController@move')->name('schedules.move');
 
         Route::get('archive', 'ScheduleController@archive')->name('schedules.archive');
         Route::post('archive/update', 'ScheduleController@archiveUpdate')->name('schedules.archive.update');
