@@ -51,6 +51,9 @@ class ReportController extends Controller
         if (count($logs) == 0) {
             $logs = null;
         }
+        if (count($reports) == 0) {
+            $reports = null;
+        }
 
         $archived = Auth::user()->completed_modules->where('grade', null);
 
@@ -76,12 +79,14 @@ class ReportController extends Controller
         $sessionsDb = $report->sessions;
         $timeSpend = $report->time_spent;
         $studyTimes = $report->study_times;
+        $sessionCount = $report->session_count;
         $date = $report->created_at;
 
         $data = array(
             "sessions" => json_decode($sessionsDb),
             "comparedtime" => json_decode($timeSpend),
-            "studytimes" => json_decode($studyTimes)
+            "studytimes" => json_decode($studyTimes),
+            "sessioncount" => json_decode($sessionCount)
         );
 
         $data = json_encode($data);

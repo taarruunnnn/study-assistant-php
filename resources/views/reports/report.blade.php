@@ -76,6 +76,15 @@
                         <canvas id="chartCompare" width="400" height="300"></canvas>
                     </div>
                 </div>
+
+                <div class="card mt-3" style="display:none" id="canvasSessionCount">
+                    <div class="card-body">
+                        <div class="px-4">
+                            <canvas id="sessionCountChart" width="100" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+
                 @endif
             </div>
             <div class="col-sm-6">
@@ -145,6 +154,7 @@
                 var data = {!! json_encode($data) !!}
                 data = data.replace(/\\/g, "");
                 data = JSON.parse(data)
+                console.log(data)
                 displayAnalysis(data)
             })();
 
@@ -387,6 +397,60 @@
 
                 @if ($live == true)
                     createHiddenForm("studytimes", data['studytimes']);
+                @endif
+            }
+
+            if (!(data['sessioncount'] == "N/A" || data['sessioncount'] == null))
+            {
+                $('#canvasSessionCount').show();
+
+                @if ($live == true)
+                    var sessioncounts = JSON.parse(data.sessioncount);
+                @else
+                    var sessioncounts = data.sessioncount;
+                @endif
+
+                var session_names = new Array();
+                var session_counts = new Array();
+
+                for (var val in sessioncounts)
+                {
+                    if (sessioncounts.hasOwnProperty(val))
+                    {
+                        session_names.push(val);
+                        session_counts.push(sessioncounts[val]);
+                    }
+                }
+
+                var ctx = document.getElementById("sessionCountChart").getContext('2d');
+
+                var chart_data = {
+                    labels: session_names,
+                    datasets: [{
+                        data: session_counts,
+                        backgroundColor: [
+                            "#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"
+                        ],
+                    }]
+                } 
+
+                var myPieChart = new Chart(ctx,{
+                    type: 'pie',
+                    data: chart_data,
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Number of Total Sessions per Module'
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                });
+
+                @if ($live == true)
+                    createHiddenForm("sessioncount", data['sessioncount']);
                 @endif
             }
         }

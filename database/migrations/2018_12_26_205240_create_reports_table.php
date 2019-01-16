@@ -24,6 +24,7 @@ class CreateReportsTable extends Migration
             $table->json('sessions')->nullable();
             $table->json('time_spent')->nullable();
             $table->json('study_times')->nullable();
+            $table->json('session_count')->nullable();
             $table->timestamps();
         });
     }

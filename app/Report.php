@@ -18,7 +18,9 @@ class Report extends Model
      * @var array
      */
     protected $fillable = [
-        'no_modules', 'sessions_completed', 'sessions_missed', 'sessions_incomplete', 'progress', 'sessions', 'time_spent', 'study_times'
+        'no_modules', 'sessions_completed', 'sessions_missed', 
+        'sessions_incomplete', 'progress', 'sessions', 
+        'time_spent', 'study_times', 'session_count'
     ];
 
     /**
