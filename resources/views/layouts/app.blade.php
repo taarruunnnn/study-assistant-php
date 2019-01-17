@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Study Assistant') }}</title>
+    <link rel="shortcut icon" href="{{ asset('storage/favicon.png') }}" type="image/x-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">

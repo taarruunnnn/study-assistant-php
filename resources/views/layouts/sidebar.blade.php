@@ -17,7 +17,7 @@
         <li class="{{ Request::is('schedules*') ? 'active' : '' }}">
             <a href="/schedules">
                 <i class="fas fa-calendar-alt sidebar-icon"></i>
-                <span class="sidebar-text">Schedules</span>
+                <span class="sidebar-text">Schedule</span>
             </a>
         </li>
         <li class="{{ Request::is('reports*') ? 'active' : '' }}">
@@ -28,8 +28,8 @@
         </li>
         <li class="{{ Request::is('user/*') ? 'active' : '' }}">
             <a href="/user/edit">
-                <i class="fas fa-cog sidebar-icon"></i>
-                <span class="sidebar-text">Settings</span>
+                <i class="fas fa-users-cog sidebar-icon"></i>
+                <span class="sidebar-text">User</span>
             </a>
         </li>
         

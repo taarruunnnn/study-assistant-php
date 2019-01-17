@@ -27,7 +27,7 @@ class StoreSchedule extends FormRequest
     {
         return [
             'start' => 'required|date',
-            'end' => 'required|date',
+            'end' => 'required|date|after_or_equal:start',
             'rating.*' => 'required|numeric|max:10'
         ];
     }

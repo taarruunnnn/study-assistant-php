@@ -48,6 +48,20 @@ class TestDataController extends Controller
 
         $userCount = 0;
         $moduleCount = 0;
+        $modules = [
+            'IT',
+            'History',
+            'Science',
+            'English',
+            'French',
+            'Law',
+            'Sinhala',
+            'Biology',
+            'Chemistry',
+            'Physics',
+            'Mathematics',
+            'Statistics'
+        ];
 
         foreach ($userArr as $value) {
             $name = $value[1];
@@ -101,7 +115,7 @@ class TestDataController extends Controller
 
                     $completed_module = $user->completed_modules()->create(
                         [
-                            'name' => $module_name,
+                            'name' => $faker->randomElement($array = $modules),
                             'rating' =>$value[5 + $key],
                             'grade' => $grade,
                             'completed_sessions' => $completed_sessions,

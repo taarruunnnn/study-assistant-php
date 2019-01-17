@@ -84,6 +84,6 @@ class UserController extends Controller
 
         session()->flash('message', 'User Deleted');
 
-        return view('welcome');
+        return redirect()->route('welcome');
     }
 }

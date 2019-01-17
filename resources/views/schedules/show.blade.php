@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title','Create Schedule')
+@section('title','Schedule')
 
 @section('content')
     <div class="container-fluid h-75">
@@ -195,7 +195,7 @@
                                         <button type="button" class="btn btn-danger" id="scheduleDelete">Delete Schedule</button>
                                         <p id="confirmDelete">Are you sure you want to <strong>Delete Current Schedule?</strong>
                                             <br/>
-                                            <a class="btn btn-outline-primary btn-sm" href="{{ route('schedules.destroy') }}">Yes</a>
+                                            <a class="btn btn-outline-primary btn-sm" id="btnYes" href="{{ route('schedules.destroy') }}">Yes</a>
                                             <a class="btn btn-outline-secondary btn-sm" id="cancelScheduleDelete">No</a>
                                         </p>
                                     </div>
@@ -385,7 +385,7 @@
                 @if(isset($schedule))
                     $('#start').datepicker('update', '{{ $schedule->start }}');
                     $('#end').datepicker('update', '{{ $schedule->end }}');
-                    $('#start').datepicker('setStartDate', '{{ $schedule->start }}');
+                    // $('#start').datepicker('setStartDate', '{{ $schedule->start }}');
                     $('#end').datepicker('setStartDate', '{{ $schedule->start }}');
 
                     $('#eventdate').datepicker('setStartDate', '{{ $schedule->start }}');

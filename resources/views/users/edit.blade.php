@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-sm-4 ml-5"><a href="#" class="text-primary" data-toggle="modal" data-target="#deleteConfirm">Delete Account</a></div>
+                    <div class="col-sm-4 ml-5"><a href="#" class="text-primary" data-toggle="modal" data-target="#deleteConfirm" id="deleteBtn">Delete Account</a></div>
                 </div>
                 
                 <div class="form-group row">

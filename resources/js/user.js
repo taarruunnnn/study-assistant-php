@@ -23,7 +23,8 @@ $(document).ready(function () {
         format: 'yyyy',
         viewMode: 'years',
         minViewMode: 'years',
-        maxViewMode: 'years'
+        maxViewMode: 'years',
+        autoClose: true
     });
 
 

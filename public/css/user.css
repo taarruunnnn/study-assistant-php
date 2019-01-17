@@ -16314,9 +16314,9 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
-  padding: 8px;
-  background: #2196F3;
-  border-bottom: 1px solid #72c1ff;
+  padding: 20px 8px;
+  background: #6c757d;
+  border-bottom: 1px solid #c1c1c1;
 }
 
 .sidebar-header img {
@@ -16325,10 +16325,6 @@ a:focus {
 
 #logo-text {
   font-size: 12px;
-}
-
-#sidebar ul.components {
-  padding: 40px 0;
 }
 
 #sidebar ul li a {
@@ -16371,6 +16367,7 @@ ul ul a {
 
 .sidebar-icon {
   font-size: 40px;
+  display: block;
 }
 
 .sidebar-text {
