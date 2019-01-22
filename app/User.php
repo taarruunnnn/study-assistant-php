@@ -16,6 +16,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
+    const ADMIN_TYPE = 'admin';
+    const DEFAULT_TYPE = 'default';
+
     /**
      * Mass Assignable Variables
      *
@@ -33,6 +36,26 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Checks whether logged in user is an admin or regular user
+     *
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->type === self::ADMIN_TYPE;
+    }
+
+    /**
+     * Checks whether logged in user is not an admin
+     *
+     * @return boolean
+     */
+    public function isUser()
+    {
+        return $this->type === self::DEFAULT_TYPE;
+    }
 
     /**
      * Schedule Relationship

@@ -82,6 +82,7 @@ class RegisterController extends Controller
                 'university' => $data['university'],
                 'major' => $data['major'],
                 'password' => Hash::make($data['password']),
+                'type' => User::DEFAULT_TYPE,
             ]
         );
     }

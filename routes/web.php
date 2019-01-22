@@ -68,3 +68,12 @@ Route::group(
         Route::get('destroy', 'ReportController@destroy')->name('report.destroy');
     }
 );
+
+Route::group(
+    [
+        'prefix' => 'admin',
+        'middleware' => 'is_admin'
+    ], function () {
+        Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+    }
+);

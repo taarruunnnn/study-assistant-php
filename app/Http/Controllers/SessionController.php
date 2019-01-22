@@ -15,6 +15,18 @@ use Illuminate\Http\Request;
 class SessionController extends Controller
 {
     /**
+     * Create a new controller instance.
+     * Only authenticated users can access its methods
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('is_user');
+    }
+
+    /**
      * Show Function
      * 
      * Sessions are collected from database

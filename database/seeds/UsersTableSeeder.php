@@ -40,6 +40,20 @@ class UsersTableSeeder extends Seeder
             ]
         );
 
+        $user = User::create(
+            [
+                'name' => 'Jason Doe',
+                'email' => 'jason@example.com',
+                'birth' => '1995',
+                'gender' => 'M',
+                'university' => 'University of Colombo',
+                'major' => 'Computer Science',
+                'country' => 'LK',
+                'password' => bcrypt('password'),
+                'type' => 'admin'
+            ]
+        );
+
         $schedule = new Schedule();
         $schedule->createSchedule($user, factory(App\Schedule::class)->make());
 
