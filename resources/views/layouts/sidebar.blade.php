@@ -48,16 +48,22 @@
     
         @elseif (Auth::user()->isAdmin())
         <ul class="list-unstyled components">
-            <li class="{{ Request::is('admin.dashboard') ? 'active' : '' }}">
+            <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">
                 <a href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-tachometer-alt sidebar-icon"></i>
                     <span class="sidebar-text">Dashboard</span>
                 </a>
             </li>
+            <li class="{{ Request::is('users/*') ? 'active' : '' }}">
+                <a href="{{ route('admin.users') }}">
+                    <i class="fas fa-users sidebar-icon"></i>
+                    <span class="sidebar-text">Users</span>
+                </a>
+            </li>
             <li class="{{ Request::is('user/*') ? 'active' : '' }}">
                 <a href="/user/edit">
                     <i class="fas fa-users-cog sidebar-icon"></i>
-                    <span class="sidebar-text">User</span>
+                    <span class="sidebar-text">Settings</span>
                 </a>
             </li>
         </ul>

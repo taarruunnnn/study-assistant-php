@@ -76,5 +76,8 @@ Route::group(
     ], function () {
         Route::get('dashboard', 'AdminController@dashboard')->name('admin.dashboard');
         Route::get('analzye', 'AdminController@analyze')->name('admin.analyze');
+        Route::get('users', 'AdminController@users')->name('admin.users');
+        Route::post('users/details', 'AdminController@userDetails')->name('admin.users.details');
+        Route::post('users/destroy', 'AdminController@userDelete')->name('admin.users.destroy');
     }
 );
