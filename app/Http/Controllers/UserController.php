@@ -80,6 +80,11 @@ class UserController extends Controller
     public function destroy()
     {
         $user = Auth::user();
+
+        $user->schedule->modules()->delete();
+        $user->schedule->sessions()->delete();
+        $user->schedule->reports()->delete();
+        $user->schedule->delete();
         $user->delete();
 
         session()->flash('message', 'User Deleted');

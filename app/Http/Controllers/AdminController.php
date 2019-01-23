@@ -107,6 +107,11 @@ class AdminController extends Controller
     {
         $userId = $request->id;
         $user = User::find($userId);
+        
+        $user->schedule->modules()->delete();
+        $user->schedule->sessions()->delete();
+        $user->schedule->reports()->delete();
+        $user->schedule->delete();
         $user->delete();
 
         session()->flash('message', 'User Deleted');
