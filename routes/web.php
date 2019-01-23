@@ -74,6 +74,7 @@ Route::group(
         'prefix' => 'admin',
         'middleware' => 'is_admin'
     ], function () {
-        Route::get('/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+        Route::get('dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+        Route::get('analzye', 'AdminController@analyze')->name('admin.analyze');
     }
 );

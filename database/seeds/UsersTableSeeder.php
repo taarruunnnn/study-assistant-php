@@ -58,14 +58,14 @@ class UsersTableSeeder extends Seeder
         $schedule->createSchedule($user, factory(App\Schedule::class)->make());
 
         
-        // factory(App\User::class, 10)->create()->each(
-        //     function ($user) {
-        //         $schedule = new Schedule();
-        //         $schedule->createSchedule(
-        //             $user, factory(App\Schedule::class)->make()
-        //         );
-        //     }
-        // );
+        factory(App\User::class, 10)->create()->each(
+            function ($user) {
+                $schedule = new Schedule();
+                $schedule->createSchedule(
+                    $user, factory(App\Schedule::class)->make()
+                );
+            }
+        );
 
         factory(App\User::class, 50)->create()->each(
             function ($user) {

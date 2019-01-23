@@ -96,7 +96,7 @@
                     <div class="card-body">
                         <h2 class="card-title dash-title text-center">Study Sessions</h2>
                         <hr>
-                        <div id="sessions-div">
+                        <div id="sessions-div" style="display:none;">
                             <canvas id="chartProgress" width="500" height="200"></canvas>
                         </div>
                     </div>
@@ -405,7 +405,7 @@
             {
                 if (data['sessions'] != null)
                 {
-                    $("#canvasProgress").show();
+                    $('#sessions-div').show();
 
                     var ctx = document.getElementById("chartProgress");
 
