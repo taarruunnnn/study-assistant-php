@@ -79,6 +79,7 @@ Route::group(
         Route::get('analzye', 'AdminController@analyze')->name('admin.analyze');
         Route::get('predictions', 'AdminController@predictions')->name('admin.predictions');
         Route::post('predictions/accuracy', 'AdminController@predictionAccuracy')->name('admin.predictions.accuracy');
+        Route::post('predictions/save', 'AdminController@predictionSave')->name('admin.predictions.save');
         Route::get('users', 'AdminController@users')->name('admin.users');
         Route::post('users/details', 'AdminController@userDetails')->name('admin.users.details');
         Route::post('users/destroy', 'AdminController@userDelete')->name('admin.users.destroy');

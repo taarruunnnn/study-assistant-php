@@ -11,6 +11,7 @@ use GuzzleHttp\Client;
 use Psr\Http\Message\ServerRequestInterface;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -61,7 +62,11 @@ class AdminController extends Controller
      */
     public function predictions()
     {
-        return view('admin.predictions');
+        $prefsPath = storage_path('app/public/preferences.json');
+        $json = file_get_contents($prefsPath);
+
+
+        return view('admin.predictions', compact('json'));
     }
 
     /**
@@ -82,6 +87,35 @@ class AdminController extends Controller
     }
 
     /**
+     * Saves prediction preferences to json file
+     *
+     * @param Request $request POST data
+     * 
+     * @return string
+     */
+    public function predictionSave(Request $request)
+    {
+        $params = json_decode($request->params);
+        $algorithm = $request->algorithm;
+        
+        $prefs = array(
+            'params' => $params,
+            'algorithm' => $algorithm
+        );
+
+        $jsonString = json_encode($prefs, JSON_PRETTY_PRINT);
+        $prefsPath = storage_path('app/public/preferences.json');
+        if (file_put_contents($prefsPath, stripslashes($jsonString))) {
+            session()->flash('message', 'Preferences Saved');
+            return back();
+        } else {
+            session()->flash('message', 'Error Saving Preferences');
+            return "Error";
+        }
+        
+    }
+
+    /**
      * Users function that returns list of users
      *
      * @return void
@@ -98,8 +132,9 @@ class AdminController extends Controller
     /**
      * Sends user details to admin
      *
-     * @param Request $request
-     * @return void
+     * @param Request $request POST data
+     * 
+     * @return response
      */
     public function userDetails(Request $request)
     {
@@ -130,6 +165,13 @@ class AdminController extends Controller
             );
     }
 
+    /**
+     * Delete User
+     *
+     * @param Request $request POST data
+     * 
+     * @return string
+     */
     public function userDelete(Request $request)
     {
         $userId = $request->id;
