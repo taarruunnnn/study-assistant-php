@@ -41,7 +41,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Analyze Request
+     * Sends analysis request to Python backend
      * 
      * @return string JSON is decoded into a string and sent back
      */
@@ -50,6 +50,31 @@ class AdminController extends Controller
         
         $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
         $response = $client->request('GET', '/admin');
+        $results = json_decode($response->getBody(), true);
+        return $results;
+    }
+
+    /**
+     * Displays predictions page
+     *
+     * @return View
+     */
+    public function predictions()
+    {
+        return view('admin.predictions');
+    }
+
+    /**
+     * Receives prediction data from Python backend
+     *
+     * @return JSON
+     */
+    public function predictionAccuracy(Request $request)
+    {
+        $params = json_encode($request->params);
+        
+        $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
+        $response = $client->request('POST', '/accuracy', ['json' => $params]);
         $results = json_decode($response->getBody(), true);
         return $results;
     }

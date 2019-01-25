@@ -54,6 +54,12 @@
                     <span class="sidebar-text">Dashboard</span>
                 </a>
             </li>
+            <li class="{{ Request::is('admin/predictions') ? 'active' : '' }}">
+                <a href="{{ route('admin.predictions') }}">
+                    <i class="fas fa-chart-line sidebar-icon"></i>
+                    <span class="sidebar-text">Predictions</span>
+                </a>
+            </li>
             <li class="{{ Request::is('users/*') ? 'active' : '' }}">
                 <a href="{{ route('admin.users') }}">
                     <i class="fas fa-users sidebar-icon"></i>

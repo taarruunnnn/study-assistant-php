@@ -42,8 +42,8 @@ class UsersTableSeeder extends Seeder
 
         $user = User::create(
             [
-                'name' => 'Jason Doe',
-                'email' => 'jason@example.com',
+                'name' => 'Admin',
+                'email' => 'admin@example.com',
                 'birth' => '1995',
                 'gender' => 'M',
                 'university' => 'University of Colombo',
@@ -67,7 +67,7 @@ class UsersTableSeeder extends Seeder
             }
         );
 
-        factory(App\User::class, 50)->create()->each(
+        factory(App\User::class, 100)->create()->each(
             function ($user) {
                 $user->completed_modules()->saveMany(factory(App\CompletedModule::class, 10)->make());
             }
