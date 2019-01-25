@@ -59,7 +59,9 @@ class ReportController extends Controller
 
         $archived = Auth::user()->completed_modules->where('grade', null);
 
-        return view('reports.show', compact('reports', 'archived', 'logs', 'schedule'));
+        return view(
+            'reports.show', compact('reports', 'archived', 'logs', 'schedule')
+        );
     }
 
     /**
@@ -82,19 +84,27 @@ class ReportController extends Controller
         $timeSpend = $report->time_spent;
         $studyTimes = $report->study_times;
         $sessionCount = $report->session_count;
+        $predictions = $report->predictions;
         $date = $report->created_at;
 
         $data = array(
             "sessions" => json_decode($sessionsDb),
             "comparedtime" => json_decode($timeSpend),
             "studytimes" => json_decode($studyTimes),
-            "sessioncount" => json_decode($sessionCount)
+            "sessioncount" => json_decode($sessionCount),
+            "predictions" => json_decode($predictions),
         );
 
         $data = json_encode($data);
         $live = false;
 
-        return view('reports.report', compact('live', 'modulesCount', 'sessionsComplete', 'sessionsMissed', 'sessionsIncomplete', 'progress', 'sessionsDb', 'timeSpend', 'date', 'data'));
+        return view(
+            'reports.report', compact(
+                'live', 'modulesCount', 'sessionsComplete', 'sessionsMissed', 
+                'sessionsIncomplete', 'progress', 'sessionsDb', 
+                'timeSpend', 'date', 'data'
+            )
+        );
     }
 
     /**
@@ -112,14 +122,30 @@ class ReportController extends Controller
             $sessions = $schedule->sessions;
 
             $total_session_count = count($sessions);
-            $completed_session_count = count($sessions->where('status', 'completed'));
-            $progress = round((($completed_session_count/$total_session_count) * 100), 2);
+            $completed_session_count = count(
+                $sessions->where('status', 'completed')
+            );
+            $progress = round(
+                (($completed_session_count/$total_session_count) * 100), 2
+            );
 
             $live = true;
+
+            $predictions = array();
+            foreach ($modules as $module) {
+                $grade = $this->predict($schedule->id, $module->name);
+                array_push($predictions, array($module->name, $grade));
+            }
+
+            $grades = json_encode($predictions);
         }
         
 
-        return view('reports.report', compact('schedule', 'modules', 'sessions', 'progress', 'live'));
+        return view(
+            'reports.report', compact(
+                'schedule', 'modules', 'sessions', 'progress', 'live', 'grades'
+            )
+        );
     }
 
     /**
@@ -135,6 +161,33 @@ class ReportController extends Controller
 
         $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
         $response = $client->request('GET', '/reports', ['query' => $schedule]);
+        $results = json_decode($response->getBody(), true);
+        return $results;
+    }
+
+    /**
+     * Prediction function
+     * 
+     * Sends request to Python backend with arguements
+     * Receives predicted grade and returns it
+     *
+     * @param int    $sched      Schedule Id of authenticated users schedule
+     * @param string $moduleName Module name
+     * 
+     * @return string
+     */
+    public function predict($sched, $moduleName)
+    {
+        $json = array(
+            'params' => array(
+                "moduleName", "rating", "completed", "failed"
+            ),
+            'algorithm' => 'knn',
+            'sched' => $sched,
+            'module' => $moduleName
+        );
+        $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
+        $response = $client->request('POST', '/predict', ['json' => $json]);
         $results = json_decode($response->getBody(), true);
         return $results;
     }

@@ -419,6 +419,20 @@
                         @endforeach
                     @endif
                     ],
+                    eventRender: function(eventObj, $el) {
+                        if (eventObj.description == 'session'){
+                            var description = "2 Hour Session";
+                        } else if (eventObj.description == 'event') {
+                            var description = "Event";
+                        }
+                        $el.popover({
+                            title: eventObj.title,
+                            content: description,
+                            trigger: 'hover',
+                            placement: 'top',
+                            container: 'body'
+                        });
+                    },
                     eventClick: function(calEvent, jsEvent, view){
                         if(calEvent.description == 'event')
                         {

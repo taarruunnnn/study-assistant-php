@@ -64,6 +64,7 @@ Route::group(
         Route::get('view/{report}', 'ReportController@view')->name('reports.view');
         Route::get('generate', 'ReportController@generate')->name('report.generate');
         Route::post('analyze', 'ReportController@analyze')->name('report.analyze');
+        Route::post('predict', 'ReportController@predict')->name('report.predict');
         Route::post('save', 'ReportController@save')->name('report.save');
         Route::get('destroy', 'ReportController@destroy')->name('report.destroy');
     }

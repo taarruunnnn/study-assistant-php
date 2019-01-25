@@ -66,6 +66,8 @@ class AdminController extends Controller
 
     /**
      * Receives prediction data from Python backend
+     * 
+     * @param Request $request POST request data
      *
      * @return JSON
      */

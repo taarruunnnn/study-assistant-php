@@ -6,7 +6,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-md-6">
                 <div class="card mt-3">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Schedule Summary</h4>
@@ -87,7 +87,26 @@
 
                 @endif
             </div>
-            <div class="col-sm-6">
+            <div class="col-md-6">
+                @if ((! empty($schedule)) || $live == false)
+                <div class="card mt-3" style="display:none" id="predCard">
+                    <div class="card-body">
+                        <h5 class="card-title">Predicted Grades</h5>
+                        <p>Please note that prediction of grades is still in its beta stage and that its accuracy is low at this point. However, this level of accuracy improves with everyday as students input their study habit related data to the system.</p>
+                        <table class="table table-bordered" id="predTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Module Name</th>
+                                    <th scope="col">Prediction</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                @endif
+
                 @if ((! empty($schedule)) || $live == false)
                 <div class="card mt-3" style="display:none" id="canvasProgress">
                     <div class="card-body">
@@ -454,6 +473,33 @@
                 @endif
             }
         }
+
+        (function(){
+            @if (!empty($schedule) && $live == true)
+                var pred_list = {!! $grades !!};
+            @elseif ($live == false)
+                var data = {!! json_encode($data) !!}
+                data = data.replace(/\\/g, "");
+                data = JSON.parse(data)
+                var pred_list = data['predictions']
+            @endif
+            
+            for (var key in pred_list) {
+                if (pred_list.hasOwnProperty(key)) {
+                    $('#predTable > tbody:last-child').append('<tr><td>' + pred_list[key][0] + '</td>' + '<td>' + pred_list[key][1] + '</td></tr>')
+                }
+            }
+
+            if (pred_list)
+            {
+                $('#predCard').show('slow');
+            }
+
+            @if ($live == true)
+                createHiddenForm("predictions", JSON.stringify(pred_list));
+            @endif
+            
+        })()
 
         function createHiddenForm(name, value)
         {

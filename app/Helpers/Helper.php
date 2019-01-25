@@ -33,7 +33,7 @@ if (!function_exists('scheduleRetriever')) {
                         "#9c27b0", 
                         "#f442c8", 
                         "#e65100", 
-                        "#8bc34a", 
+                        "#c3a34a", 
                         "#4caf50", 
                         "#797979", 
                         "#2196f3"
@@ -91,7 +91,7 @@ if (!function_exists('scheduleRetriever')) {
                                 'title' => $event->description,
                                 'start' => $event->date,
                                 'end' => $event->date,
-                                'color' => '#bd4747',
+                                'color' => '#562424',
                                 'description' => 'event',
                                 'className' => 'calendarEvent'
                             ];

@@ -20,7 +20,7 @@ class Report extends Model
     protected $fillable = [
         'no_modules', 'sessions_completed', 'sessions_missed', 
         'sessions_incomplete', 'progress', 'sessions', 
-        'time_spent', 'study_times', 'session_count'
+        'time_spent', 'study_times', 'session_count', 'predictions'
     ];
 
     /**
