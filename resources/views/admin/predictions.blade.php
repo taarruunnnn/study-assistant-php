@@ -67,17 +67,17 @@
                         <th scope="col" style="width:50%">Accuracy</th>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr id="gnb">
                             <td>Gaussian Naive-Bayes</td>
-                            <td id="gnb">-</td>
+                            <td id="gnbVal">-</td>
                         </tr>
-                        <tr>
+                        <tr id="lsvc">
                             <td>Linear SVC</td>
-                            <td id="lsvc">-</td>
+                            <td id="lsvcVal">-</td>
                         </tr>
-                        <tr>
+                        <tr id="knn">
                             <td>KNeighbors Classifier</td>
-                            <td id="knn">-</td>
+                            <td id="knnVal">-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -131,6 +131,9 @@
                     checkAccuracy();
 
                     $('#algorithm').val(prefs['algorithm']);
+
+                    $('#'+prefs['algorithm']).css('font-weight', 'bold');
+
                 })()
             @endif
 
@@ -144,9 +147,9 @@
                 if ($('.paramCheckbox').filter(':checked').length == 0)
                 {
                     alert("At least one data point should be checked.")
-                    $('#gnb').text('-');
-                    $('#lsvc').text('-');
-                    $('#knn').text('-');
+                    $('#gnbVal').text('-');
+                    $('#lsvcVal').text('-');
+                    $('#knnVal').text('-');
                     return;
                 }
 
@@ -171,9 +174,9 @@
                 if ($('.paramCheckbox').filter(':checked').length == 0)
                 {
                     alert("At least one data point should be checked.")
-                    $('#gnb').text('-');
-                    $('#lsvc').text('-');
-                    $('#knn').text('-');
+                    $('#gnbVal').text('-');
+                    $('#lsvcVal').text('-');
+                    $('#knnVal').text('-');
                     return;
                 }
 
@@ -204,9 +207,9 @@
 
             function displayAccuracy(data)
             {
-                $('#gnb').text(data.gnb);
-                $('#lsvc').text(data.lsvc);
-                $('#knn').text(data.knn);
+                $('#gnbVal').text(data.gnb);
+                $('#lsvcVal').text(data.lsvc);
+                $('#knnVal').text(data.knn);
             }
 
         });

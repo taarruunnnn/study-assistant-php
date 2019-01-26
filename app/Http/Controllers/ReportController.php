@@ -178,11 +178,13 @@ class ReportController extends Controller
      */
     public function predict($sched, $moduleName)
     {
+        $prefsPath = storage_path('app/public/preferences.json');
+        $jsonFile = file_get_contents($prefsPath);
+        $jsonFile = json_decode($jsonFile, true);
+
         $json = array(
-            'params' => array(
-                "moduleName", "rating", "completed", "failed"
-            ),
-            'algorithm' => 'knn',
+            'params' => $jsonFile['params'],
+            'algorithm' => $jsonFile['algorithm'],
             'sched' => $sched,
             'module' => $moduleName
         );

@@ -477,6 +477,7 @@
         (function(){
             @if (!empty($schedule) && $live == true)
                 var pred_list = {!! $grades !!};
+                console.log(pred_list)
             @elseif ($live == false)
                 var data = {!! json_encode($data) !!}
                 data = data.replace(/\\/g, "");
