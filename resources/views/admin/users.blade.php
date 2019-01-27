@@ -71,8 +71,8 @@
 
                         </ul>
                     </div>
-                    <button type="button" class="btn btn-danger" id="userDelete">Delete Schedule</button>
-                    <p id="confirmDelete">Are you sure you want to <strong>Delete Current Schedule?</strong>
+                    <button type="button" class="btn btn-danger" id="userDelete">Delete User</button>
+                    <p id="confirmDelete">Are you sure you want to <strong>Delete this User?</strong>
                         <br/>
                         <a class="btn btn-outline-primary btn-sm" id="btnYes">Yes</a>
                         <a class="btn btn-outline-secondary btn-sm" id="canceluserDelete">No</a>

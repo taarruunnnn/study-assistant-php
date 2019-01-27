@@ -69,7 +69,6 @@
 
                     <div class="col-md-4">
                         <select class="form-control" id="country" name="country" required>
-                            <option value="" disabled selected id="placeholder">Select your country</option>
                             @component('layouts.countries')
                             @endcomponent
                         </select>
