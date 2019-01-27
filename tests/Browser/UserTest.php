@@ -156,6 +156,7 @@ class UserTest extends DuskTestCase
                     ->click('#deleteBtn')
                     ->pause(1000)
                     ->press('Yes')
+                    ->pause(100)
                     ->assertPathIs('/');
             }
         );

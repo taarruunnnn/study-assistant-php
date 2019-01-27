@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="col-sm-9 mx-auto mb-5">
+<div class="col-sm-9 mx-auto my-5">
     <div class="card">
         <div class="card-body">
             <a href="{{ route("login") }}" id="form-back">&larr;</a>

@@ -22,7 +22,7 @@
 
 </head>
 <body id="welcome">
-    <div class="container d-flex align-items-center justify-content-center">
+    <div class="container d-flex align-items-center justify-content-center flex-column mb-0">
         @if ($flash = session('message'))
             <div class="row my-2">
                 <main class="py-4">

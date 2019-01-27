@@ -81,10 +81,13 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $user->schedule->modules()->delete();
-        $user->schedule->sessions()->delete();
-        $user->schedule->reports()->delete();
-        $user->schedule->delete();
+        if ($user->schedule) {
+            $user->schedule->modules()->delete();
+            $user->schedule->sessions()->delete();
+            $user->schedule->reports()->delete();
+            $user->schedule->delete();
+        }
+        
         $user->delete();
 
         session()->flash('message', 'User Deleted');
