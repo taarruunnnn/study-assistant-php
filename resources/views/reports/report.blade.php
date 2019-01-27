@@ -484,17 +484,19 @@
                 data = JSON.parse(data)
                 var pred_list = data['predictions']
             @endif
-            
+
+
+
             for (var key in pred_list) {
                 if (pred_list.hasOwnProperty(key)) {
-                    $('#predTable > tbody:last-child').append('<tr><td>' + pred_list[key][0] + '</td>' + '<td>' + pred_list[key][1] + '</td></tr>')
+                    if (pred_list[key][1] != null){
+                        $('#predTable > tbody:last-child').append('<tr><td>' + pred_list[key][0] + '</td>' + '<td>' + pred_list[key][1] + '</td></tr>');
+                        $('#predCard').show('slow');
+                    } 
                 }
             }
 
-            if (pred_list)
-            {
-                $('#predCard').show('slow');
-            }
+    
 
             @if ($live == true)
                 createHiddenForm("predictions", JSON.stringify(pred_list));

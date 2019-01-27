@@ -1,6 +1,7 @@
 {
     "params": [
-        "completed"
+        "completed",
+        "failed"
     ],
     "algorithm": "knn"
 }
