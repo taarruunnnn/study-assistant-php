@@ -85,29 +85,34 @@ class Schedule extends Model
      */
     public function createSchedule($user, $request)
     {
-        if ($user->schedule === null) {
-
-            $weekday_hours = $request->weekdays;
-            $weekend_hours = $request->weekends;
-            $start = $request->start;
-            $end = $request->end;
-
-            $schedule = $user-> schedule()-> create(
-                [
-                    'start' => $start,
-                    'end' => $end,
-                    'weekday_hours' => $weekday_hours,
-                    'weekend_hours' => $weekend_hours
-                ]
-            );
-
-            $total_study_hours = $this->totalStudyHourCalculator($request);
-            $total_rating = $this->totalRatingCalculator($request);
-            $modules = $this->moduleCreator($request, $total_study_hours, $total_rating, $schedule);
-            $this->sessionCreator($request, $modules, $schedule);
-
-            return $schedule;
+        if ($sched = $user->schedule) {
+            $sched->modules()->delete();
+            $sched->sessions()->delete();
+            $sched->reports()->delete();
+            $sched->delete();
         }
+
+        $weekday_hours = $request->weekdays;
+        $weekend_hours = $request->weekends;
+        $start = $request->start;
+        $end = $request->end;
+
+        $schedule = $user-> schedule()-> create(
+            [
+                'start' => $start,
+                'end' => $end,
+                'weekday_hours' => $weekday_hours,
+                'weekend_hours' => $weekend_hours
+            ]
+        );
+
+        $total_study_hours = $this->totalStudyHourCalculator($request);
+        $total_rating = $this->totalRatingCalculator($request);
+        $modules = $this->moduleCreator($request, $total_study_hours, $total_rating, $schedule);
+        $this->sessionCreator($request, $modules, $schedule);
+
+        return $schedule;
+        
     }
 
     /**

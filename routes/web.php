@@ -40,7 +40,7 @@ Route::group(
         Route::get('create', 'ScheduleController@create')->name('schedules.create');
         Route::post('store', 'ScheduleController@store')->name('schedules.store');
         Route::get('destroy', 'ScheduleController@destroy')->name('schedules.destroy');
-        // Route::post('update', 'ScheduleController@update')->name('schedules.update');
+        Route::post('update', 'ScheduleController@update')->name('schedules.update');
         Route::post('analyze', 'ScheduleController@analyze')->name('schedule.analyze');
         Route::post('move', 'ScheduleController@move')->name('schedules.move');
 

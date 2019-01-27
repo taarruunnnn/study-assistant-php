@@ -67,7 +67,7 @@
         <div class="modal fade" id="modifySchedule" tabindex="-1" role="dialog" aria-labelledby="modifyScheduleLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
-                    <form method="POST" action="{{ route('schedules.store') }}" id="editSchedule">
+                    <form method="POST" action="{{ route('schedules.update') }}" id="editSchedule">
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="modifyScheduleLabel">Modify Schedule</h5>

@@ -77,9 +77,6 @@ class ScheduleController extends Controller
     public function store(StoreSchedule $request)
     {
         $user = Auth::user();
-        if ($schedule = $user->schedule()) {
-            $schedule->delete();
-        }
         
         $schedule = new Schedule();
         $schedule->createSchedule($user, $request);
@@ -119,24 +116,34 @@ class ScheduleController extends Controller
         }
     }
 
-    // /**
-    //  * Schedule Update
-    //  * 
-    //  * Schedule is updated upon user request
-    //  *
-    //  * @param UpdateSchedule $request Request object received via POST
-    //  * 
-    //  * @return Redirect
-    //  */
-    // public function update(UpdateSchedule $request)
-    // {
-    //     $request->persist();
+    /**
+     * Schedule Update
+     * 
+     * Schedule is updated upon user request
+     *
+     * @param UpdateSchedule $request Request object received via POST
+     * 
+     * @return Redirect
+     */
+    public function update(StoreSchedule $request)
+    {
+        $user = Auth::user();
+        
+        if ($sched = $user->schedule) {
+            $sched->modules()->delete();
+            $sched->sessions()->delete();
+            $sched->reports()->delete();
+            $sched->delete();
+        }
+        
+        $schedule = new Schedule();
+        $schedule->createSchedule($user, $request);
 
-    //     activity()->log('Updated Schedule');
+        activity()->log('Modified Schedule');
 
-    //     session()->flash('message', 'Schedule Updated');
-    //     return redirect()->route('schedules.show');
-    // }
+        session()->flash('message', 'Schedule Modified');
+        return back();
+    }
 
     /**
      * Move Function
