@@ -27,17 +27,15 @@
                 </div>
             @else
             <div class="col-lg-2 ml-4 mt-4">
-                @if($toarchive === false)
-                    <div class="row">
-                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
-                    </div>
-                    <div class="row mt-3">
-                        <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
-                    </div>
-                    <div class="row mt-3">
-                        <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
-                    </div>
-                @endif
+                <div class="row">
+                    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
+                </div>
+                <div class="row mt-3">
+                    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
+                </div>
+                <div class="row mt-3">
+                    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
+                </div>
                 @if($toarchive === true)
                     <div class="row mt-3">
                         <button type="button" class="btn btn-danger btn-block" id="archiveBtn"><i class="fas fa-archive"></i>&nbsp;&nbsp;Archive Sessions</button>

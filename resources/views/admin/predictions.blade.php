@@ -49,7 +49,43 @@
                                             <div class="form-check">
                                                 <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="rating" id="chkRating">
                                                 <label class="form-check-label" for="chkRating">
-                                                    Rating
+                                                    Difficulty Rating
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="university" id="chkUniversity">
+                                                <label class="form-check-label" for="chkUniversity">
+                                                    University
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="major" id="chkMajor">
+                                                <label class="form-check-label" for="chkMajor">
+                                                    Major
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="gender" id="chkGender">
+                                                <label class="form-check-label" for="chkGender">
+                                                    Gender
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="birth" id="chkBirth">
+                                                <label class="form-check-label" for="chkBirth">
+                                                    Birth Year
                                                 </label>
                                             </div>
                                         </td>

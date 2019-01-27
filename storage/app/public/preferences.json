@@ -1,7 +1,8 @@
 {
     "params": [
         "completed",
-        "failed"
+        "failed",
+        "rating"
     ],
     "algorithm": "knn"
 }
