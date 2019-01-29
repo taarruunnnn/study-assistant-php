@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+
 
 class LoginController extends Controller
 {
@@ -45,5 +48,33 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('welcome');
+    }
+
+    /**
+     * Function runs everytime user is authenticated
+     * 
+     * Function checks if there are any failed sessions
+     * and marks them as failed.
+     *
+     * @param Request $request Authentication request
+     * @param User    $user    Current user
+     * 
+     * @return void
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        if ($schedule = $user->schedule) {
+            $sessions = $schedule->sessions;
+            $today = Carbon::today();
+            foreach ($sessions as $session) {
+                $date = new Carbon($session->date);
+                $status = $session->status;
+                if ($date->lessThan($today) && $status == "incomplete") {
+                    $session->status = "failed";
+                    $session->save();
+                }
+            }
+        }
+        
     }
 }

@@ -21,23 +21,26 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule Laravels builtin scheduling object
+     * 
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
-            $sessions = Session::all();
-            $today = Carbon::today();
-            foreach ($sessions as $session) {
-                $date = new Carbon($session->date);
-                $status = $session->status;
-                if ($date->lessThan($today) && $status == "incomplete") {
-                    $session->status = "failed";
-                    $session->save();
+        $schedule->call(
+            function () {
+                $sessions = Session::all();
+                $today = Carbon::today();
+                foreach ($sessions as $session) {
+                    $date = new Carbon($session->date);
+                    $status = $session->status;
+                    if ($date->lessThan($today) && $status == "incomplete") {
+                        $session->status = "failed";
+                        $session->save();
+                    }
                 }
             }
-        })->everyMinute();
+        )->everyMinute();
     }
 
     /**

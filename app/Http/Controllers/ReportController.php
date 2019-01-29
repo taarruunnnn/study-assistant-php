@@ -187,7 +187,8 @@ class ReportController extends Controller
             'params' => $jsonFile['params'],
             'algorithm' => $jsonFile['algorithm'],
             'sched' => $sched,
-            'module' => $moduleName
+            'module' => $moduleName,
+            'user' => Auth::user()->id
         );
         try {
             $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
