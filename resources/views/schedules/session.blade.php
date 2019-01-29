@@ -26,7 +26,7 @@
                     <div id="sessionTimer" class="card-body">
                         <h5 class="card-title">Start the timer</h5>
                         <div class="values">00:00:00</div>
-                        <h4 style="display: none;" class="my-3" id="breakText">Take a break</h4>
+                        <h4 style="display: none;" class="my-3 text-danger" id="breakText">Take a break</h4>
                         <div>
                             <button class="startButton btn btn-primary btn-lg" id="sessionStart"><i class="fas fa-play"></i></button>
                             <button class="pauseButton btn btn-primary btn-lg" id="sessionPause" ><i class="fas fa-pause"></i></button>

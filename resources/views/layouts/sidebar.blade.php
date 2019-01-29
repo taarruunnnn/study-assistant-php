@@ -37,7 +37,7 @@
         </ul>
         <div id="CTA">
             <ul class="list-unstyled">
-                <li class="{{ Request::is('session/*') ? 'active' : '' }}">
+                <li class="{{ Request::is('session') ? 'active' : '' }}">
                     <a href="/session">
                         <i class="fas fa-clock sidebar-icon"></i>
                         <span class="sidebar-text">Session</span>
