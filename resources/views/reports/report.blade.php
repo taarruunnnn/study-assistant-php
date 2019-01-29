@@ -6,8 +6,21 @@
 
     <div class="container">
         <div class="row">
+            <div class="col-md-10">
+                <p id="date" style="font-weight:400;"></p>
+            </div>
+            <div class="col-md-2">
+                @if (! empty($schedule))
+                    <form action="{{ route('report.save') }}" method="POST" id="reportForm">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Save Report</button>
+                    </form>
+                @endif
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
-                <div class="card mt-3">
+                <div class="card mt-3 animated fadeIn">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Schedule Summary</h4>
                         <div class="report-body">
@@ -71,17 +84,19 @@
                     </div>
                 </div>
                 @if ((! empty($schedule)) || $live == false)
-                <div class="card mt-3" style="display:none" id="canvasCompare">
-                    <div class="card-body">
-                        <canvas id="chartCompare" width="400" height="300"></canvas>
-                    </div>
-                </div>
+                
 
                 <div class="card mt-3" style="display:none" id="canvasSessionCount">
                     <div class="card-body">
                         <div class="px-4">
                             <canvas id="sessionCountChart" width="100" height="100"></canvas>
                         </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3" style="display:none" id="canvasTimes">
+                    <div class="card-body">
+                        <canvas id="chartTimes" width="400" height="300"></canvas>
                     </div>
                 </div>
 
@@ -116,21 +131,15 @@
                 @endif
 
                 @if ((! empty($schedule)) || $live == false)
-                <div class="card mt-3" style="display:none" id="canvasTimes">
+
+
+                <div class="card mt-3" style="display:none" id="canvasCompare">
                     <div class="card-body">
-                        <canvas id="chartTimes" width="400" height="300"></canvas>
+                        <canvas id="chartCompare" width="400" height="300"></canvas>
                     </div>
                 </div>
                 @endif
             </div>
-        </div>
-        <div class="row">
-            @if (! empty($schedule))
-                <form action="{{ route('report.save') }}" method="POST" class="m-3" id="reportForm">
-                    @csrf
-                    <button type="submit" class="btn btn-secondary">Save Report</button>
-                </form>
-            @endif
         </div>
     </div>
 
@@ -150,6 +159,8 @@
         
             (function ()
             {
+                $('#date').text("Date - " + moment().format('MMMM Do YYYY, h:mm a'));
+
                 var schedule_id = {{ $schedule->id }}
 
                 $.ajax({
@@ -164,6 +175,7 @@
                         console.log(message);
                     }
                 });
+                
             })();
 
         @elseif ($live == false)
@@ -178,8 +190,6 @@
             })();
 
         @endif
-
-        
 
         function displayAnalysis(data)
         {
