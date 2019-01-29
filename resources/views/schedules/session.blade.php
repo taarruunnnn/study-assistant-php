@@ -72,6 +72,8 @@
                 </div>  
             </div>
         </div>
+        <audio src="{{ asset('storage/audio/pause.mp3') }}" id="pauseAudio" preload="auto" style="display:none;"></audio>
+        <audio src="{{ asset('storage/audio/success.mp3') }}" id="successAudio" preload="auto" style="display:none;"></audio>
     </div>
 
 @endsection
@@ -97,6 +99,9 @@
                     if(time == 5)
                     {
                         timer.pause();
+
+                        $('#pauseAudio').trigger('play');
+
                         $('#breakText').show();
                         $('#breakTimer').slideDown("slow");
                         $breakTimerDom.text(breakDuration);
@@ -135,7 +140,12 @@
                 timer.addEventListener('targetAchieved', function (e) {
                     window.onbeforeunload = null;
                     $sessionTimerDom.html("Completed");
-                    sessionComplete();
+                    $('#successAudio').trigger('play');
+                    setTimeout(function() {
+                            sessionComplete();
+                        }, 2000);
+
+                    
                 });
     
                 $breakTimerDom.html(breakDuration);
@@ -160,6 +170,7 @@
                 });
                 breakTimer.addEventListener('targetAchieved', function (e) {
                     $breakTimerDom.html("Complete");
+                    $('#successAudio').trigger('play');
                     $('#breakText').text("Break completed. Resume studying.");
                     window.onbeforeunload = null;
                 });
