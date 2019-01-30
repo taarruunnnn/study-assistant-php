@@ -164,7 +164,7 @@
                                     <div class="card" id="hours">
                                         <div class="card-body">
                                             <h5 class="card-title">Average Hours</h5>
-                                            <p class="card-text">The average student spends <span id="hours-text" class="font-weight-bold"></span> hours per day on this module</p>
+                                            <p class="card-text">The average student spends <span id="weekday-text" class="font-weight-bold"></span> hours per weekday and <span id="weekend-text" class="font-weight-bold"></span> hours per weekend day on this module</p>
                                         </div>
                                     </div>
                                     <div class="card" id="rating">
@@ -305,7 +305,8 @@
             if (data['hours'] != "N/A")
             { 
                 $('#hours').css('display', 'inline-block');
-                $('#hours-text').text(data['hours']);
+                $('#weekday-text').text(data['hours'].weekday_hours);
+                $('#weekend-text').text(data['hours'].weekend_hours);
             }
 
             if (data['ratings'] != "N/A")
