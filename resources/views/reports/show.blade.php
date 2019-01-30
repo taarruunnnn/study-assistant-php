@@ -244,6 +244,10 @@
             loadModuleData();
         });
 
+        $('#searchModal').on('shown.bs.modal', function () {
+            $('#textName').focus();
+        })
+
         function updateGrade(grade, moduleId)
         {
             $.ajax({
@@ -275,7 +279,6 @@
                 data: {module: moduleName},
                 success: function(data){
                     displayData(data, moduleName);
-                    console.log(data);
                 },
                 error: function(message){
                     console.log(message);
@@ -294,15 +297,13 @@
             $('#timeofday').css('display', 'none');
             $('#related').css('display', 'none');
 
-            if (data['grades'] == "N/A" && data['hours'] == "N/A" && data['ratings'] == "N/A" && data['related'] == "N/A" && data['tod'] === "N/A")
+            if (data['hours'].weekend_hours == "N/A" && data['hours'].weekday_hours == "N/A" && data['ratings'] == "N/A" && data['related'] == "N/A" && data['tod'] === "N/A")
             {
                 $('#moduleName').text("No Analysis Data Available");
                 return;
             }
 
-            console.log(data);
-
-            if (data['hours'] != "N/A")
+            if (data['hours'].weekend_hours != "N/A" || data['hours'].weekday_hours != "N/A")
             { 
                 $('#hours').css('display', 'inline-block');
                 $('#weekday-text').text(data['hours'].weekday_hours);
