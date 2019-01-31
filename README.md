@@ -13,28 +13,28 @@ The 'Study Assitant' is a web based time and schedule management system for stud
 
 ##### Dashboard
 
-![Dashboard Screenshot](# "Dashboard")
+![Dashboard Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/dashboard.png "Dashboard")
 Students can view a brief overview of their current progress here.
 
-![Schedule Screenshot](# "Schedules")
+![Schedule Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/schedule.png "Schedules")
 Upcoming schedule sessions are displayed here. They can be modified or moved as the student sees fit.
 
-![Reports Screenshot](# "Reports")
+![Reports Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/reports.png "Reports")
 Reports will be generated based on the performance of students.
 
-![Sessions Timer Screenshot](# "Session Timer")
+![Sessions Timer Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/study-session.png "Session Timer")
 Session timer will record the study duration of students.
 
-![Admin Dashboard Screenshot](# "Admin Dashboard")
+![Admin Dashboard Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/admin-dashboard.png "Admin Dashboard")
 Admins get a brief overview of the entire system upon logging in.
 
-![Prediction Settings Screenshot](# "Prediction Settings")
+![Prediction Settings Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/admin-predictions.png "Prediction Settings")
 Admins can change parameters of the prediction algorithm and choose the best combination to make accurate predictions for student grades.
 
-![Manage Users](# "Manage Users")
+![Manage Users](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/admin-users.png "Manage Users")
 Admins can view a brief overview of the students in order to manage them.
 
-![Mobile App Screenshot](# "Mobile App")
+![Mobile App Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/mobile.png "Mobile App")
 Students can also access the system via an Android App.
 
 #### Technologies Utilized
