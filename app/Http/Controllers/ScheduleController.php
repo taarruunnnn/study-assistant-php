@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreSchedule;
-use App\Http\Requests\UpdateSchedule;
 use GuzzleHttp\Client;
 use Psr\Http\Message\ServerRequestInterface;
 use App\Session;
