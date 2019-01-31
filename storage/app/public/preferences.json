@@ -1,8 +1,10 @@
 {
     "params": [
-        "completed",
-        "failed",
-        "rating"
+        "norm_comp",
+        "name",
+        "norm_fail",
+        "university",
+        "gender"
     ],
     "algorithm": "knn"
 }

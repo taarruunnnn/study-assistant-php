@@ -21,7 +21,7 @@
                                     <tr>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="completed" id="chkCompleted">
+                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="norm_comp" id="chkCompleted">
                                                 <label class="form-check-label" for="chkCompleted">
                                                     Completed Modules
                                                 </label>
@@ -29,8 +29,8 @@
                                         </td>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="moduleName" id="chkModuleName">
-                                                <label class="form-check-label" for="chkModuleName">
+                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="name" id="chkName">
+                                                <label class="form-check-label" for="chkName">
                                                     Module Name
                                                 </label>
                                             </div>
@@ -39,7 +39,7 @@
                                     <tr>
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="failed" id="chkFailed">
+                                                <input class="form-check-input paramCheckbox" type="checkbox" name="params[]" value="norm_fail" id="chkFailed">
                                                 <label class="form-check-label" for="chkFailed">
                                                     Failed Modules
                                                 </label>
