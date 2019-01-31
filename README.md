@@ -34,8 +34,6 @@ Admins can change parameters of the prediction algorithm and choose the best com
 ![Manage Users](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/admin-users.png "Manage Users")
 Admins can view a brief overview of the students in order to manage them.
 
-![Mobile App Screenshot](https://raw.githubusercontent.com/davehowson/study-assistant-php/master/storage/app/public/images/screenshots/mobile.png "Mobile App")
-Students can also access the system via an Android App.
 
 #### Technologies Utilized
 This repository consists of the main web server which is based on PHP. The technologies used here are
