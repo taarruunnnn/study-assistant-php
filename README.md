@@ -1,6 +1,6 @@
 # Study Assistant
 
-The 'Study Assistant' is a web based time schedule management system for students. Built as part of my final year project for Bachelor of Information Technology program of the University of Moratuwa, this system assists students in the following ways.
+The 'Study Assistant' is a web based time schedule management system for students. Built as part of my final year project for the Bachelor of Information Technology degree offered by the University of Moratuwa, this system assists students in the following ways.
 
 * Create customized study schedules based on students' modules
 * Provide detailed analysis about modules based on data collected from students
