@@ -314,10 +314,6 @@ span.twitter-typeahead {
     display: none;
 }
 
-#sessionTimer .values, #breakTimer .values {
-    font-size: 85px;
-}
-
 #hours, #rating, #timeofday, #grades, #related{
     display: none;
 }
@@ -332,6 +328,30 @@ span.twitter-typeahead {
 
 .rating-col{
     width: 25%;
+}
+
+// SESSION TIMER
+
+#sessionTimer .values, #breakTimer .values {
+    font-size: 85px;
+}
+
+#sessionTimer .values, {
+    display: inline-block;
+    white-space: nowrap;
+    width: 65%;
+}
+
+#breakTimer{
+    width: 50%;
+    font-size: 22px;
+    display: none;
+    white-space: nowrap;
+}
+
+.timerBtn{
+    margin: 10px;
+    border-radius: 30px;
 }
 
 
@@ -412,22 +432,30 @@ span.twitter-typeahead {
     }
 }
 
+@media only screen and (max-width: 1190px) {
+    #sessionTimer .values {
+        font-size: 67px;
+    }
+    #breakTimer{
+        width: auto;
+    }
 
-@media only screen and (max-width: 700px) {
-#sessionTimer .values, #breakTimer .values {
-    font-size: 75px;
-}
-}
-
-@media only screen and (max-width: 400px) {
-#sessionTimer .values, #breakTimer .values{
-    font-size: 55px;
-}
 }
 
-@media only screen and (max-width: 300px) {
-#sessionTimer .values, #breakTimer .values {
-    font-size: 45px;
+@media only screen and (max-width: 1000px) {
+    #sessionTimer .values {
+        font-size: 59px;
+        width: 77%;
+    }
 }
+
+@media only screen and (max-width: 800px) {
+    #sessionTimer .values {
+        font-size: 41px;
+        width: 77%;
+    }
+    #breakTimer{
+        font-size:15px;
+    }
 }
   
