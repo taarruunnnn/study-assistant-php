@@ -15,18 +15,18 @@ use App\Http\Requests\StoreSchedule;
 $factory->define(
     App\CompletedModule::class, function (Faker $faker) {
         $modules = [
-            'IT',
-            'History',
-            'Science',
-            'English',
-            'French',
-            'Law',
-            'Sinhala',
-            'Biology',
-            'Chemistry',
-            'Physics',
-            'Mathematics',
-            'Statistics'
+            'Fundamentals of Programming',
+            'Computational Mathematics',
+            'Business Studies',
+            'Accountancy',
+            'Web Development',
+            'Intelligent Systems',
+            'Fundamentals of Machine Learning',
+            'Logic Programming',
+            'Multimedia Design',
+            'Human Resource Management',
+            'Operating Systems',
+            'Computer Networking'
         ];
 
         $ratArray = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);

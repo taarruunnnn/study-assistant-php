@@ -15,18 +15,18 @@ use App\Http\Requests\StoreSchedule;
 $factory->define(
     App\Schedule::class, function (Faker $faker) {
         $modules = [
-            'IT',
-            'History',
-            'Science',
-            'English',
-            'French',
-            'Law',
-            'Sinhala',
-            'Biology',
-            'Chemistry',
-            'Physics',
-            'Mathematics',
-            'Statistics'
+            'Fundamentals of Programming',
+            'Computational Mathematics',
+            'Business Studies',
+            'Accountancy',
+            'Web Development',
+            'Intelligent Systems',
+            'Fundamentals of Machine Learning',
+            'Logic Programming',
+            'Multimedia Design',
+            'Human Resource Management',
+            'Operating Systems',
+            'Computer Networking'
         ];
 
         $start = $faker->dateTimeBetween(

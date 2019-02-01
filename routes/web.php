@@ -27,8 +27,6 @@ Route::get('user/{user}', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}', 'UserController@update')->name('user.update');
 Route::delete('user/delete/{user}', 'UserController@destroy')->name('user.delete');
 
-Route::view('users/policy', 'users.policy')->name('users.policy');
-
 Route::get('users/universities', 'TypeaheadController@universities');
 Route::get('users/modules', 'TypeaheadController@modules');
 
@@ -83,5 +81,15 @@ Route::group(
         Route::get('users', 'AdminController@users')->name('admin.users');
         Route::post('users/details', 'AdminController@userDetails')->name('admin.users.details');
         Route::post('users/destroy', 'AdminController@userDelete')->name('admin.users.destroy');
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'help'
+    ], function () {
+        Route::get('/', 'HelpController@index');
+        Route::get('/faq/{faq}', 'HelpController@show')->name('help.faq');
+        Route::view('/policy', 'help.policy')->name('help.policy');
     }
 );

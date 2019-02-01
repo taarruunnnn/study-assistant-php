@@ -33,18 +33,21 @@
                     <span class="sidebar-text">User</span>
                 </a>
             </li>
-            
-        </ul>
-        <div id="CTA">
-            <ul class="list-unstyled">
-                <li class="{{ Request::is('session') ? 'active' : '' }}">
+            <li class="{{ Request::is('session') ? 'active' : '' }}">
                     <a href="/session">
                         <i class="fas fa-clock sidebar-icon"></i>
                         <span class="sidebar-text">Session</span>
                     </a>
                 </li>
-            </ul>
-        </div>
+                <li class="{{ Request::is('help*') ? 'active' : '' }}">
+                    <a href="/help">
+                        <i class="fas fa-question-circle sidebar-icon"></i>
+                        <span class="sidebar-text">Help</span>
+                    </a>
+                </li>
+            
+        </ul>
+
     
         @elseif (Auth::user()->isAdmin())
         <ul class="list-unstyled components">
