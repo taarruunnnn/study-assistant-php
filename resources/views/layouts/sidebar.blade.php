@@ -16,9 +16,15 @@
                 </a>
             </li>
             <li class="{{ Request::is('schedules*') ? 'active' : '' }}">
-                <a href="/schedules">
+                <a href="{{ route('schedules.show') }}">
                     <i class="fas fa-calendar-alt sidebar-icon"></i>
                     <span class="sidebar-text">Schedule</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('session') ? 'active' : '' }}">
+                <a href="{{ route('session.show') }}">
+                    <i class="fas fa-clock sidebar-icon"></i>
+                    <span class="sidebar-text">Session</span>
                 </a>
             </li>
             <li class="{{ Request::is('reports*') ? 'active' : '' }}">
@@ -28,23 +34,17 @@
                 </a>
             </li>
             <li class="{{ Request::is('user/*') ? 'active' : '' }}">
-                <a href="/user/edit">
+                <a href="{{ route('user.edit') }}">
                     <i class="fas fa-users-cog sidebar-icon"></i>
                     <span class="sidebar-text">User</span>
                 </a>
             </li>
-            <li class="{{ Request::is('session') ? 'active' : '' }}">
-                    <a href="/session">
-                        <i class="fas fa-clock sidebar-icon"></i>
-                        <span class="sidebar-text">Session</span>
-                    </a>
-                </li>
-                <li class="{{ Request::is('help*') ? 'active' : '' }}">
-                    <a href="/help">
-                        <i class="fas fa-question-circle sidebar-icon"></i>
-                        <span class="sidebar-text">Help</span>
-                    </a>
-                </li>
+            <li class="{{ Request::is('help*') ? 'active' : '' }}">
+                <a href="{{ route('help') }}">
+                    <i class="fas fa-question-circle sidebar-icon"></i>
+                    <span class="sidebar-text">Help</span>
+                </a>
+            </li>
             
         </ul>
 

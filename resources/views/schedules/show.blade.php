@@ -28,6 +28,9 @@
             @else
             <div class="col-lg-2 ml-4 mt-4">
                 <div class="row">
+                    <a href="{{ route('session.show') }}" class="btn btn-success btn-block"><i class="fas fa-clock"></i>&nbsp;&nbsp;Start Studying</a>
+                </div>
+                <div class="row mt-3">
                     <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
                 </div>
                 <div class="row mt-3">

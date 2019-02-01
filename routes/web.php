@@ -23,7 +23,7 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-Route::get('user/{user}', 'UserController@edit')->name('user.edit');
+Route::get('user/edit', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}', 'UserController@update')->name('user.update');
 Route::delete('user/delete/{user}', 'UserController@destroy')->name('user.delete');
 
@@ -88,7 +88,7 @@ Route::group(
     [
         'prefix' => 'help'
     ], function () {
-        Route::get('/', 'HelpController@index');
+        Route::get('/', 'HelpController@index')->name('help');
         Route::get('/faq/{faq}', 'HelpController@show')->name('help.faq');
         Route::view('/policy', 'help.policy')->name('help.policy');
     }
