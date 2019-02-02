@@ -5,9 +5,16 @@
 @section('content')
 
     <div class="container">
+        <div class="row" id="ajaxWarning" style="display:none;">
+            <div class="col">
+                <div class="alert alert-danger" role="alert">
+                    Session Failed : Could not connect the server.
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-6 text-center mx-auto">
-                <h5>Select a module to start studying</h5>
+                <h5 id="sessionHeader">Select a module to start studying</h5>
                 <select name="modules" id="modules" class="form-control my-3">
                     @foreach ($modules as $module)
                         @if ($module['status'] == "incomplete")
@@ -61,38 +68,45 @@
 @section('script')
     <script>
         $(function(){
+            //DOM Assignments
+            var $modules = $('#modules');
+            var $sessionStop = $('#sessionStop');
+            var $sessionStart = $('#sessionStart');
+            var $sessionCompleteText = $('#sessionCompleteText');
+            var $breakTimerDom = $('#breakValues');
+            var $sessionTimerDom = $('#sessionTimer .values');
+            var $breakTimer = $('#breakTimer');
+
+            var $successAudio = $('#successAudio');
+            var $pauseAudio = $('#pauseAudio');
+
             var completed = [];
             var incomplete = [];
-
-            (function(){
-
+        
+            (function ()
+            {
                 @if ($modules)
                     @foreach ($modules as $module)
                         @if ($module['status'] == "incomplete")
-                            incomplete.push('{{$module["module"]}}')
+                            incomplete.push('{{$module["module"]}}');
                         @elseif ($module['status'] == "completed")
-                            completed.push('{{$module["module"]}}')
+                            completed.push('{{$module["module"]}}');
                         @endif
                     @endforeach
                 @endif
                 console.log(completed)
 
                 populateTable();
-            })();
+                moduleCheck();
 
-            
-        
-            (function ()
-            {
-                $('#modules').on('change', function(){
-                    $('#sessionStop').trigger('click');
-                    $('#sessionCompleteText').hide('slow');
+                $modules.on('change', function(){
+                    $sessionStop.trigger('click');
+                    $sessionCompleteText.hide('slow');
                 });
 
-                var duration = "00:00:10";
+                //Countdown Timer
 
-                var $breakTimerDom = $('#breakValues');
-                var $sessionTimerDom = $('#sessionTimer .values');
+                var duration = "00:00:10";
                 var breakDuration = "00:00:05";
                 $breakTimerDom.text(breakDuration);
                 $sessionTimerDom.text(duration);
@@ -101,56 +115,54 @@
                 var breakTimer = new Timer();
                 var play = false;
 
-                
-
-                timer.addEventListener('secondsUpdated', function (e) {
-                    var time = timer.getTimeValues().seconds;
-                    if(time == 5)
+                $sessionStart.click(function () {
+                    if( $modules.val() )
                     {
-                        timer.pause();
-                        $('#sessionStart').html('<i class="fas fa-play"></i>')
-                        play = false;
-                        breakTimer.start({countdown: true, startValues: {seconds: 05}});
-
-                        $('#pauseAudio').trigger('play');
-
-                        $('#breakTimer').show(500).css("display", "inline-block");
-                        $breakTimerDom.text(breakDuration);
-
-                    }
-                    $sessionTimerDom.html(timer.getTimeValues().toString());
-                });
-
-                $('#sessionStart').click(function () {
-                    if( $('#modules').val() )
-                    {
-                        $('#breakTimer').hide("slow");
+                        $breakTimer.hide("slow");
                         breakTimer.stop();
-                        $('#sessionCompleteText').hide('slow');
+                        $sessionCompleteText.hide('slow');
 
                         if (!(play))
                         {
                             timer.start({countdown: true, startValues: {seconds: 10}});
-                            $('#sessionStart').html('<i class="fas fa-pause"></i>')
+                            $sessionStop.prop('disabled', false);
+                            $sessionStart.html('<i class="fas fa-pause"></i>')
                             play = true;
                             window.onbeforeunload = function(){
                                 return true;
                             };
                         } else {
-                            $('#sessionStart').html('<i class="fas fa-play"></i>');
+                            $sessionStart.html('<i class="fas fa-play"></i>');
                             play = false;
                             timer.pause();
                         }
                     }
                 });
 
-                $('#sessionStop').click(function () {
-                    $('#sessionStart').html('<i class="fas fa-play"></i>')
+                $sessionStop.click(function () {
+                    $sessionStart.html('<i class="fas fa-play"></i>')
                     play = false;
                     timer.stop();
                     breakTimer.stop();
                     $sessionTimerDom.html(duration);
                     window.onbeforeunload = null;
+                });
+
+                timer.addEventListener('secondsUpdated', function (e) {
+                    var time = timer.getTimeValues().seconds;
+                    if(time == 5)
+                    {
+                        timer.pause();
+                        $sessionStart.html('<i class="fas fa-play"></i>')
+                        play = false;
+                        $sessionStop.prop('disabled', 'disabled');
+                        $pauseAudio.trigger('play');
+
+                        breakTimer.start({countdown: true, startValues: {seconds: 05}});
+                        $breakTimer.show(500).css("display", "inline-block");
+                        $breakTimerDom.text(breakDuration);
+                    }
+                    $sessionTimerDom.html(timer.getTimeValues().toString());
                 });
 
                 timer.addEventListener('started', function (e) {
@@ -159,11 +171,11 @@
 
                 timer.addEventListener('targetAchieved', function (e) {
                     window.onbeforeunload = null;
-                    $('#successAudio').trigger('play');
-                    $('#sessionCompleteText').show('slow');
+                    $successAudio.trigger('play');
+                    $sessionCompleteText.show('slow');
                     setTimeout(function() {
                             sessionComplete();
-                            $('#sessionStop').trigger('click');
+                            $sessionStop.trigger('click');
                         }, 2000);
 
                 });
@@ -177,7 +189,8 @@
                 });
                 breakTimer.addEventListener('targetAchieved', function (e) {
                     $breakTimerDom.html("Complete");
-                    $('#successAudio').trigger('play');
+                    $sessionStop.prop('disabled', false);
+                    $successAudio.trigger('play');
                     window.onbeforeunload = null;
                 });
             })();
@@ -185,7 +198,7 @@
             
             function sessionComplete()
             {
-                var sessionId = $('#modules').val();
+                var sessionId = $modules.val();
                 var sessionName = $('#modules option:selected').text();
 
                 $.ajax({
@@ -194,9 +207,11 @@
                     data: {sessionId: sessionId},
                     success: function(message){
                         console.log("success" + message);
-                        sessionSuccess(sessionName)
+                        sessionSuccess(sessionName);
+                        moduleCheck();
                     },
                     error: function(message){
+                        $('#ajaxWarning').show();
                         console.log(message);
                     }
                 });
@@ -211,7 +226,7 @@
                     completed.push(sessionName);
                 }
 
-                $('#modules').find('option:selected').remove();
+                $modules.find('option:selected').remove();
 
                 populateTable();
             }
@@ -242,6 +257,18 @@
                 }
 
                 $('#module-table').show('slow');
+            }
+
+            function moduleCheck()
+            {
+                if ($('#modules option').length == 0)
+                {
+                    $('#sessionHeader').text('No Sessions for today');
+                    $modules.prop('disabled', true);
+                    $sessionStart.prop('disabled', true);
+                    $sessionStop.prop('disabled', true);
+                    return;
+                }
             }
         });
     </script>
