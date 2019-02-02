@@ -37,7 +37,7 @@
                     <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
                 </div>
                 <div class="row mt-3">
-                    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
+                    <button type="button" class="btn btn-secondary btn-block" id="addEventButton" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
                 </div>
                 @if($toarchive === true)
                     <div class="row mt-3">
@@ -66,7 +66,7 @@
     </div>
 
     @if(isset($schedule))
-        <!-- Modal -->
+        {{-- Modify Schedule Modal --}}
         <div class="modal fade" id="modifySchedule" tabindex="-1" role="dialog" aria-labelledby="modifyScheduleLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
@@ -212,6 +212,7 @@
             </div>
         </div>
 
+        {{-- Move Sessions Modal --}}
         <div class="modal fade" id="moveSessions" tabindex="-1" role="dialog" aria-labelledby="moveSessionsLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -234,6 +235,7 @@
             </div>
         </div>
 
+        {{-- Add Event Modal --}}
         <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="addEventLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -353,6 +355,9 @@
                 $('<form action="{{ route('events.destroy') }}" method="POST">@csrf<input type="hidden" name="id" value="'+eventIdGlobal+'"></form>').appendTo('body').submit();
             })
 
+            $('#addEventButton').click(function(e){
+                $('#eventForm').attr("action", "{{ route('events.store') }}");
+            })
 
             function initDatePicker ()
             {
