@@ -369,6 +369,10 @@
                 }).on('changeDate', function(selected){
                     var minDate = new Date(selected.date.valueOf());
                     $('#end').datepicker('setStartDate', minDate);
+
+                    var maxDate = new Date(selected.date.valueOf());
+                    maxDate = new Date(maxDate.setMonth(maxDate.getMonth()+11));
+                    $('#end').datepicker('setEndDate', maxDate);
                 });
 
                 $('#end').datepicker({
@@ -393,6 +397,10 @@
                     $('#end').datepicker('update', '{{ $schedule->end }}');
                     // $('#start').datepicker('setStartDate', '{{ $schedule->start }}');
                     $('#end').datepicker('setStartDate', '{{ $schedule->start }}');
+
+                    var maxDate = new Date('{{ $schedule->start }}');
+                    maxDate = new Date(maxDate.setMonth(maxDate.getMonth()+11));
+                    $('#end').datepicker('setEndDate', maxDate);
 
                     $('#eventdate').datepicker('setStartDate', '{{ $schedule->start }}');
                     $('#eventdate').datepicker('setEndDate', '{{ $schedule->end }}');

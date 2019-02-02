@@ -188,6 +188,10 @@
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
                 $('#end').datepicker('setStartDate', minDate);
+
+                var maxDate = new Date(selected.date.valueOf());
+                maxDate = new Date(maxDate.setMonth(maxDate.getMonth()+11));
+                $('#end').datepicker('setEndDate', maxDate);
             });
 
             $('#end').datepicker({
