@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
             ]
         );
 
-        $user = User::create(
+        $jane = User::create(
             [
                 'name' => 'Jane Doe',
                 'email' => 'jane@example.com',
@@ -40,7 +40,7 @@ class UsersTableSeeder extends Seeder
             ]
         );
 
-        $user = User::create(
+        User::create(
             [
                 'name' => 'Admin',
                 'email' => 'admin@example.com',
@@ -55,7 +55,7 @@ class UsersTableSeeder extends Seeder
         );
 
         $schedule = new Schedule();
-        $schedule->createSchedule($user, factory(App\Schedule::class)->make());
+        $schedule->createSchedule($jane, factory(App\Schedule::class)->make());
 
         
         factory(App\User::class, 10)->create()->each(
