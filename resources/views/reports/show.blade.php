@@ -13,36 +13,36 @@
         </div>
         <div class="row">
             <div class="col-sm-8">
-                <div class="row">
+                @if ($reports != null)
+                <div class="row mb-4">
                     <div class="col">
-                        @if ($reports != null)
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Previous Reports</h5>
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Time</th>
-                                                <th scope="col">Progress</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($reports as $key => $report)
-                                                <tr class="clickable-row" data-href='{{ url("reports/view/{$report->id}") }}'>
-                                                    <td>{{ $key+1 }}</td>
-                                                    <td>{{ $report->created_at }}</td>
-                                                    <td>{{ $report->progress }}%</td>
-                                                </tr> 
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Previous Reports</h5>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Time</th>
+                                            <th scope="col">Progress</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($reports as $key => $report)
+                                            <tr class="clickable-row" data-href='{{ url("reports/view/{$report->id}") }}'>
+                                                <td>{{ $key+1 }}</td>
+                                                <td>{{ $report->created_at }}</td>
+                                                <td>{{ $report->progress }}%</td>
+                                            </tr> 
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
-                <div class="row mt-4">
+                @endif
+                <div class="row">
                     <div class="col">
                         @if (! empty($logs))
                             <div class="card">
@@ -81,7 +81,8 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Module Name</th>
+                                    <th style="width:60%">Module Name</th>
+                                    <th style="width:40%">Grade</th>
                                 </tr>
                             </thead>
                             <tbody>
