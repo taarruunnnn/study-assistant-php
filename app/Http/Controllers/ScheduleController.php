@@ -57,7 +57,7 @@ class ScheduleController extends Controller
     {
         $module = 'module='.$request['module'];
         
-        $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
+        $client = new Client(['base_uri' => config('python.host')]);
         $response = $client->request('GET', '/ratings', ['query' => $module]);
         $results = json_decode($response->getBody(), true);
         return $results;

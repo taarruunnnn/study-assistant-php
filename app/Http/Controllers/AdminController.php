@@ -49,7 +49,7 @@ class AdminController extends Controller
     public function analyze()
     {
         
-        $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
+        $client = new Client(['base_uri' => config('python.host')]);
         $response = $client->request('GET', '/admin');
         $results = json_decode($response->getBody(), true);
         return $results;
@@ -80,7 +80,7 @@ class AdminController extends Controller
     {
         $params = json_encode($request->params);
         
-        $client = new Client(['base_uri' => 'http://127.0.0.1:5000']);
+        $client = new Client(['base_uri' => config('python.host')]);
         $response = $client->request('POST', '/accuracy', ['json' => $params]);
         $results = json_decode($response->getBody(), true);
         return $results;
