@@ -63,7 +63,7 @@
                     <span class="sidebar-text">Predictions</span>
                 </a>
             </li>
-            <li class="{{ Request::is('users/*') ? 'active' : '' }}">
+            <li class="{{ Request::is('admin/users') ? 'active' : '' }}">
                 <a href="{{ route('admin.users') }}">
                     <i class="fas fa-users sidebar-icon"></i>
                     <span class="sidebar-text">Users</span>

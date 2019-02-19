@@ -2,7 +2,9 @@
     "params": [
         "norm_comp",
         "norm_fail",
-        "rating"
+        "rating",
+        "university",
+        "gender"
     ],
     "algorithm": "gnb"
 }
