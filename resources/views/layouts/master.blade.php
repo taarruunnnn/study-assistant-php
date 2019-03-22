@@ -61,15 +61,15 @@
 
         
     </div>
-</body>
- <!-- Scripts -->
-@if (Request::is('user/*'))
+    <!-- Scripts -->
+    @if (Request::is('user/*'))
     <script src="{{ asset('js/user.js') }}"></script>
-@elseif (Request::is('schedules*') || Request::is('reports*'))
+    @elseif (Request::is('schedules*') || Request::is('reports*'))
     <script src="{{ asset('js/schedule.js') }}"></script>
-@else
+    @else
     <script src="{{ asset('js/app.js') }}"></script>
-@endif
-    
- @yield('script')
+    @endif
+
+    @yield('script')
+</body>
 </html>
