@@ -439,13 +439,18 @@
                         } else if (eventObj.description == 'event') {
                             var description = "Event";
                         }
+
+                        var title = (eventObj.title).replace(/&amp;/g, '&');
+
                         $el.popover({
-                            title: eventObj.title,
+                            title: title,
                             content: description,
                             trigger: 'hover',
                             placement: 'top',
                             container: 'body'
                         });
+                        
+                        $el.find('.fc-title').html(title);
                     },
                     eventClick: function(calEvent, jsEvent, view){
                         if(calEvent.description == 'event')

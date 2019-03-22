@@ -16,29 +16,42 @@ $factory->define(
     App\Schedule::class, function (Faker $faker) {
         $modules = [
             'Fundamentals of Programming',
-            'Computational Mathematics',
-            'Business Studies',
-            'Accountancy',
-            'Web Development',
-            'Intelligent Systems',
-            'Fundamentals of Machine Learning',
-            'Logic Programming',
+            'Web Technologies',
+            'Visual Application Programming',
+            'Computer Organization',
+            'Introduction to Networking',
+            'Management',
+            'Mathematics for IT',
+            'Database Management Systems',
+            'Software Engineering',
+            'Computer Architecture',
+            'Network Programming',
             'Multimedia Design',
+            'Accountancy',
+            'Business Studies',
+            'Data Structures & Algorithms',
+            'Logic Programming',
+            'Computational Mathematics',
             'Human Resource Management',
-            'Operating Systems',
-            'Computer Networking'
+            'Object Oriented Analysis & Design',
+            'Essentials of Machine Learning',
+            'IT Project Management',
+            'Professional Practice',
+            'Data Mining & Warehousing',
+            'IT Quality Assurance',
+            'Intelligent Systems'
         ];
 
         $start = $faker->dateTimeBetween(
-            $startDate = '2019-01-01',
-            $endDate = '2019-06-01', 
+            $startDate = '2018-10-01',
+            $endDate = '2019-05-01', 
             $timezone = null
         );
 
         $start = $start->format("Y-m-d");
         $end = $faker->dateTimeBetween(
             $startDate = '2019-06-30', 
-            $endDate = '2020-01-01', 
+            $endDate = '2019-10-01', 
             $timezone = null
         );
 

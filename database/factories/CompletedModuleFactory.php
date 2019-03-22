@@ -16,17 +16,30 @@ $factory->define(
     App\CompletedModule::class, function (Faker $faker) {
         $modules = [
             'Fundamentals of Programming',
-            'Computational Mathematics',
-            'Business Studies',
-            'Accountancy',
-            'Web Development',
-            'Intelligent Systems',
-            'Fundamentals of Machine Learning',
-            'Logic Programming',
+            'Web Technologies',
+            'Visual Application Programming',
+            'Computer Organization',
+            'Introduction to Networking',
+            'Management',
+            'Mathematics for IT',
+            'Database Management Systems',
+            'Software Engineering',
+            'Computer Architecture',
+            'Network Programming',
             'Multimedia Design',
+            'Accountancy',
+            'Business Studies',
+            'Data Structures & Algorithms',
+            'Logic Programming',
+            'Computational Mathematics',
             'Human Resource Management',
-            'Operating Systems',
-            'Computer Networking'
+            'Object Oriented Analysis & Design',
+            'Essentials of Machine Learning',
+            'IT Project Management',
+            'Professional Practice',
+            'Data Mining & Warehousing',
+            'IT Quality Assurance',
+            'Intelligent Systems'
         ];
 
         $ratArray = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);

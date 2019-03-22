@@ -256,7 +256,7 @@ class Schedule extends Model
                          * This is added to populate the database with dummy data
                          * in order to facilitate the testing process
                          */
-                        if ($request->test === '1') {
+                        if ($request->test === '1' && $today->lessThan(Carbon::today())) {
                             $rand_hour = rand(1, 23);
                             $td = $today->copy()->addHours($rand_hour);
                             $completed = $td->toDateTimeString();
