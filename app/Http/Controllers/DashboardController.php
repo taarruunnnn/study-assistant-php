@@ -55,14 +55,19 @@ class DashboardController extends Controller
             $sessions = $schedule->sessions;
 
             $total_session_count = count($sessions);
-            $finished = count($sessions->where('status', 'completed'));
-            $progress = round((($finished/$total_session_count) * 100), 2);
 
-            $missed = count($sessions->where('status', 'failed'));
-            $left = count($sessions->where('status', 'incomplete'));
+            if ($total_session_count > 0){
+                $finished = count($sessions->where('status', 'completed'));
+                $progress = round((($finished/$total_session_count) * 100), 2);
 
-            $missed_percentage = ($missed / $total_session_count) * 100;
-            $missed_percentage = (int) $missed_percentage;
+                $missed = count($sessions->where('status', 'failed'));
+                $left = count($sessions->where('status', 'incomplete'));
+
+                $missed_percentage = ($missed / $total_session_count) * 100;
+                $missed_percentage = (int) $missed_percentage;
+            } else {
+                $finished = $progress = $missed = $left = $missed_percentage = 0;
+            }
         }
 
         $quotes_path = Storage::disk('local')->get('public/quotes.json');
