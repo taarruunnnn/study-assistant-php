@@ -22,9 +22,6 @@ if (!function_exists('scheduleRetriever')) {
         if ($schedule = $user->schedule) {
             $data = [];
             $sessions = $schedule->sessions;
-            
-            $scheduleStart = $schedule->start;
-            $scheduleEnd= $schedule->end;
 
             $colors = array(
                         "#00bcd4", 
@@ -40,8 +37,6 @@ if (!function_exists('scheduleRetriever')) {
                     );
                     
             $x = 0;
-            $date;
-            $daysForRevision = array();
             $modules = array();
 
             foreach ($sessions as $session) {

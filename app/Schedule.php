@@ -185,6 +185,7 @@ class Schedule extends Model
             $modules[$key]['module'] = $value;
             $modules[$key]['rating'] = $request->rating[$key];
             $modules[$key]['hours'] = $hours_per_module;
+            $modules[$key]['weight'] = $average_rating * 100;
 
             $schedule-> modules() -> create(
                 [
@@ -229,9 +230,30 @@ class Schedule extends Model
             $today = $start_date->copy()->addDays($i);
 
             if ($today->isWeekday()) {
+                $prev = -1;
                 for ($x=0; $x < $weekday_hours; $x+=2) {
                     if (!(empty($modules))) {
-                        $rand = array_rand($modules, 1);
+
+                        // Generates a random key based on its weight
+                        while(true) {
+                            $random = mt_rand(1, (int) array_sum(array_column($modules, 'weight')));
+                            foreach ($modules as $key => $module) {
+                                $random -= $module['weight'];
+                                if ($random <= 0){
+                                    $rand = $key;
+                                    break;
+                                }
+                            }
+
+                            if ($rand != $prev){
+                                $prev = $rand;
+                                break;
+                            }
+                            
+                            if (count($modules) <= 1){
+                                break;
+                            }
+                        }
 
                         $session = $schedule -> sessions() -> create(
                             [
@@ -267,9 +289,30 @@ class Schedule extends Model
                     }
                 }
             } elseif ($today->isWeekend()) {
+                $prev = -1;
                 for ($x=0; $x < $weekend_hours; $x+=2) {
                     if (!(empty($modules))) {
-                        $rand = array_rand($modules, 1);
+                        
+                        // Generates a random key based on its weight
+                        while(true) {
+                            $random = mt_rand(1, (int) array_sum(array_column($modules, 'weight')));
+                            foreach ($modules as $key => $module) {
+                                $random -= $module['weight'];
+                                if ($random <= 0){
+                                    $rand = $key;
+                                    break;
+                                }
+                            }
+
+                            if ($rand != $prev){
+                                $prev = $rand;
+                                break;
+                            }
+
+                            if (count($modules) <= 1){
+                                break;
+                            }
+                        }
 
                         $schedule -> sessions() -> create(
                             [

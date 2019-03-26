@@ -415,6 +415,7 @@
                     firstDay: 1,
                     eventColor: '#2196f3',
                     eventTextColor: '#FFF',
+                    eventOrder: "id",
                     height: 'parent',
                     events: [
                     @if(isset($data))
