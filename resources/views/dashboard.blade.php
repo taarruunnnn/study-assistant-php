@@ -220,6 +220,10 @@
                         ratings.push('{{$module->rating}}')
                     @endforeach
 
+                    for (var i = 0; i < modules.length; i++) {
+                        modules[i] = modules[i].replace("&amp;", "&");
+                    }
+
                     var canvasModules = document.getElementById("pie-chart");
                     var ctxModules = canvasModules.getContext("2d");
 
