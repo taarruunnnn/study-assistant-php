@@ -230,13 +230,13 @@ class Schedule extends Model
             $today = $start_date->copy()->addDays($i);
 
             if ($today->isWeekday()) {
-                $prev = -1;
+                $prev = array();
                 for ($x=0; $x < $weekday_hours; $x+=2) {
                     if (!(empty($modules))) {
 
                         // Generates a random key based on its weight
                         while(true) {
-                            $random = mt_rand(1, (int) array_sum(array_column($modules, 'weight')));
+                            $random = mt_rand(1, 100);
                             foreach ($modules as $key => $module) {
                                 $random -= $module['weight'];
                                 if ($random <= 0){
@@ -245,11 +245,16 @@ class Schedule extends Model
                                 }
                             }
 
-                            if ($rand != $prev){
-                                $prev = $rand;
+                            if (count($prev) < 2) {
+                                array_push($prev, $rand);
                                 break;
                             }
-                            
+
+                            if ($rand != $prev[count($prev) - 2]){
+                                array_push($prev, $rand);
+                                break;
+                            }
+
                             if (count($modules) <= 1){
                                 break;
                             }
@@ -266,11 +271,11 @@ class Schedule extends Model
                          * Once a session has been written to the database,
                          * two hours of its total study time is removed
                          */
-                        $modules[$rand]['hours'] =  $modules[$rand]['hours'] - 2;
+                        // $modules[$rand]['hours'] =  $modules[$rand]['hours'] - 2;
                         
-                        if ($modules[$rand]['hours'] <= 0) {
-                            unset($modules[$rand]);
-                        }
+                        // if ($modules[$rand]['hours'] <= 0) {
+                        //     unset($modules[$rand]);
+                        // }
 
                         /**
                          * TEST DATA
@@ -289,13 +294,13 @@ class Schedule extends Model
                     }
                 }
             } elseif ($today->isWeekend()) {
-                $prev = -1;
+                $prev = array();
                 for ($x=0; $x < $weekend_hours; $x+=2) {
                     if (!(empty($modules))) {
                         
                         // Generates a random key based on its weight
                         while(true) {
-                            $random = mt_rand(1, (int) array_sum(array_column($modules, 'weight')));
+                            $random = mt_rand(1, 100);
                             foreach ($modules as $key => $module) {
                                 $random -= $module['weight'];
                                 if ($random <= 0){
@@ -304,8 +309,13 @@ class Schedule extends Model
                                 }
                             }
 
-                            if ($rand != $prev){
-                                $prev = $rand;
+                            if (count($prev) < 2) {
+                                array_push($prev, $rand);
+                                break;
+                            }
+
+                            if ($rand != $prev[count($prev) - 2]){
+                                array_push($prev, $rand);
                                 break;
                             }
 
@@ -321,11 +331,11 @@ class Schedule extends Model
                             ]
                         );
 
-                        $modules[$rand]['hours'] =  $modules[$rand]['hours'] - 2;
+                        // $modules[$rand]['hours'] =  $modules[$rand]['hours'] - 2;
 
-                        if ($modules[$rand]['hours'] <= 0) {
-                            unset($modules[$rand]);
-                        }
+                        // if ($modules[$rand]['hours'] <= 0) {
+                        //     unset($modules[$rand]);
+                        // }
                     }
                 }
             }
