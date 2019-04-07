@@ -268,16 +268,6 @@ class Schedule extends Model
                         );
 
                         /**
-                         * Once a session has been written to the database,
-                         * two hours of its total study time is removed
-                         */
-                        // $modules[$rand]['hours'] =  $modules[$rand]['hours'] - 2;
-                        
-                        // if ($modules[$rand]['hours'] <= 0) {
-                        //     unset($modules[$rand]);
-                        // }
-
-                        /**
                          * TEST DATA
                          * 
                          * This is added to populate the database with dummy data
@@ -330,12 +320,6 @@ class Schedule extends Model
                                 'date' => $today->toDateString()
                             ]
                         );
-
-                        // $modules[$rand]['hours'] =  $modules[$rand]['hours'] - 2;
-
-                        // if ($modules[$rand]['hours'] <= 0) {
-                        //     unset($modules[$rand]);
-                        // }
                     }
                 }
             }
