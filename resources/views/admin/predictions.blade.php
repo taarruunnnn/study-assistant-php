@@ -4,14 +4,14 @@
 
 @section('content')
     
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6">
                 <h5 class="mb-3">Prediction Settings</h5>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <div class="row mb-4">
                     <div class="col">
                             <p>Below criteria are used as data points to make predictions in user reports. You can change them and see which combination yields the highest accuracy and save these settings accordingly.</p>
@@ -121,8 +121,18 @@
                         </table>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="form-group border p-4">
+                            <h6>Prediction Threshold</h6>
+                            <p>Select the minimum amount of completed modules which should be available for predictions to be enabled.</p>
+                            <p>Currently Completed Modules: <strong>{{$completed}}</strong></p>
+                            <input type="number" class="form-control w-25" id="threshold">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-7">
                 <div class="row">
                     <div class="col">
                         <div class="card" style="display:none" id="canvasReport">
@@ -137,22 +147,22 @@
             </div>
         </div>
         <div class="row my-4">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <label for="algorithm">Choose Algorthm</label>
-                        <select class="form-control" id="algorithm">
-                            <option value="" disabled selected>Select an algorithm</option>
-                            <option value="gnb">Gaussian Naive-Bayes</option>
-                            <option value="knn">KNeighbors Classifier</option>
-                            <option value="rf">Random Forest</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="savePref">Save Preferences</button>
-                    <form method="POST" action="{{ route('admin.predictions.save') }}" id="preferencesForm">
-                        @csrf
-                    </form>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="algorithm">Choose Algorthm</label>
+                    <select class="form-control" id="algorithm">
+                        <option value="" disabled selected>Select an algorithm</option>
+                        <option value="gnb">Gaussian Naive-Bayes</option>
+                        <option value="knn">KNeighbors Classifier</option>
+                        <option value="rf">Random Forest</option>
+                    </select>
                 </div>
+                <button type="submit" class="btn btn-primary" id="savePref">Save Preferences</button>
+                <form method="POST" action="{{ route('admin.predictions.save') }}" id="preferencesForm">
+                    @csrf
+                </form>
             </div>
+        </div>
     </div>
 
 @endsection
@@ -170,6 +180,7 @@
             @if(!(empty($json)))
                 (function (){
                     var prefs = {!! $json !!};
+                    console.log(prefs)
 
                     var params = prefs['params'];
                     
@@ -180,10 +191,13 @@
                         } else {
                             $(this).prop('checked', false);
                         }
-                    })
+                    });
+
                     checkAccuracy();
 
                     $('#algorithm').val(prefs['algorithm']);
+
+                    $('#threshold').val(prefs['threshold']);
 
                     $('#'+prefs['algorithm']).css('font-weight', 'bold');
 
@@ -213,7 +227,7 @@
                     data: form.serialize(),
                     url: '{{ route('admin.predictions.accuracy') }}',
                     success: function(data){
-                        displayAccuracy(data);
+                        displayPrecision(data);
                     },
                     error: function(message){
                         console.log('Failed '.message);
@@ -240,6 +254,7 @@
                 params = JSON.stringify(params)
 
                 var algorithm = $('#algorithm').val();
+                var threshold = $('#threshold').val();
 
                 var inputParams = document.createElement("input");
                 inputParams.setAttribute("type", "hidden");
@@ -251,14 +266,20 @@
                 inputAlgorithm.setAttribute("name", "algorithm");
                 inputAlgorithm.setAttribute("value", algorithm);
 
+                var inputThreshold = document.createElement("input");
+                inputThreshold.setAttribute("type", "hidden");
+                inputThreshold.setAttribute("name", "threshold");
+                inputThreshold.setAttribute("value", threshold);
+
                 document.getElementById("preferencesForm").appendChild(inputParams);
                 document.getElementById("preferencesForm").appendChild(inputAlgorithm);
+                document.getElementById("preferencesForm").appendChild(inputThreshold);
 
                 $('#preferencesForm').submit();
 
             });
 
-            function displayAccuracy(data)
+            function displayPrecision(data)
             {
                 $('#gnbVal').text(data.gnb);
                 $('#knnVal').text(data.knn);
@@ -359,13 +380,13 @@
                         options: {
                             title: {
                                 display: true,
-                                text: 'Accuracy Scores'
+                                text: 'Precision Scores'
                             },
                             scales: {
                                 yAxes: [{
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Accuracy',
+                                        labelString: 'Precision',
                                         fontColor: '#9c9c9c'
                                     }
                                 }],

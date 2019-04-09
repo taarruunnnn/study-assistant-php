@@ -40,9 +40,19 @@
                 </div>
             @endif
 
+            @if ($flash = session('error'))
+                <div class="alert alert-danger alert-dismissible mx-2" role="alert">
+                    {{ $flash }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+
             
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="alert alert-danger  mx-2">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>

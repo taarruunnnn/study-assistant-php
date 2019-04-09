@@ -11,6 +11,7 @@ use App\Http\Requests\StoreReport;
 use App\Report;
 use function GuzzleHttp\json_encode;
 use Spatie\Activitylog\Models\Activity;
+use App\CompletedModule;
 
 /**
  * Report controller is used to handle functions
@@ -183,22 +184,29 @@ class ReportController extends Controller
         $jsonFile = file_get_contents($prefsPath);
         $jsonFile = json_decode($jsonFile, true);
 
-        $json = array(
-            'params' => $jsonFile['params'],
-            'algorithm' => $jsonFile['algorithm'],
-            'sched' => $sched,
-            'module' => $moduleName,
-            'user' => Auth::user()->id
-        );
-        try {
-            $client = new Client(['base_uri' => config('python.host')]);
-            $response = $client->request('POST', '/predict', ['json' => $json]);
-            $results = json_decode($response->getBody(), true);
-        } catch (GuzzleHttp\Exception\ConnectException $e) {
-            $results = null;
+        $threshold = $jsonFile['threshold'];
+        $completed = CompletedModule::count();
+
+        if ($threshold <= $completed){
+            $json = array(
+                'params' => $jsonFile['params'],
+                'algorithm' => $jsonFile['algorithm'],
+                'sched' => $sched,
+                'module' => $moduleName,
+                'user' => Auth::user()->id
+            );
+            try {
+                $client = new Client(['base_uri' => config('python.host')]);
+                $response = $client->request('POST', '/predict', ['json' => $json]);
+                $results = json_decode($response->getBody(), true);
+            } catch (GuzzleHttp\Exception\ConnectException $e) {
+                $results = null;
+            }
+            
+            return $results;
         }
-        
-        return $results;
+
+        return null;
     }
 
     /**

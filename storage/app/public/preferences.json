@@ -4,5 +4,6 @@
         "norm_fail",
         "rating"
     ],
-    "algorithm": "gnb"
+    "algorithm": "rf",
+    "threshold": "2000"
 }

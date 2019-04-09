@@ -169,7 +169,6 @@
                     data: {schedule: schedule_id},
                     success: function(data){
                         displayAnalysis(data)
-                        console.log(data)
                     },
                     error: function(message){
                         console.log(message);
@@ -185,7 +184,6 @@
                 var data = {!! json_encode($data) !!}
                 data = data.replace(/\\/g, "");
                 data = JSON.parse(data)
-                console.log(data)
                 displayAnalysis(data)
             })();
 
@@ -487,7 +485,6 @@
         (function(){
             @if (!empty($schedule) && $live == true)
                 var pred_list = {!! $grades !!};
-                console.log(pred_list)
             @elseif ($live == false)
                 var data = {!! json_encode($data) !!}
                 data = data.replace(/\\/g, "");

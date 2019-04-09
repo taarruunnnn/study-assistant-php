@@ -64,9 +64,9 @@ class AdminController extends Controller
     {
         $prefsPath = storage_path('app/public/preferences.json');
         $json = file_get_contents($prefsPath);
+        $completed = CompletedModule::count();
 
-
-        return view('admin.predictions', compact('json'));
+        return view('admin.predictions', compact('json', 'completed'));
     }
 
     /**
@@ -97,10 +97,18 @@ class AdminController extends Controller
     {
         $params = json_decode($request->params);
         $algorithm = $request->algorithm;
+        $threshold = $request->threshold;
+
+        if ($threshold > 1000000 || $threshold < 10) 
+        {
+            session()->flash('error', 'Invalid Threshold Value');
+            return back();
+        }
         
         $prefs = array(
             'params' => $params,
-            'algorithm' => $algorithm
+            'algorithm' => $algorithm,
+            'threshold' => $threshold
         );
 
         $jsonString = json_encode($prefs, JSON_PRETTY_PRINT);
@@ -110,7 +118,7 @@ class AdminController extends Controller
             return back();
         } else {
             session()->flash('message', 'Error Saving Preferences');
-            return "Error";
+            return back();
         }
         
     }
