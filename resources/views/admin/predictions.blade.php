@@ -117,6 +117,10 @@
                                     <td>KNeighbors Classifier</td>
                                     <td id="knnVal">-</td>
                                 </tr>
+                                <tr id="rf" style="color:#f62929">
+                                    <td>Random Forest</td>
+                                    <td id="rfVal">-</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -145,6 +149,7 @@
                             <option value="gnb">Gaussian Naive-Bayes</option>
                             <option value="lsvc">Linear SVC</option>
                             <option value="knn">KNeighbors Classifier</option>
+                            <option value="rf">Random Forest</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" id="savePref">Save Preferences</button>
@@ -203,6 +208,7 @@
                     $('#gnbVal').text('-');
                     $('#lsvcVal').text('-');
                     $('#knnVal').text('-');
+                    $('#rfVal').text('-');
                     return;
                 }
 
@@ -230,6 +236,7 @@
                     $('#gnbVal').text('-');
                     $('#lsvcVal').text('-');
                     $('#knnVal').text('-');
+                    $('#rfVal').text('-');
                     return;
                 }
 
@@ -263,6 +270,7 @@
                 $('#gnbVal').text(data.gnb);
                 $('#lsvcVal').text(data.lsvc);
                 $('#knnVal').text(data.knn);
+                $('#rfVal').text(data.rf);
 
                 if (!(data['reports'] == "N/A" || data['reports'] == null))
                 {
@@ -272,10 +280,10 @@
                     $("#canvasReport").show();
                     var ctx = document.getElementById("reportChart");
 
+                    // GAUSSIAN NB DATA
                     var gnb_data = JSON.parse(data.reports.gnb_report);
                     gnb_data = gnb_data['precision'];
 
-                    // GAUSSIAN NB DATA
                     var gnb_rates = [];
                     for (var rate in gnb_data) {
                         gnb_rates.push([rate, gnb_data[rate]]);
@@ -329,34 +337,59 @@
                         knn_value.push(knn_rates[i][1])
                     }
 
+                    //RandomForest DATA
+                    var rf_data = JSON.parse(data.reports.rf_report);
+                    rf_data = rf_data['precision'];
+
+                    var rf_rates = [];
+                    for (var rate in rf_data) {
+                        rf_rates.push([rate, rf_data[rate]]);
+                    }
+
+                    var len = rf_rates.length;
+                    var rf_key = new Array();
+                    var rf_value = new Array();
+
+                    for(var i = 0; i < len; i++){
+                        rf_key.push(rf_rates[i][0]);
+                        rf_value.push(rf_rates[i][1])
+                    }
+
 
                     new Chart(ctx, {
                         type: 'line',
                         data: {
-                        labels: gnb_key,
-                        datasets: [
-                            {
-                                label: "GaussianNB",
-                                borderColor: "#EC407A",
-                                borderWidth: 2,
-                                data: gnb_value,
-                                fill: false
-                            },
-                            {
-                                label: "Linear SVC",
-                                borderColor: "#7E57C2",
-                                borderWidth: 2,
-                                data: lsvc_value,
-                                fill: false
-                            },
-                            {
-                                label: "KNeighbors",
-                                borderColor: "#29B6F6",
-                                borderWidth: 2,
-                                data: knn_value,
-                                fill: false
-                            },
-                        ]
+                            labels: gnb_key,
+                            datasets: [
+                                {
+                                    label: "Gaussian NB",
+                                    borderColor: "#EC407A",
+                                    borderWidth: 2,
+                                    data: gnb_value,
+                                    fill: false
+                                },
+                                {
+                                    label: "Linear SVC",
+                                    borderColor: "#7E57C2",
+                                    borderWidth: 2,
+                                    data: lsvc_value,
+                                    fill: false
+                                },
+                                {
+                                    label: "KNeighbors",
+                                    borderColor: "#29B6F6",
+                                    borderWidth: 2,
+                                    data: knn_value,
+                                    fill: false
+                                },
+                                {
+                                    label: "Random Forest",
+                                    borderColor: "#f62929",
+                                    borderWidth: 2,
+                                    data: rf_value,
+                                    fill: false
+                                },
+                            ]
                         },
                         options: {
                             title: {

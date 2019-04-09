@@ -22,7 +22,7 @@
             <div class="card animated fadeIn">
                 <div class="card-body text-center">
                     <i class="fas fa-calendar"></i>
-                    <h5 class="card-title mt-2 mb-0 display-4" id="user-count">{{ $schedules }}</h5>
+                    <h5 class="card-title mt-2 mb-0 display-4" id="schedule-count">{{ $schedules }}</h5>
                     <p class="card-text">Total Schedules</p>
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="card animated fadeIn">
                 <div class="card-body text-center">
                     <i class="fas fa-book"></i>
-                    <h5 class="card-title mt-2 mb-0 display-4" id="user-count">{{ $modules }}</h5>
+                    <h5 class="card-title mt-2 mb-0 display-4" id="module-count">{{ $modules }}</h5>
                     <p class="card-text">Total Modules</p>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="card animated fadeIn">
                 <div class="card-body text-center">
                     <i class="fas fa-trophy"></i>
-                    <h5 class="card-title mt-2 mb-0 display-4" id="user-count">{{ $completed }}</h5>
+                    <h5 class="card-title mt-2 mb-0 display-4" id="completed-module-count">{{ $completed }}</h5>
                     <p class="card-text">Completed Modules</p>
                 </div>
             </div>
