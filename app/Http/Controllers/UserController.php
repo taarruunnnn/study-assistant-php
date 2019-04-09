@@ -25,6 +25,20 @@ class UserController extends Controller
     }
 
     /**
+     * Profile function
+     * 
+     * Send a view to user with information
+     * about their profile
+     *
+     * @return void
+     */
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('users.profile', compact('user'));
+    }
+
+    /**
      * Edit Function
      * 
      * Send a view to user which they can use

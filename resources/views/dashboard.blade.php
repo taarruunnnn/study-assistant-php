@@ -107,6 +107,7 @@
                     <div class="card-body">
                         <h5 class="card-title dash-title text-center">Schedule Overview</h5>
                         <hr/>
+                        <p>You have studied for {{$hours}} hours</p>
                         <p>You have finished {{ $finished }} sessions</p>
                         <p>You have {{ $left }} sessions left</p>
                         <p>You have missed {{ $missed }} sessions which is {{ $missed_percentage }}% of your schedule</p>

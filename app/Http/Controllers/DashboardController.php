@@ -60,6 +60,8 @@ class DashboardController extends Controller
                 $finished = count($sessions->where('status', 'completed'));
                 $progress = round((($finished/$total_session_count) * 100), 2);
 
+                $hours = $finished * 2;
+
                 $missed = count($sessions->where('status', 'failed'));
                 $left = count($sessions->where('status', 'incomplete'));
 
@@ -76,7 +78,7 @@ class DashboardController extends Controller
  
         return view(
             'dashboard', compact(
-                'schedule', 'modules', 'module_list', 'progress', 'finished', 'left', 'missed', 'missed_percentage', 'quote'
+                'schedule', 'modules', 'module_list', 'progress', 'finished', 'hours', 'left', 'missed', 'missed_percentage', 'quote'
             )
         );
     }

@@ -34,7 +34,7 @@
                 </a>
             </li>
             <li class="{{ Request::is('user/*') ? 'active' : '' }}">
-                <a href="{{ route('user.edit') }}">
+                <a href="{{ route('user.profile') }}">
                     <i class="fas fa-users-cog sidebar-icon"></i>
                     <span class="sidebar-text">User</span>
                 </a>

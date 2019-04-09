@@ -336,7 +336,7 @@ span.twitter-typeahead {
     font-size: 85px;
 }
 
-#sessionTimer .values, {
+#sessionTimer .values {
     display: inline-block;
     white-space: nowrap;
     width: 65%;
@@ -406,6 +406,12 @@ span.twitter-typeahead {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     margin-bottom: 2px;
+}
+
+// USER PROFILE
+
+.user-avatar img{
+    border-radius: 50%;
 }
 
 /* ---------------------------------------------------

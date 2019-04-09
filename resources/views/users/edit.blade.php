@@ -47,7 +47,7 @@
                 <div class="form-group row" id="gender" data-selected="{{ $user->gender }}">
                         <label for="gender" class="col-sm-2 col-form-label">Gender: </label>
                     
-                        <div class="btn-group btn-group-toggle col-md-6" data-toggle="buttons">
+                        <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
                             <label class="btn btn-secondary" id="maleBtn">
                                 <input type="radio" name="gender" id="male" autocomplete="off" value="M" > Male
                             </label>

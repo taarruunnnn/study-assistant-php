@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
+Route::get('user/profile', 'UserController@profile')->name('user.profile');
 Route::get('user/edit', 'UserController@edit')->name('user.edit');
 Route::patch('user/{user}', 'UserController@update')->name('user.update');
 Route::delete('user/delete/{user}', 'UserController@destroy')->name('user.delete');
