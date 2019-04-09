@@ -109,10 +109,6 @@
                                     <td>Gaussian Naive-Bayes</td>
                                     <td id="gnbVal">-</td>
                                 </tr>
-                                <tr id="lsvc" style="color:#7E57C2">
-                                    <td>Linear SVC</td>
-                                    <td id="lsvcVal">-</td>
-                                </tr>
                                 <tr id="knn" style="color:#29B6F6">
                                     <td>KNeighbors Classifier</td>
                                     <td id="knnVal">-</td>
@@ -147,7 +143,6 @@
                         <select class="form-control" id="algorithm">
                             <option value="" disabled selected>Select an algorithm</option>
                             <option value="gnb">Gaussian Naive-Bayes</option>
-                            <option value="lsvc">Linear SVC</option>
                             <option value="knn">KNeighbors Classifier</option>
                             <option value="rf">Random Forest</option>
                         </select>
@@ -206,7 +201,6 @@
                 {
                     alert("At least one data point should be checked.")
                     $('#gnbVal').text('-');
-                    $('#lsvcVal').text('-');
                     $('#knnVal').text('-');
                     $('#rfVal').text('-');
                     return;
@@ -234,7 +228,6 @@
                 {
                     alert("At least one data point should be checked.")
                     $('#gnbVal').text('-');
-                    $('#lsvcVal').text('-');
                     $('#knnVal').text('-');
                     $('#rfVal').text('-');
                     return;
@@ -268,7 +261,6 @@
             function displayAccuracy(data)
             {
                 $('#gnbVal').text(data.gnb);
-                $('#lsvcVal').text(data.lsvc);
                 $('#knnVal').text(data.knn);
                 $('#rfVal').text(data.rf);
 
@@ -297,26 +289,6 @@
                         gnb_key.push(gnb_rates[i][0]);
                         gnb_value.push(gnb_rates[i][1])
                     }
-
-
-                    // Linear SVC DATA
-                    var lsvc_data = JSON.parse(data.reports.lsvc_report);
-                    lsvc_data = lsvc_data['precision'];
-
-                    var lsvc_rates = [];
-                    for (var rate in lsvc_data) {
-                        lsvc_rates.push([rate, lsvc_data[rate]]);
-                    }
-
-                    var len = lsvc_rates.length;
-                    var lsvc_key = new Array();
-                    var lsvc_value = new Array();
-
-                    for(var i = 0; i < len; i++){
-                        lsvc_key.push(lsvc_rates[i][0]);
-                        lsvc_value.push(lsvc_rates[i][1])
-                    }
-                    console.log(lsvc_value)
 
 
                     //KNeighbors DATA
@@ -366,13 +338,6 @@
                                     borderColor: "#EC407A",
                                     borderWidth: 2,
                                     data: gnb_value,
-                                    fill: false
-                                },
-                                {
-                                    label: "Linear SVC",
-                                    borderColor: "#7E57C2",
-                                    borderWidth: 2,
-                                    data: lsvc_value,
                                     fill: false
                                 },
                                 {
