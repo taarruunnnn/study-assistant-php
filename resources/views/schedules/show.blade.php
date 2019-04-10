@@ -205,7 +205,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" value="Save Changes">
+                            <input type="submit" class="btn btn-primary" value="Save Changes" id="editScheduleSubmit">
                         </div>
                     </form>
                 </div>
@@ -357,6 +357,17 @@
 
             $('#addEventButton').click(function(e){
                 $('#eventForm').attr("action", "{{ route('events.store') }}");
+            })
+
+            $('#editScheduleSubmit').click(function(e){
+                $('.module-names').each(function(index, data){
+                    moduleName = $(this).val();
+
+                    if (moduleName.trim() === "" || moduleName === null){
+                        e.preventDefault();
+                        return false;
+                    }
+                })
             })
 
             function initDatePicker ()

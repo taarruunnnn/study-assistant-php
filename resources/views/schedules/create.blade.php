@@ -7,35 +7,39 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8">
-                    <div class="row d-flex justify-content-center">
-                            <p>Enter Module Name and Rating</p>
-                        </div>
+                <div class="row">
+                    <div class="col text-center">
+                            <p>Enter Module Name and Difficulty</p>
+                    </div>
+                </div>
                 <div class="row d-flex justify-content-center">
-                    <form class="form-inline">
-                        <div class="form-group mb-2" id="typeahead-modules">
-                            <input type="text" class="form-control typeahead" id="module-name" placeholder="Module Name">
-                        </div>
-                        <div class="form-group mx-sm-3 mb-2">
-                            <select class="form-control" id="module-rating">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-secondary mb-2 mr-2" id="analyze">Analyze</button>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary mb-2" id="btn-add">Add</button>
-                        </div>
-                    </form>
+                    <div class="col-md-8">
+                        <div class="row">
+                                <div class="col">
+                                    <form class="form-inline d-flex justify-content-center">
+                                            <div class="form-group mb-2" id="typeahead-modules">
+                                                <input type="text" class="form-control typeahead" id="module-name" placeholder="Module Name" required>
+                                            </div>
+                                            <div class="form-group ml-2">
+                                                <button type="submit" class="btn btn-secondary mb-2 mr-2" id="analyze">Analyze</button>
+                                            </div>
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary mb-2" id="btn-add">Add</button>
+                                            </div>
+                                        </form>
+                                </div>
+                            </div>
+                            <div class="row d-flex justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="form-group mt-1">
+                                        <input type="range" class="custom-range" name="rating" id="module-rating" min="1" max="10" value="1">
+                                        <label for="module-rating" class="float-left text-muted">Very Easy</label>
+                                        <label for="module-rating" class="float-right text-muted">Very Hard</label>
+                                        <label for="module-rating" class="text-center d-block text-primary" id="range-selected"></label>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
                 </div>
                 <div class="row my-4 ml-4">
                     <h3 id="module-header"></h3>
@@ -184,7 +188,7 @@
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
                 autoclose: true,
-                // startDate: "today"
+                startDate: "today"
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
                 $('#end').datepicker('setStartDate', minDate);
@@ -215,6 +219,10 @@
             function analyze()
             {
                 var moduleName = $("#module-name").val();
+
+                if (moduleName.trim() === "" || moduleName === null){
+                    return false;
+                }
 
                 $.ajax({
                     type: 'POST',
@@ -385,12 +393,15 @@
 
                 $('#btn-add').click(function(e){
                     e.preventDefault();
+                    var moduleName = $("#module-name").val();
+                    var moduleRating = $("#module-rating").val();
+
+                    if (moduleName.trim() === "" || moduleName === null){
+                        return false;
+                    }
 
                     if(i < max_fields)
-                    {
-                        var moduleName = $("#module-name").val();
-                        var moduleRating = $("#module-rating").val();
-                        
+                    {   
                         $("#module-list").append(addModule(i));
 
                         $("#module"+ i ).val(moduleName);
@@ -403,6 +414,9 @@
                     }else{
                         $("#btn-add").prop("disabled", true);
                     }
+
+                    $('#module-rating').val(1);
+                    $('#range-selected').text(1);
                 });
 
                 $('#module-list').on('click','.btn-remove', function(e){
@@ -421,6 +435,12 @@
                         $("#btn-submit").prop("disabled", true);
                     }
                 });
+
+                $('#range-selected').text($('#module-rating').val());
+
+                $('#module-rating').on('input change', function() {
+                    $('#range-selected').text($('#module-rating').val());
+                })
             })();
             
         });

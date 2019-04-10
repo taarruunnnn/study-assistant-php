@@ -1,6 +1,7 @@
 {
     "params": [
         "norm_comp",
+        "name",
         "norm_fail",
         "rating"
     ],

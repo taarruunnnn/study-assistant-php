@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
                 'birth' => '1995',
                 'gender' => 'M',
                 'university' => 'University of Colombo',
-                'major' => 'Computer Science',
+                'major' => 'Engineering and technology',
                 'country' => 'LK',
                 'password' => bcrypt('password'),
                 'type' => 'admin'
@@ -67,7 +67,7 @@ class UsersTableSeeder extends Seeder
             }
         );
 
-        factory(App\User::class, 400)->create()->each(
+        factory(App\User::class, 200)->create()->each(
             function ($user) {
                 $user->completed_modules()->saveMany(factory(App\CompletedModule::class, 15)->make());
             }
