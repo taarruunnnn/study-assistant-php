@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-2">
                 @if (! empty($schedule))
-                    <form action="{{ route('report.save') }}" method="POST" id="reportForm">
+                    <form action="{{ route('report.save') }}" method="POST" class="text-right" id="reportForm">
                         @csrf
                         <button type="submit" class="btn btn-primary">Save Report</button>
                     </form>
@@ -19,77 +19,108 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col">
                 <div class="card mt-3 animated fadeIn">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">Schedule Summary</h4>
-                        <div class="report-body">
-                            @if ($live == false)
-                                <p class="text-dark">Time of Report : 
-                                    <span class="text-primary">{{$date}}</span>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="card-title mb-4 text-center">Schedule Summary</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @if ($live == false)
+                                    <p class="text-dark">Time of Report : 
+                                        <span class="text-primary">{{$date}}</span>
+                                    </p>
+                                @endif
+    
+                                <p class="text-dark">Number of Modules in this Schedule : 
+                                    <span class="text-primary">
+                                        @if (! empty($modules))
+                                            {{ $modules->count() }}
+                                        @elseif ($live == false)
+                                            {{ $modulesCount }}
+                                        @endif
+                                    </span>
                                 </p>
-                            @endif
-
-                            <p class="text-dark">Number of Modules in this Schedule : 
-                                <span class="text-primary">
-                                    @if (! empty($modules))
-                                        {{ $modules->count() }}
-                                    @elseif ($live == false)
-                                        {{ $modulesCount }}
-                                    @endif
-                                </span>
-                            </p>
-
-                            <p class="text-dark">Number of Sessions Completed : 
-                                <span class="text-primary">    
-                                    @if (! empty($sessions))
-                                        {{ $sessions->where('status', 'completed')->count() }}
-                                    @elseif ($live == false)
-                                        {{ $sessionsComplete }}
-                                    @endif
-                                </span>
-                            </p>
-                            
-                            <p class="text-dark">Number of Sessions Missed : 
-                                <span class="text-primary">
-                                    @if (! empty($modules))
-                                        {{ $sessions->where('status', 'failed')->count() }}
-                                    @elseif ($live == false)
-                                        {{ $sessionsMissed }}
-                                    @endif
-                                </span>
-                            </p>
-
-                            <p class="text-dark">Number of Sessions to Complete : 
-                                <span class="text-primary">
-                                    @if (! empty($modules))
-                                        {{ $sessions->where('status', 'incomplete')->count() }}
-                                    @elseif ($live == false)
-                                        {{ $sessionsIncomplete }}
-                                    @endif
-                                </span>
-                            </p>
-
-                            <p class="text-dark">Progress of Schedule : 
-                                <span class="text-primary">
-                                    @if (! empty($progress))
-                                        {{ $progress }}&#37;
-                                    @else
-                                        0&#37;
-                                    @endif
-                                </span>
-                            </p>
-
+    
+                                <p class="text-dark">Number of Sessions Completed : 
+                                    <span class="text-primary">    
+                                        @if (! empty($sessions))
+                                            {{ $sessions->where('status', 'completed')->count() }}
+                                        @elseif ($live == false)
+                                            {{ $sessionsComplete }}
+                                        @endif
+                                    </span>
+                                </p>
+                                
+                                <p class="text-dark">Number of Sessions Missed : 
+                                    <span class="text-primary">
+                                        @if (! empty($modules))
+                                            {{ $sessions->where('status', 'failed')->count() }}
+                                        @elseif ($live == false)
+                                            {{ $sessionsMissed }}
+                                        @endif
+                                    </span>
+                                </p>
+    
+                                <p class="text-dark">Number of Sessions to Complete : 
+                                    <span class="text-primary">
+                                        @if (! empty($modules))
+                                            {{ $sessions->where('status', 'incomplete')->count() }}
+                                        @elseif ($live == false)
+                                            {{ $sessionsIncomplete }}
+                                        @endif
+                                    </span>
+                                </p>
+    
+                                <p class="text-dark">Progress of Schedule : 
+                                    <span class="text-primary">
+                                        @if (! empty($progress))
+                                            {{ $progress }}&#37;
+                                        @else
+                                            0&#37;
+                                        @endif
+                                    </span>
+                                </p>
+    
+                            </div>
+                            <div class="col-md-6">
+                                
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+               
                 @if ((! empty($schedule)) || $live == false)
-                
 
-                <div class="card mt-3" style="display:none" id="canvasSessionCount">
+                <div class="card mt-3" style="display:none" id="schedDetailsCard">
+                    <div class="card-body">
+                        <h5 class="card-title">Session Details</h5>
+                        <table class="table table-bordered mt-1" id="schedDetailsTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Module Name</th>
+                                    <th scope="col">Completed</th>
+                                    <th scope="col">Failed</th>
+                                    <th scope="col">Incomplete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card mt-3 animated fadeIn"  id="canvasRatings">
                     <div class="card-body">
                         <div class="px-4">
-                            <canvas id="sessionCountChart" width="100" height="100"></canvas>
+                            <canvas id="pie-chart" width="100" height="100"></canvas>
                         </div>
                     </div>
                 </div>
@@ -131,8 +162,6 @@
                 @endif
 
                 @if ((! empty($schedule)) || $live == false)
-
-
                 <div class="card mt-3" style="display:none" id="canvasCompare">
                     <div class="card-body">
                         <canvas id="chartCompare" width="400" height="300"></canvas>
@@ -154,6 +183,98 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
+        // Global variable used to sort module list array in later function
+        var moduleListSorter = new Array();
+
+        (function(){
+            @if (!empty($schedule) && $live == true)
+                var pred_list = {!! $grades !!};
+            @elseif ($live == false)
+                var data = {!! json_encode($data) !!}
+                data = data.replace(/\\/g, "");
+                data = JSON.parse(data)
+                var pred_list = data['predictions']
+            @endif
+
+            for (var key in pred_list) {
+                if (pred_list.hasOwnProperty(key)) {
+                    if (pred_list[key][1] != null){
+                        moduleListSorter.push(pred_list[key][0]);
+
+                        $('#predTable > tbody:last-child').append('<tr><td>' + pred_list[key][0] + '</td>' + '<td>' + pred_list[key][1] + '</td></tr>');
+                        $('#predCard').show('slow');
+                    } 
+                }
+            }
+
+            @if ($live == true)
+                createHiddenForm("predictions", JSON.stringify(pred_list));
+            @endif
+
+            @if (! empty($modules) || $live == false)
+                (function ()
+                {
+                    var modules = new Array();
+                    var ratings = new Array();
+                    
+                    @if ($live == true)
+                        var moduleRatings = {};
+                        @foreach ($modules as $module)
+                            modules.push('{{$module->name}}');
+                            ratings.push('{{$module->rating}}');
+                            moduleRatings['{{$module->name}}'] = '{{$module->rating}}'
+                        @endforeach
+                    @elseif ($live == false)
+                        var data = {!! json_encode($data) !!}
+                        data = data.replace(/\\/g, "");
+                        data = JSON.parse(data)
+                        var moduleRatings = data['moduleratings']
+                        
+                        for (var key in moduleRatings) {
+                            if (moduleRatings.hasOwnProperty(key)) {
+                                modules.push(key);
+                                ratings.push(moduleRatings[key]);
+                            }
+                        }
+                    @endif
+
+                    for (var i = 0; i < modules.length; i++) {
+                        modules[i] = modules[i].replace("&amp;", "&");
+                    }
+
+                    var canvasModules = document.getElementById("pie-chart");
+                    var ctxModules = canvasModules.getContext("2d");
+
+                    var chartModules = new Chart(ctxModules, {
+                        type: 'pie',
+                        data: {
+                        labels: modules,
+                        datasets: [{
+                            label: "Rating",
+                            backgroundColor: ["#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"],
+                            data: ratings
+                        }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Modules & their Ratings in Current Schedule'
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            }
+                        }
+                    });
+
+                    @if ($live == true)
+                        createHiddenForm("moduleratings", JSON.stringify(moduleRatings));
+                    @endif
+                })();
+            @endif
+            
+        })();
 
         @if (!empty($schedule) && $live == true)
         
@@ -285,21 +406,29 @@
                 var student_count = new Array();
                 var others_count = new Array();
 
-                for (var comparedtime in student_data) {
-                    if (student_data.hasOwnProperty(comparedtime)) {
-                        modules.push(comparedtime);
-                        student_count.push(student_data[comparedtime])
+                for (var moduleName in student_data) {
+                    if (student_data.hasOwnProperty(moduleName)) {
+                        modules.push(moduleName);
+                        var count = student_data[moduleName]
+                        if (count === null) {
+                            count = 0;
+                        }
+                        student_count.push(count)
                     }
                 }
 
-                for (var comparedtime in others_data) {
-                    if (others_data.hasOwnProperty(comparedtime)) {
-                        others_count.push(others_data[comparedtime])
+                for (var moduleName in others_data) {
+                    if (others_data.hasOwnProperty(moduleName)) {
+                        var count = others_data[moduleName]
+                        if (count === null) {
+                            count = 0;
+                        }
+                        others_count.push(count)
                     }
                 }
 
                 new Chart(ctx2, {
-                    type: 'bar',
+                    type: 'horizontalBar',
                     data: {
                     labels: modules,
                     datasets: [
@@ -392,7 +521,7 @@
                     labels: timeofday,
                     datasets: [
                         {
-                            label: "Sessions Completed",
+                            label: "Number of Sessions",
                             backgroundColor: "#3e95cd",
                             data: timecount
                         }
@@ -427,89 +556,52 @@
                 @endif
             }
 
-            if (!(data['sessioncount'] == "N/A" || data['sessioncount'] == null))
+            if (!(data['sessiondetails'] == "N/A" || data['sessiondetails'] == null))
             {
-                $('#canvasSessionCount').show();
 
                 @if ($live == true)
-                    var sessioncounts = JSON.parse(data.sessioncount);
+                    var sessiondetails = JSON.parse(data.sessiondetails);
+                    console.log(sessiondetails)
                 @else
-                    var sessioncounts = data.sessioncount;
+                    var sessiondetails = data.sessiondetails;
+                    
                 @endif
 
-                var session_names = new Array();
-                var session_counts = new Array();
-
-                for (var val in sessioncounts)
+                var moduleNameList = new Array();
+                for (var moduleName in sessiondetails)
                 {
-                    if (sessioncounts.hasOwnProperty(val))
+                    if (sessiondetails.hasOwnProperty(moduleName)){
+                        moduleNameList.push(moduleName);
+                    }
+                   
+                }
+                moduleNameList.sort(function(a, b){
+                    return moduleListSorter.indexOf(a) - moduleListSorter.indexOf(b);
+                })
+
+                for (var moduleKey in moduleNameList)
+                {
+                    var moduleName = moduleNameList[moduleKey];
+                    if (sessiondetails.hasOwnProperty(moduleName))
                     {
-                        session_names.push(val);
-                        session_counts.push(sessioncounts[val]);
+                        var completedSessions = sessiondetails[moduleName]['completed'] || 0;
+                        var failedSessions = sessiondetails[moduleName]['failed'] || 0;
+                        var incompleteSessions = sessiondetails[moduleName]['incomplete'] || 0;
+
+                        $('#schedDetailsTable > tbody:last-child').append(
+                            '<tr><td>' + moduleName + '</td>' +
+                            '<td>' + completedSessions + '</td>' + 
+                            '<td>' + failedSessions + '</td>' + 
+                            '<td>' + incompleteSessions + '</td></tr>');
+                        $('#schedDetailsCard').show('slow');
                     }
                 }
 
-                var ctx = document.getElementById("sessionCountChart").getContext('2d');
-
-                var chart_data = {
-                    labels: session_names,
-                    datasets: [{
-                        data: session_counts,
-                        backgroundColor: [
-                            "#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"
-                        ],
-                    }]
-                } 
-
-                var myPieChart = new Chart(ctx,{
-                    type: 'pie',
-                    data: chart_data,
-                    options: {
-                        title: {
-                            display: true,
-                            text: 'Number of Total Sessions per Module'
-                        },
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        }
-                    }
-                });
-
                 @if ($live == true)
-                    createHiddenForm("sessioncount", data['sessioncount']);
+                    createHiddenForm("sessiondetails", JSON.stringify(sessiondetails));
                 @endif
             }
         }
-
-        (function(){
-            @if (!empty($schedule) && $live == true)
-                var pred_list = {!! $grades !!};
-            @elseif ($live == false)
-                var data = {!! json_encode($data) !!}
-                data = data.replace(/\\/g, "");
-                data = JSON.parse(data)
-                var pred_list = data['predictions']
-            @endif
-
-
-
-            for (var key in pred_list) {
-                if (pred_list.hasOwnProperty(key)) {
-                    if (pred_list[key][1] != null){
-                        $('#predTable > tbody:last-child').append('<tr><td>' + pred_list[key][0] + '</td>' + '<td>' + pred_list[key][1] + '</td></tr>');
-                        $('#predCard').show('slow');
-                    } 
-                }
-            }
-
-    
-
-            @if ($live == true)
-                createHiddenForm("predictions", JSON.stringify(pred_list));
-            @endif
-            
-        })()
 
         function createHiddenForm(name, value)
         {

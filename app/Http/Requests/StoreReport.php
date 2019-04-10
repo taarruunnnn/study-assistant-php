@@ -74,8 +74,9 @@ class StoreReport extends FormRequest
                     'sessions' => request('sessions'),
                     'time_spent' => request('comparedtime'),
                     'study_times' => request('studytimes'),
-                    'session_count' => request('sessioncount'),
-                    'predictions' => request('predictions')
+                    'module_ratings' => request('moduleratings'),
+                    'predictions' => request('predictions'),
+                    'sessiondetails' => request('sessiondetails')
                 ]
             );
         }

@@ -85,16 +85,18 @@ class ReportController extends Controller
         $sessionsDb = $report->sessions;
         $timeSpend = $report->time_spent;
         $studyTimes = $report->study_times;
-        $sessionCount = $report->session_count;
+        $moduleratings = $report->module_ratings;
         $predictions = $report->predictions;
+        $sessiondetails = $report->sessiondetails;
         $date = $report->created_at;
 
         $data = array(
             "sessions" => json_decode($sessionsDb),
             "comparedtime" => json_decode($timeSpend),
             "studytimes" => json_decode($studyTimes),
-            "sessioncount" => json_decode($sessionCount),
+            "moduleratings" => json_decode($moduleratings),
             "predictions" => json_decode($predictions),
+            "sessiondetails" => json_decode($sessiondetails),
         );
 
         $data = json_encode($data);
