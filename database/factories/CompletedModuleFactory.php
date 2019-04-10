@@ -15,84 +15,116 @@ use App\Http\Requests\StoreSchedule;
 $factory->define(
     App\CompletedModule::class, function (Faker $faker) {
         $modules = [
-            'Fundamentals of Programming',
-            'Web Technologies',
-            'Visual Application Programming',
-            'Computer Organization',
-            'Introduction to Networking',
-            'Management',
-            'Mathematics for IT',
-            'Database Management Systems',
-            'Software Engineering',
-            'Computer Architecture',
-            'Network Programming',
-            'Multimedia Design',
-            'Accountancy',
-            'Business Studies',
-            'Data Structures & Algorithms',
-            'Logic Programming',
-            'Computational Mathematics',
-            'Human Resource Management',
-            'Object Oriented Analysis & Design',
-            'Essentials of Machine Learning',
-            'IT Project Management',
-            'Professional Practice',
-            'Data Mining & Warehousing',
-            'IT Quality Assurance',
-            'Intelligent Systems'
+            array('Fundamentals of Programming', 'N'),
+            array('Web Technologies', 'E'),
+            array('Visual Application Programming', 'N'),
+            array('Computer Organization', 'H'),
+            array('Introduction to Networking', 'N'),
+            array('Management', 'E'),
+            array('Mathematics for IT', 'H'),
+            array('Database Management Systems', 'H'),
+            array('Software Engineering', 'N'),
+            array('Computer Architecture', 'H'),
+            array('Network Programming', 'N'),
+            array('Multimedia Design', 'N'),
+            array('Accountancy', 'H'),
+            array('Business Studies', 'E'),
+            array('Data Structures & Algorithms', 'H'),
+            array('Logic Programming', 'H'),
+            array('Computational Mathematics', 'H'),
+            array('Human Resource Management', 'E'),
+            array('Object Oriented Analysis & Design', 'N'),
+            array('Essentials of Machine Learning', 'H'),
+            array('IT Project Management', 'N'),
+            array('Professional Practice', 'E'),
+            array('Data Mining & Warehousing', 'H'),
+            array('IT Quality Assurance', 'E'),
+            array('Intelligent Systems', 'H')
         ];
 
-        $ratArray = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        $moduleKey = array_rand($modules);
+        $module = $modules[$moduleKey][0];
+        $difficulty = $modules[$moduleKey][1]; 
 
-        $rating = $ratArray[array_rand($ratArray)];
-
-        $randomizer = array(1, 2, 3);
+        if ($difficulty == 'E') {
+            $rating = $faker->numberBetween($min = 1, $max = 3);
+        } elseif ($difficulty == 'N') {
+            $rating = $faker->numberBetween($min = 4, $max = 7);
+        } else {
+            $rating = $faker->numberBetween($min = 8, $max = 10);
+        }
 
 
         switch (true) {
         case ($rating < 3):
+
+            $randomizer = array(1, 2, 3, 4, 5);
             $rand = $randomizer[array_rand($randomizer)];
 
             if ($rand == 1) {
                 $completed = $faker->numberBetween($min = 90, $max = 100);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('A+'));
-            } else {
-                $completed = $faker->numberBetween($min = 0, $max = 10);
+                $grade = $faker->randomElement($array = array('A+', 'A'));
+            } else if ($rand == 2) {
+                $completed = $faker->numberBetween($min = 75, $max = 90);
                 $failed = 100 - $completed;
-                $grade = 'F';
+                $grade = $faker->randomElement($array = array('A-', 'B+'));
+            } else if ($rand == 3) {
+                $completed = $faker->numberBetween($min = 55, $max = 75);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('B+', 'B', 'B-'));
+            } else if ($rand == 4) {
+                $completed = $faker->numberBetween($min = 40, $max = 55);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('B-', 'C+', 'C'));
+            } else {
+                $completed = $faker->numberBetween($min = 0, $max = 30);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('D', 'F'));
             } 
             break;
 
         case ($rating >= 3 && $rating < 5):
+
+            $randomizer = array(1, 2, 3, 4);
             $rand = $randomizer[array_rand($randomizer)];
 
             if ($rand == 1) {
                 $completed = $faker->numberBetween($min = 90, $max = 100);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('A+', 'A'));
+                $grade = $faker->randomElement($array = array('A+', 'A', 'A-'));
             } else if ($rand == 2) {
+                $completed = $faker->numberBetween($min = 70, $max = 90);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('B+', 'B', 'B-'));
+            } else if ($rand == 3) {
                 $completed = $faker->numberBetween($min = 45, $max = 55);
                 $failed = 100 - $completed;
-                $grade = 'C+';
+                $grade = $faker->randomElement($array = array('C+', 'C'));
             } else {
                 $completed = $faker->numberBetween($min = 0, $max = 10);
                 $failed = 100 - $completed;
-                $grade = 'F';
+                $grade = $faker->randomElement($array = array('D', 'F'));
             }
             break;
 
         case ($rating >= 5 && $rating < 7):
+
+            $randomizer = array(1, 2, 3, 4);
             $rand = $randomizer[array_rand($randomizer)];
 
             if ($rand == 1) {
-                $completed = $faker->numberBetween($min = 90, $max = 100);
+                $completed = $faker->numberBetween($min = 95, $max = 100);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('A+', 'A'));
+                $grade = $faker->randomElement($array = array('A', 'A-'));
             } else if ($rand == 2) {
+                $completed = $faker->numberBetween($min = 55, $max = 85);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('B', 'B-'));
+            } else if ($rand == 3) {
                 $completed = $faker->numberBetween($min = 45, $max = 55);
                 $failed = 100 - $completed;
-                $grade = 'C-';
+                $grade = $faker->randomElement($array = array('C+', 'C'));
             } else {
                 $completed = $faker->numberBetween($min = 0, $max = 10);
                 $failed = 100 - $completed;
@@ -101,48 +133,58 @@ $factory->define(
             break;
 
         case ($rating >= 7 && $rating <= 9):
-            $randomizer = array(1, 2, 3, 4);
+        
+            $randomizer = array(1, 2, 3, 4, 5);
             $rand = $randomizer[array_rand($randomizer)];
 
             if ($rand == 1) {
-                $completed = $faker->numberBetween($min = 90, $max = 100);
+                $completed = $faker->numberBetween($min = 96, $max = 100);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('A', 'A-'));
+            } else if ($rand == 2) {
+                $completed = $faker->numberBetween($min = 80, $max = 90);
                 $failed = 100 - $completed;
                 $grade = $faker->randomElement($array = array('B+', 'B'));
-            } else if ($rand == 2) {
-                $completed = $faker->numberBetween($min = 45, $max = 55);
-                $failed = 100 - $completed;
-                $grade = 'C-';
             } else if ($rand == 3) {
-                $completed = $faker->numberBetween($min = 0, $max = 10);
+                $completed = $faker->numberBetween($min = 65, $max = 79);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('C+', 'C'));
+            } else if ($rand == 4) {
+                $completed = $faker->numberBetween($min = 45, $max = 64);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('C-', 'D'));
+            } else {
+                $completed = $faker->numberBetween($min = 0, $max = 40);
                 $failed = 100 - $completed;
                 $grade = 'F';
-            } else {
-                $completed = $faker->numberBetween($min = 99, $max = 100);
-                $failed = 100 - $completed;
-                $grade = 'A+';
             }
             break;
 
         case ($rating == 10):
-            $randomizer = array(1, 2, 3, 4);
+
+            $randomizer = array(1, 2, 3, 4, 5);
             $rand = $randomizer[array_rand($randomizer)];
 
             if ($rand == 1) {
-                $completed = $faker->numberBetween($min = 90, $max = 100);
+                $completed = $faker->numberBetween($min = 95, $max = 100);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('B', 'B-'));
+                $grade = $faker->randomElement($array = array('A', 'B'));
             } else if ($rand == 2) {
-                $completed = $faker->numberBetween($min = 45, $max = 55);
+                $completed = $faker->numberBetween($min = 75, $max = 90);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('C-', 'D'));
+                $grade = $faker->randomElement($array = array('B-', 'C+'));
             } else if ($rand == 3) {
-                $completed = $faker->numberBetween($min = 0, $max = 10);
+                $completed = $faker->numberBetween($min = 55, $max = 70);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('C', 'C-'));
+            } else if ($rand == 4) {
+                $completed = $faker->numberBetween($min = 40, $max = 45);
+                $failed = 100 - $completed;
+                $grade = $faker->randomElement($array = array('D', 'C-'));
+            } else {
+                $completed = $faker->numberBetween($min = 0, $max = 40);
                 $failed = 100 - $completed;
                 $grade = 'F';
-            } else {
-                $completed = $faker->numberBetween($min = 99, $max = 100);
-                $failed = 100 - $completed;
-                $grade = 'A';
             }
             break;
 
@@ -155,7 +197,7 @@ $factory->define(
                 
         
         return [
-            'name' => $faker->randomElement($array = $modules),
+            'name' => $module,
             'rating' => $rating,
             'grade' => $grade,
             'completed_sessions' => $completed,

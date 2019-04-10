@@ -67,9 +67,9 @@ class UsersTableSeeder extends Seeder
             }
         );
 
-        factory(App\User::class, 200)->create()->each(
+        factory(App\User::class, 400)->create()->each(
             function ($user) {
-                $user->completed_modules()->saveMany(factory(App\CompletedModule::class, 10)->make());
+                $user->completed_modules()->saveMany(factory(App\CompletedModule::class, 15)->make());
             }
         );
     }
