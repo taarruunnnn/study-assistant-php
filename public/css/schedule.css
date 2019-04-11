@@ -17706,12 +17706,18 @@ a:focus {
 }
 
 .navbar {
-  padding: 15px 10px;
+  padding: 10px;
   background: #fff;
   border: none;
   border-radius: 0;
   margin-bottom: 40px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 900;
+  margin-left: 110px;
+}
+
+.navbar-pushed {
+  margin-left: 25% !important;
 }
 
 .navbar-btn {
@@ -17839,6 +17845,7 @@ ul ul a {
   top: 0;
   right: 0;
   padding-bottom: 30px;
+  margin-top: 75px;
   height: 100%;
 }
 
@@ -18099,6 +18106,10 @@ span.twitter-typeahead {
 
   #content.active {
     width: 75%;
+  }
+
+  .navbar {
+    margin-left: 0;
   }
 }
 

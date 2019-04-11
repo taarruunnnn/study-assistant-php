@@ -24,6 +24,7 @@ $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {
            $('#sidebar, #content').toggleClass('active');
+           $('#navigation').toggleClass('navbar-pushed');
            $('.collapse.in').toggleClass('in');
            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });

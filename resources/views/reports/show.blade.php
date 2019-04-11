@@ -147,7 +147,7 @@
                         <div class="col">
                             <form>
                                 <div class="form-row aliggn-items-center">
-                                    <div class="col-auto" id="typeahead-modules">
+                                    <div class="col-auto mb-3" id="typeahead-modules">
                                         <label for="textName" class="sr-only">Module Name</label>
                                         <input type="text" name="moduleName" id="textName" class="form-control typeahead" placeholder="Module Name">
                                     </div>

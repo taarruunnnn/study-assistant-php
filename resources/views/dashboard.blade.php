@@ -495,6 +495,7 @@
                             }]
                         },
                         options: {
+                            maintainAspectRatio: false,
                             title: {
                                 display: true,
                                 text: 'Schedule Progress',

@@ -102,7 +102,7 @@
                 <div class="card mt-3" style="display:none" id="schedDetailsCard">
                     <div class="card-body">
                         <h5 class="card-title">Session Details</h5>
-                        <table class="table table-bordered mt-1" id="schedDetailsTable">
+                        <table class="table table-bordered mt-1 table-responsive-sm" id="schedDetailsTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Module Name</th>
