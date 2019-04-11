@@ -30,7 +30,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: #fafafa;
+    background: #f3f3f3;
 }
 
 .alert {
@@ -364,7 +364,7 @@ span.twitter-typeahead {
 }
 
 #dash .dash-title {
-    color: #929292;
+    color: #2d6693;
 }
 
 #dash p, #dash li {
@@ -376,9 +376,14 @@ span.twitter-typeahead {
 }
 
 #time{
-    font-size: 40px;
+    font-size: 45px;
     color:#3f3f3f;
     font-family: 'Orbitron', sans-serif;
+}
+
+.moment #date {
+    color:grey;
+    font-size: 16px;
 }
 
 .calendarEvent{
@@ -390,6 +395,16 @@ span.twitter-typeahead {
     font-size: 13px;
     text-align: center;
     color: #767676 !important;
+}
+
+.summary {
+    padding: 4px 0;
+    font-size: 12px;
+}
+
+.summary-stat {
+    font-size: 25px;
+    font-weight: 600;
 }
 
 // ADMIN DASHBOARD
@@ -413,6 +428,7 @@ span.twitter-typeahead {
 .user-avatar img{
     border-radius: 50%;
 }
+
 
 /* ---------------------------------------------------
     MEDIAQUERIES
@@ -439,6 +455,14 @@ span.twitter-typeahead {
 }
 
 @media only screen and (max-width: 1190px) {
+    .moment #time {
+        font-size: 28px;
+    }
+
+    .moment #date {
+        font-size: 13px;
+    }
+
     #sessionTimer .values {
         font-size: 67px;
     }
@@ -453,9 +477,17 @@ span.twitter-typeahead {
         font-size: 59px;
         width: 77%;
     }
+
+    .dashboard-col {
+        margin-top: 20px;
+    }
 }
 
 @media only screen and (max-width: 800px) {
+    .moment #date {
+        text-align: center;
+    }
+
     #sessionTimer .values {
         font-size: 41px;
         width: 77%;

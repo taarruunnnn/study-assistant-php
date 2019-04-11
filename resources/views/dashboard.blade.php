@@ -6,7 +6,7 @@
 
 <div class="container-fluid" id="dash">
     @if (isset($missed_percentage) && $missed_percentage > 20)
-        <div class="row ml-2">
+        <div class="row">
             <div class="col-sm-12">
                 <div class="alert alert-danger text-center animated fadeIn" role="alert">
                     You have missed over <strong>20%</strong> of your schedule!
@@ -15,11 +15,11 @@
         </div>
     @endif
 
-    <div class="row ml-2">
-        <div class="col-md-3">
-            <div class="card h-100 animated fadeIn">
-                <div class="card-body d-flex align-items-center flex-column">
-                    <h5 class="card-title dash-title text-center">Hello {{ Auth::user()->name }}!</h5>
+    <div class="row">
+        <div class="col-lg-3 dashboard-col">
+            <div class="card border-light shadow-sm h-100 animated fadeIn">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title dash-title">Hello {{ Auth::user()->name }}!</h5>
                     <hr class="w-100">
                     <div class="my-auto">    
                         <div>
@@ -28,51 +28,93 @@
                         </div>
                     </div>
                     @if (! empty($schedule))
-                        <a href="{{ route('session.show') }}" class="btn btn-primary">Start Studying</a>
+                        <a href="{{ route('session.show') }}" class="btn btn-outline-primary">Start Studying</a>
                     @endif
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card h-100 animated fadeIn">
+        <div class="col-lg-6 dashboard-col">
+            <div class="card border-light shadow-sm h-100 animated fadeIn">
                 <div class="card-body">
-                    <h5 class="card-title dash-title text-center">Schedule Completion</h5>
-                    <hr/>
-                    @if (! empty($schedule))
-                        <p>You Have Completed<br/>
-                        <span id="dash-percentage">{{ $progress }}%</span> <br/>
-                        Of Your Schedule</p>
-                        <hr>
-                        <p>Schedule Started on <br/>{{ $schedule->start }}</p>
-                        <p>Schedule Ends on <br/>{{ $schedule->end }}</p>
-                    @else
-                        <p>No Schedule data to display</p>
-                    @endif
+                    <div class="container-fluid h-100 ">
+                        @if (! empty($schedule))
+                            <div class="row h-100 d-flex align-items-center">
+                                <div class="col">
+                                    <h5 class="card-title dash-title text-center">Schedule Summary</h5>
+                                    <hr>
+                                    <table class="table table-borderless text-center">
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:50%">
+                                                    <div class="summary text-muted">
+                                                        Starts: <br/>
+                                                        <span class="summary-stat text-dark">{{ $schedule->start }}</span>
+                                                    </div>
+                                                </td>
+                                                <td style="width:50%">
+                                                    <div class="summary text-muted">
+                                                        End: <br/>
+                                                        <span class="summary-stat text-dark">{{ $schedule->end }}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="summary text-muted">
+                                                        Percentage Complete: <br/>
+                                                        <span class="summary-stat text-dark">{{ $progress }}%</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="summary text-muted">
+                                                        Sessions Completed: <br/>
+                                                        <span class="summary-stat text-dark">{{ $finished }}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="summary text-muted">
+                                                        Sessions left: <br/>
+                                                        <span class="summary-stat text-dark">{{ $left }}</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="summary text-muted">
+                                                        Sessions Missed <br/>
+                                                        <span class="summary-stat text-dark">{{ $missed }}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @else
+                            <div class="row">
+                                <div class="col">
+                                    <p>No Schedule data to display</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card h-100 animated fadeIn">
+        <div class="col-lg-3 dashboard-col">
+            <div class="card border-light shadow-sm h-100 animated fadeIn">
                 <div class="card-body">
-                    <h5 class="card-title dash-title text-center">Modules Summary</h5>
-                    <hr/>
-                    @if (! empty($schedule))
-                        <canvas id="pie-chart" width="250" height="350"></canvas>
-                        <p class="card-subtitle">Click on a module in the chart to learn more about it.</p>
-                    @else
-                        <p>No Schedule data to display</p>
-                    @endif
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card h-100 animated fadeIn">
-                <div class="card-body">
-                    <h5 class="card-title dash-title text-center">Today's Summary</h5>
+                    <h5 class="card-title dash-title">Today's Summary</h5>
                     <hr/>
                     <div class="moment my-2">
-                        <div id ="date"></div>
-                        <div id="time"></div>        
+                        <div class="row">
+                            <div class="col-sm-8 d-flex align-items-center justify-content-center">
+                                <div id="time"></div>
+                            </div>
+                            <div class="col-sm-4 d-flex align-items-center justify-content-center">
+                                <div id="date"></div>   
+                            </div>    
+                        </div>      
                     </div>
                     <hr/>
                     @if (! empty($module_list))
@@ -89,12 +131,12 @@
             </div>
         </div>
     </div>
-    <div class="row my-3 ml-2">
+    <div class="row my-3">
         @if (! empty($schedule))
-            <div class="col-md-9">
-                <div class="card animated fadeIn">
+            <div class="col-lg-9 dashboard-col">
+                <div class="card border-light shadow-sm  h-100 animated fadeIn">
                     <div class="card-body">
-                        <h2 class="card-title dash-title text-center">Study Sessions</h2>
+                        <h5 class="card-title dash-title">Schedule Progress</h5>
                         <hr>
                         <div id="sessions-div" style="display:none;">
                             <canvas id="chartProgress" width="500" height="200"></canvas>
@@ -102,20 +144,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card animated fadeIn">
+            <div class="col-lg-3 dashboard-col">
+                <div class="card border-light shadow-sm h-100 animated fadeIn">
                     <div class="card-body">
-                        <h5 class="card-title dash-title text-center">Schedule Overview</h5>
+                        <h5 class="card-title dash-title">Modules Summary</h5>
                         <hr/>
-                        <p>You have studied for {{$hours}} hours</p>
-                        <p>You have finished {{ $finished }} sessions</p>
-                        <p>You have {{ $left }} sessions left</p>
-                        <p>You have missed {{ $missed }} sessions which is {{ $missed_percentage }}% of your schedule</p>
+                        <canvas id="pie-chart" width="250" height="350"></canvas>
+                        <p class="card-subtitle">Click on a module in the chart to learn more about it.</p>
                     </div>
                 </div>
             </div>
         @else
-            <div class="col text-center mt-5">
+            <div class="col dashboard-col text-center mt-5">
                 <a href="{{ route('schedules.create') }}" class="btn btn-primary btn-lg">CREATE NEW SCHEDULE</a>
             </div>
         @endif
@@ -202,7 +242,6 @@
                     data: {schedule: schedule_id},
                     success: function(data){
                         displayAnalysis(data)
-                        console.log(data)
                     },
                     error: function(message){
                         console.log('Failed '.message);
@@ -277,7 +316,6 @@
                             data: {module: moduleName},
                             success: function(data){
                                 showModal(data, moduleName);
-                                console.log(data);
                             },
                             error: function(message){
                                 console.log(message);
@@ -304,8 +342,6 @@
                     $('#analysisModalLabel').text("No Analysis Data Available");
                     return;
                 }
-
-                console.log(data);
 
                 if (data['hours'].weekend_hours != "N/A" || data['hours'].weekday_hours != "N/A")
                 { 
@@ -339,7 +375,6 @@
                         }
                     }
 
-                    console.log(grades_grades);
                     var ctx = document.getElementById("myChart").getContext('2d');
 
                     var chart_data = {
@@ -487,11 +522,11 @@
 
                 
             function displayTime() {
-                var time = moment().format('HH:mm:ss');
-                var date = moment().format('MMMM Do YYYY')
+                var time = moment().format('HH:mm');
+                var date = moment().format('MMM Do YYYY')
                 $('#time').html(time);
                 $('#date').html(date);
-                setTimeout(displayTime, 1000);
+                setTimeout(displayTime, 10000);
             }
 
             displayTime();
