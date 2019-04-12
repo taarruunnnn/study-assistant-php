@@ -63,18 +63,6 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if ($schedule = $user->schedule) {
-            $sessions = $schedule->sessions;
-            $today = Carbon::today();
-            foreach ($sessions as $session) {
-                $date = new Carbon($session->date);
-                $status = $session->status;
-                if ($date->lessThan($today) && $status == "incomplete") {
-                    $session->status = "failed";
-                    $session->save();
-                }
-            }
-        }
-        
+        failedSessionMarker($user);   
     }
 }

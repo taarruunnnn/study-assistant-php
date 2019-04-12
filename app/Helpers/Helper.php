@@ -24,16 +24,16 @@ if (!function_exists('scheduleRetriever')) {
             $sessions = $schedule->sessions;
 
             $colors = array(
-                        "#00bcd4", 
-                        "#2b8cba", 
-                        "#3f51b5", 
-                        "#9c27b0", 
-                        "#f442c8", 
-                        "#e65100", 
-                        "#c3a34a", 
-                        "#4caf50", 
-                        "#797979", 
-                        "#2196f3"
+                        "#9E9E9E", 
+                        "#0097A7", 
+                        "#4DB6AC", 
+                        "#607D8B", 
+                        "#1E88E5", 
+                        "#BA68C8", 
+                        "#673AB7", 
+                        "#00BCD4", 
+                        "#3F51B5", 
+                        "#03A9F4"
                     );
                     
             $x = 0;
@@ -64,7 +64,7 @@ if (!function_exists('scheduleRetriever')) {
                                 'title' => $session->module,
                                 'start' => $session->date,
                                 'end' => $session->date,
-                                'color' => '#ec3737',
+                                'color' => '#D7302A',
                                 'description' => 'session'
                             ];
                 } elseif ($session['status'] == "completed") {
@@ -73,7 +73,7 @@ if (!function_exists('scheduleRetriever')) {
                                 'title' => $session->module,
                                 'start' => $session->date,
                                 'end' => $session->date,
-                                'color' => '#38c172',
+                                'color' => '#038103',
                                 'description' => 'session'
                             ];
                 }
@@ -93,6 +93,23 @@ if (!function_exists('scheduleRetriever')) {
                 }
             }
             return $data;
+        }
+    }
+}
+
+if (!(function_exists('failedSessionMarker'))){
+    function failedSessionMarker($user){
+        if ($schedule = $user->schedule) {
+            $sessions = $schedule->sessions;
+            $today = Carbon::today();
+            foreach ($sessions as $session) {
+                $date = new Carbon($session->date);
+                $status = $session->status;
+                if ($date->lessThan($today) && $status == "incomplete") {
+                    $session->status = "failed";
+                    $session->save();
+                }
+            }
         }
     }
 }

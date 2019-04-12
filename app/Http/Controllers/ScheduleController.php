@@ -96,6 +96,7 @@ class ScheduleController extends Controller
     public function show()
     {
         $user = Auth::user();
+        failedSessionMarker($user);   
         $data = scheduleRetriever($user);
         $toarchive = false;
 
