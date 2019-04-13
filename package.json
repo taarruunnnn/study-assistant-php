@@ -14,7 +14,7 @@
         "bootstrap": "^4.3.1",
         "cross-env": "^5.1",
         "jquery": "^3.3.1",
-        "laravel-mix": "^4.0.14",
+        "laravel-mix": "^4.0.15",
         "lodash": "^4.17.5",
         "popper.js": "^1.14.7",
         "resolve-url-loader": "^2.3.1",
@@ -30,6 +30,7 @@
         "corejs-typeahead": "^1.2.1",
         "easytimer.js": "^2.3.0",
         "fullcalendar": "^3.9.0",
+        "jquery-mousewheel": "^3.1.13",
         "malihu-custom-scrollbar-plugin": "^3.1.5",
         "moment": "^2.22.2",
         "webpack-dev-server": "^3.1.14"

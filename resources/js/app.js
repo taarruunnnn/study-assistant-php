@@ -3,6 +3,8 @@ require('./bootstrap');
 
 require('malihu-custom-scrollbar-plugin');
 
+require('jquery-mousewheel');
+
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
 global.Timer = require('easytimer.js');

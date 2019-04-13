@@ -92,8 +92,8 @@
                             </div>
                         @else
                             <div class="row">
-                                <div class="col">
-                                    <p>No Schedule data to display</p>
+                                <div class="col text-center">
+                                    <p class="mt-3">No Schedule data to display</p>
                                 </div>
                             </div>
                         @endif
@@ -124,8 +124,6 @@
                                 <li>{{ $module }} - 2Hrs</li> 
                             @endforeach
                         </ul>
-                    @else
-                        <p>No Schedule data to display</p>
                     @endif
                 </div>
             </div>
@@ -139,7 +137,7 @@
                         <h5 class="card-title dash-title">Schedule Progress</h5>
                         <hr>
                         <div id="sessions-div" style="display:none;">
-                            <canvas id="chartProgress" width="500" height="200"></canvas>
+                            <canvas id="chartProgress" height="500"></canvas>
                         </div>
                     </div>
                 </div>
@@ -163,6 +161,8 @@
     
 </div>
 
+
+{{-- Modals --}}
 @if (isset($schedule))
     <div class="modal fade" id="analysisModal" tabindex="-1" role="dialog" aria-labelledby="analysisModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -273,7 +273,7 @@
                         labels: modules,
                         datasets: [{
                             label: "Rating",
-                            backgroundColor: ["#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"],
+                            backgroundColor: ["#29B6F6", "#EF5350", "#EC407A", "#9CCC65", "#FFCA28", "#BDBDBD", "#7E57C2", "#78909C", "#D4E157", "#FFA726", "#26A69A"],
                             data: ratings
                         }]
                         },
@@ -382,7 +382,7 @@
                         datasets: [{
                             data: grades_grades,
                             backgroundColor: [
-                                "#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"
+                                "#29B6F6", "#EF5350", "#EC407A", "#9CCC65", "#FFCA28", "#BDBDBD", "#7E57C2", "#78909C", "#D4E157", "#FFA726", "#26A69A"
                             ],
                         }]
                     } 
@@ -484,13 +484,13 @@
                             datasets: [{
                                 data: completed_count,
                                 label: "Completed Sessions",
-                                borderColor: "#38c172",
+                                borderColor: "#66BB6A",
                                 fill: false
                             },
                             {
                                 data: total_count,
                                 label: "Scheduled Sessions",
-                                borderColor: "#3e95cd",
+                                borderColor: "#29B6F6",
                                 fill: false
                             }]
                         },
@@ -504,15 +504,13 @@
                                 yAxes: [{
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'No. of Sessions',
-                                        fontColor: '#9c9c9c'
+                                        labelString: 'No. of Sessions'
                                     }
                                 }],
                                 xAxes: [{
                                     scaleLabel: {
                                         display: true,
-                                        labelString: 'Months',
-                                        fontColor: '#9c9c9c'
+                                        labelString: 'Months'
                                     }
                                 }]
                             }

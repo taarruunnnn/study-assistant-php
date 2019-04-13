@@ -20,74 +20,92 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="card mt-3 animated fadeIn">
+                <div class="card border-light shadow-sm animated fadeIn mt-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <h4 class="card-title mb-4 text-center">Schedule Summary</h4>
+                                <h4 class="card-title mb-4 text-center text-primary">Schedule Summary</h4>
+                                <hr>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                @if ($live == false)
-                                    <p class="text-dark">Time of Report : 
-                                        <span class="text-primary">{{$date}}</span>
-                                    </p>
-                                @endif
-    
-                                <p class="text-dark">Number of Modules in this Schedule : 
-                                    <span class="text-primary">
-                                        @if (! empty($modules))
-                                            {{ $modules->count() }}
-                                        @elseif ($live == false)
-                                            {{ $modulesCount }}
+                                <table class="table table-borderless stats-table">
+                                    <tbody>
+                                        @if ($live == false)
+                                            <tr>
+                                                <td style="width:60%">
+                                                    Time of Report : 
+                                                </td>
+                                                <td class="report-stat" style="width:40%; font-weight: 300">
+                                                    {{$date}}
+                                                </td>
+                                            </tr>
                                         @endif
-                                    </span>
-                                </p>
-    
-                                <p class="text-dark">Number of Sessions Completed : 
-                                    <span class="text-primary">    
-                                        @if (! empty($sessions))
-                                            {{ $sessions->where('status', 'completed')->count() }}
-                                        @elseif ($live == false)
-                                            {{ $sessionsComplete }}
-                                        @endif
-                                    </span>
-                                </p>
-                                
-                                <p class="text-dark">Number of Sessions Missed : 
-                                    <span class="text-primary">
-                                        @if (! empty($modules))
-                                            {{ $sessions->where('status', 'failed')->count() }}
-                                        @elseif ($live == false)
-                                            {{ $sessionsMissed }}
-                                        @endif
-                                    </span>
-                                </p>
-    
-                                <p class="text-dark">Number of Sessions to Complete : 
-                                    <span class="text-primary">
-                                        @if (! empty($modules))
-                                            {{ $sessions->where('status', 'incomplete')->count() }}
-                                        @elseif ($live == false)
-                                            {{ $sessionsIncomplete }}
-                                        @endif
-                                    </span>
-                                </p>
-    
-                                <p class="text-dark">Progress of Schedule : 
-                                    <span class="text-primary">
+                                        <tr>
+                                            <td style="width:60%">
+                                                Modules in this Schedule : 
+                                            </td>
+                                            <td class="report-stat" style="width:40%">
+                                                @if (! empty($modules))
+                                                    {{ $modules->count() }}
+                                                @elseif ($live == false)
+                                                    {{ $modulesCount }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Sessions Completed :
+                                            </td>
+                                            <td class="report-stat">
+                                                @if (! empty($sessions))
+                                                    {{ $sessions->where('status', 'completed')->count() }}
+                                                @elseif ($live == false)
+                                                    {{ $sessionsComplete }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Sessions Missed :
+                                            </td>
+                                            <td class="report-stat">
+                                                @if (! empty($modules))
+                                                    {{ $sessions->where('status', 'failed')->count() }}
+                                                @elseif ($live == false)
+                                                    {{ $sessionsMissed }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Sessions to Complete :
+                                            </td>
+                                            <td class="report-stat">
+                                                @if (! empty($modules))
+                                                    {{ $sessions->where('status', 'incomplete')->count() }}
+                                                @elseif ($live == false)
+                                                    {{ $sessionsIncomplete }}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                <div class="report-progress">
+                                    <div class="stat">
                                         @if (! empty($progress))
                                             {{ $progress }}&#37;
                                         @else
                                             0&#37;
                                         @endif
-                                    </span>
-                                </p>
-    
-                            </div>
-                            <div class="col-md-6">
-                                
+                                    </div>
+                                    <div>
+                                        Completed
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -99,9 +117,9 @@
                
                 @if ((! empty($schedule)) || $live == false)
 
-                <div class="card mt-3" style="display:none" id="schedDetailsCard">
+                <div class="card border-light shadow-sm animated fadeIn mt-3" style="display:none" id="schedDetailsCard">
                     <div class="card-body">
-                        <h5 class="card-title">Session Details</h5>
+                        <h5 class="card-title text-primary">Session Details</h5>
                         <table class="table table-bordered mt-1 table-responsive-sm" id="schedDetailsTable">
                             <thead>
                                 <tr>
@@ -117,7 +135,7 @@
                     </div>
                 </div>
 
-                <div class="card mt-3 animated fadeIn"  id="canvasRatings">
+                <div class="card border-light shadow-sm animated fadeIn mt-3"  id="canvasRatings">
                     <div class="card-body">
                         <div class="px-4">
                             <canvas id="pie-chart" width="100" height="100"></canvas>
@@ -125,7 +143,7 @@
                     </div>
                 </div>
 
-                <div class="card mt-3" style="display:none" id="canvasTimes">
+                <div class="card border-light shadow-sm animated fadeIn mt-3" style="display:none" id="canvasTimes">
                     <div class="card-body">
                         <canvas id="chartTimes" width="400" height="300"></canvas>
                     </div>
@@ -135,9 +153,9 @@
             </div>
             <div class="col-md-6">
                 @if ((! empty($schedule)) || $live == false)
-                <div class="card mt-3" style="display:none" id="predCard">
+                <div class="card border-light shadow-sm animated fadeIn mt-3" style="display:none" id="predCard">
                     <div class="card-body">
-                        <h5 class="card-title">Predicted Grades</h5>
+                        <h5 class="card-title text-primary">Predicted Grades</h5>
                         <p>Please note that prediction of grades is still in its beta stage and that its accuracy is low at this point. However, this level of accuracy improves with everyday as students input their study habit related data to the system.</p>
                         <table class="table table-bordered" id="predTable">
                             <thead>
@@ -154,7 +172,7 @@
                 @endif
 
                 @if ((! empty($schedule)) || $live == false)
-                <div class="card mt-3" style="display:none" id="canvasProgress">
+                <div class="card border-light shadow-sm animated fadeIn mt-3" style="display:none" id="canvasProgress">
                     <div class="card-body">
                         <canvas id="chartProgress" width="400" height="300"></canvas>
                     </div>
@@ -162,7 +180,7 @@
                 @endif
 
                 @if ((! empty($schedule)) || $live == false)
-                <div class="card mt-3" style="display:none" id="canvasCompare">
+                <div class="card border-light shadow-sm animated fadeIn mt-3" style="display:none" id="canvasCompare">
                     <div class="card-body">
                         <canvas id="chartCompare" width="400" height="300"></canvas>
                     </div>
@@ -252,7 +270,7 @@
                         labels: modules,
                         datasets: [{
                             label: "Rating",
-                            backgroundColor: ["#00bcd4", "#2b8cba", "#3f51b5", "#9c27b0", "#e91e63", "#e65100", "#8bc34a", "#4caf50", "#797979", "#2196f3"],
+                            backgroundColor: ["#29B6F6", "#EF5350", "#EC407A", "#9CCC65", "#FFCA28", "#BDBDBD", "#7E57C2", "#78909C", "#D4E157", "#FFA726", "#26A69A"],
                             data: ratings
                         }]
                         },
@@ -350,13 +368,13 @@
                         datasets: [{
                             data: completed_count,
                             label: "Completed Sessions",
-                            borderColor: "#38c172",
+                            borderColor: "#66BB6A",
                             fill: false
                         },
                         {
                             data: total_count,
                             label: "Scheduled Sessions",
-                            borderColor: "#3e95cd",
+                            borderColor: "#1F93B3",
                             fill: false
                         }]
                     },
@@ -434,7 +452,7 @@
                     datasets: [
                         {
                             label: "You",
-                            backgroundColor: "#3e95cd",
+                            backgroundColor: "#1F93B3",
                             data: student_count
                         }, {
                             label: "Average Student",
@@ -522,7 +540,7 @@
                     datasets: [
                         {
                             label: "Number of Sessions",
-                            backgroundColor: "#3e95cd",
+                            backgroundColor: "#1F93B3",
                             data: timecount
                         }
                     ]

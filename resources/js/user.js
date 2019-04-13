@@ -2,6 +2,7 @@ require('./bootstrap');
 
 require('malihu-custom-scrollbar-plugin');
 
+require('jquery-mousewheel');
 
 global.Bloodhound = require('corejs-typeahead/dist/typeahead.bundle');
 

@@ -15,9 +15,9 @@
         @endif
 
 
-        <div class="row h-100">
+        <div class="row h-100 mt-3">
             <div class="col-lg-9">
-                    <div id='calendar'></div>
+                <div id='calendar'></div>
             </div>  
             @if (Auth::user()->schedule === null)
                 <div class="col-lg-2">
@@ -50,13 +50,17 @@
                     </div>
                 @endif
                 <div class="row mt-3">
-                    <div class="card">
+                    <div class="card w-100">
                         <div class="card-body">
                             @if(isset($schedule))
                                 <p>Schedule Start :<br/> {{ $schedule->start }}</p>
                                 <p>Schedule End :<br/> {{ $schedule->end }}</p>
                             @endif
-                            <p>This calendar shows your study schedule data. Sessions which you have already completed will appear in <span class="text-success">GREEN COLOR</span></p>
+                            <p>
+                                <strong>Session Colors</strong><br/>
+                                <span style="color:#038103">&#9632;</span> : Completed <br/>
+                                <span style="color:#D7302A">&#9632;</span> : Failed
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -327,6 +331,11 @@
                 $('#confirmArchive').toggle("slow");
             });
 
+            $('#cancelArchive').click(function(e){
+                e.preventDefault();
+                $('#confirmArchive').hide("slow");
+            })
+
             $('#createEvent').click(function(){
                 $('form#eventForm').submit();
             })
@@ -427,6 +436,7 @@
                     eventColor: '#2196f3',
                     eventTextColor: '#FFF',
                     eventOrder: "id",
+                    showNonCurrentDates: false,
                     height: 'parent',
                     events: [
                     @if(isset($data))

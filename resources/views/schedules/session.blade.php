@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-sm-6 text-center mx-auto">
                 <h5 id="sessionHeader">Select a module to start studying</h5>
                 <select name="modules" id="modules" class="form-control my-3">

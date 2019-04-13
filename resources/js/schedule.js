@@ -3,6 +3,8 @@ require('./bootstrap');
 
 require('malihu-custom-scrollbar-plugin');
 
+require('jquery-mousewheel');
+
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
 require('fullcalendar');
@@ -17,6 +19,10 @@ require('chart.js');
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
+    });
+
+    $(".report-card").mCustomScrollbar({
+        theme: "minimal-dark",
     });
 
     var bloodhound = new Bloodhound({
