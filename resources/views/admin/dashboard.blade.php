@@ -6,11 +6,11 @@
 
 <div class="container-fluid mb-4" id="overview">
     <div class="row">
-        <div class="col"><h5>System Overview</h5></div>
+        <div class="col text-center text-primary"><h5>System Overview</h5></div>
     </div>
     <div class="row my-2">
         <div class="col-sm-3">
-            <div class="card animated fadeIn">
+            <div class="card border-light shadow-sm  h-100 animated fadeIn">
                 <div class="card-body text-center">
                     <i class="fas fa-users"></i>
                     <h5 class="card-title mt-2 mb-0 display-4" id="user-count">{{ $users }}</h5>
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="card animated fadeIn">
+            <div class="card border-light shadow-sm  h-100 animated fadeIn">
                 <div class="card-body text-center">
                     <i class="fas fa-calendar"></i>
                     <h5 class="card-title mt-2 mb-0 display-4" id="schedule-count">{{ $schedules }}</h5>
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="card animated fadeIn">
+            <div class="card border-light shadow-sm  h-100 animated fadeIn">
                 <div class="card-body text-center">
                     <i class="fas fa-book"></i>
                     <h5 class="card-title mt-2 mb-0 display-4" id="module-count">{{ $modules }}</h5>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="card animated fadeIn">
+            <div class="card border-light shadow-sm  h-100 animated fadeIn">
                 <div class="card-body text-center">
                     <i class="fas fa-trophy"></i>
                     <h5 class="card-title mt-2 mb-0 display-4" id="completed-module-count">{{ $completed }}</h5>
@@ -46,11 +46,11 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-sm-6">
-            <div class="card">
+            <div class="card border-light shadow-sm  h-100 animated fadeIn">
                 <div class="card-body">
-                    <h5 class="card-title">User Statistics</h5>
+                    <h5 class="card-title text-center text-primary">User Statistics</h5>
                     <table class="table">
                         <tbody>
                             <tr id="weekday-row" style="display:none;">
@@ -83,9 +83,9 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card animated fadeIn" id="monthsDiv" style="display:none;">
+            <div class="card border-light shadow-sm  h-100 animated fadeIn" id="monthsDiv" style="display:none;">
                 <div class="card-body">
-                    <h5 class="card-title dash-title text-center">User Growth</h5>
+                    <h5 class="card-title dash-title text-center text-primary">User Growth</h5>
                     <hr>
                     <div>
                         <canvas id="chartMonths" width="500" height="265"></canvas>
