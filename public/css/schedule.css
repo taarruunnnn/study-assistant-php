@@ -18090,9 +18090,8 @@ span.twitter-typeahead {
   text-align: center;
 }
 
-.report-progress .stat {
+#progressStat {
   font-size: 50px;
-  color: #D7302A;
   font-weight: 700;
   margin-bottom: -10px;
 }

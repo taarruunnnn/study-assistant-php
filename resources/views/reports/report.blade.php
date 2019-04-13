@@ -95,7 +95,7 @@
                             </div>
                             <div class="col-md-6 d-flex align-items-center justify-content-center">
                                 <div class="report-progress">
-                                    <div class="stat">
+                                    <div id="progressStat">
                                         @if (! empty($progress))
                                             {{ $progress }}&#37;
                                         @else
@@ -225,6 +225,7 @@
                     } 
                 }
             }
+
 
             @if ($live == true)
                 createHiddenForm("predictions", JSON.stringify(pred_list));

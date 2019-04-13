@@ -173,11 +173,7 @@
                     window.onbeforeunload = null;
                     $successAudio.trigger('play');
                     $sessionCompleteText.show('slow');
-                    setTimeout(function() {
-                            sessionComplete();
-                            $sessionStop.trigger('click');
-                        }, 2000);
-
+                    sessionComplete();
                 });
 
                 breakTimer.addEventListener('secondsUpdated', function (e) {
@@ -206,13 +202,12 @@
                     url: '{{ route('session.complete') }}',
                     data: {sessionId: sessionId},
                     success: function(message){
-                        console.log("success" + message);
                         sessionSuccess(sessionName);
                         moduleCheck();
+                        $sessionStop.trigger('click');
                     },
                     error: function(message){
                         $('#ajaxWarning').show();
-                        console.log(message);
                     }
                 });
             }
