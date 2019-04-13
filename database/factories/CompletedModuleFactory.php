@@ -72,15 +72,15 @@ $factory->define(
             } else if ($rand == 3) {
                 $completed = $faker->numberBetween($min = 55, $max = 75);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('B', 'B-'));
+                $grade = $faker->randomElement($array = array('B-'));
             } else if ($rand == 4) {
                 $completed = $faker->numberBetween($min = 40, $max = 55);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('C+', 'C'));
+                $grade = $faker->randomElement($array = array('C'));
             } else {
                 $completed = $faker->numberBetween($min = 0, $max = 30);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('D', 'F'));
+                $grade = $faker->randomElement($array = array('F'));
             } 
             break;
 
@@ -92,19 +92,19 @@ $factory->define(
             if ($rand == 1) {
                 $completed = $faker->numberBetween($min = 90, $max = 100);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('A', 'A-'));
+                $grade = $faker->randomElement($array = array('A'));
             } else if ($rand == 2) {
                 $completed = $faker->numberBetween($min = 70, $max = 90);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('B+', 'B'));
+                $grade = $faker->randomElement($array = array('B'));
             } else if ($rand == 3) {
                 $completed = $faker->numberBetween($min = 45, $max = 55);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('C+', 'C'));
+                $grade = $faker->randomElement($array = array('C'));
             } else {
                 $completed = $faker->numberBetween($min = 0, $max = 10);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('D', 'F'));
+                $grade = $faker->randomElement($array = array('F'));
             }
             break;
 
@@ -116,15 +116,15 @@ $factory->define(
             if ($rand == 1) {
                 $completed = $faker->numberBetween($min = 95, $max = 100);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('A', 'A-'));
+                $grade = $faker->randomElement($array = array('A', 'B+'));
             } else if ($rand == 2) {
                 $completed = $faker->numberBetween($min = 55, $max = 85);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('B', 'B-'));
+                $grade = $faker->randomElement($array = array('B'));
             } else if ($rand == 3) {
                 $completed = $faker->numberBetween($min = 45, $max = 55);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('C+', 'C'));
+                $grade = $faker->randomElement($array = array('C', 'C-'));
             } else {
                 $completed = $faker->numberBetween($min = 0, $max = 10);
                 $failed = 100 - $completed;
@@ -140,19 +140,19 @@ $factory->define(
             if ($rand == 1) {
                 $completed = $faker->numberBetween($min = 96, $max = 100);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('A', 'A-'));
+                $grade = $faker->randomElement($array = array('A-'));
             } else if ($rand == 2) {
                 $completed = $faker->numberBetween($min = 80, $max = 90);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('B+', 'B'));
+                $grade = $faker->randomElement($array = array('B'));
             } else if ($rand == 3) {
                 $completed = $faker->numberBetween($min = 65, $max = 79);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('C+', 'C'));
+                $grade = $faker->randomElement($array = array('C'));
             } else if ($rand == 4) {
                 $completed = $faker->numberBetween($min = 45, $max = 64);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('C-', 'D'));
+                $grade = $faker->randomElement($array = array('D'));
             } else {
                 $completed = $faker->numberBetween($min = 0, $max = 40);
                 $failed = 100 - $completed;
@@ -172,15 +172,15 @@ $factory->define(
             } else if ($rand == 2) {
                 $completed = $faker->numberBetween($min = 75, $max = 90);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('B-', 'C+'));
+                $grade = $faker->randomElement($array = array('C+'));
             } else if ($rand == 3) {
                 $completed = $faker->numberBetween($min = 55, $max = 70);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('C', 'C-'));
+                $grade = $faker->randomElement($array = array('C-'));
             } else if ($rand == 4) {
                 $completed = $faker->numberBetween($min = 40, $max = 45);
                 $failed = 100 - $completed;
-                $grade = $faker->randomElement($array = array('D', 'C-'));
+                $grade = $faker->randomElement($array = array('D'));
             } else {
                 $completed = $faker->numberBetween($min = 0, $max = 40);
                 $failed = 100 - $completed;
