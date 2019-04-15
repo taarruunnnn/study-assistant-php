@@ -4,9 +4,12 @@
  * which are autoloaded using composer.json
  * They are available globally.
  */
-use Illuminate\Support\Facades\Auth;
-use App\User;
+
 use Illuminate\Support\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp;
+use function GuzzleHttp\json_encode;
+use GuzzleHttp\Psr7\Request;
 
 if (!function_exists('scheduleRetriever')) {
     /**
@@ -14,6 +17,8 @@ if (!function_exists('scheduleRetriever')) {
      * 
      * This function retrieves the session data from the database,
      * processes it and returns it in an array.
+     * 
+     * @param App\User $user
      *
      * @return array
      */
@@ -97,7 +102,18 @@ if (!function_exists('scheduleRetriever')) {
     }
 }
 
+
 if (!(function_exists('failedSessionMarker'))){
+    /**
+     * Failed Session Marker
+     *
+     * Marks incomplete sessions with a date before today
+     * as failed sessions
+     * 
+     * @param App\User $user
+     * 
+     * @return void
+     */
     function failedSessionMarker($user){
         if ($schedule = $user->schedule) {
             $sessions = $schedule->sessions;
@@ -110,6 +126,42 @@ if (!(function_exists('failedSessionMarker'))){
                     $session->save();
                 }
             }
+        }
+    }
+}
+
+
+if (!(function_exists('retrainModels'))){
+    /**
+     * Retrain Models
+     * 
+     * Requests the Python backend to intiate a training sequence of the
+     * prediction modules. This function does this Asynchronously because
+     * training is time consuming.
+     *
+     * @return void
+     */
+    function retrainModels(){
+
+        $prefsPath = storage_path('app/public/preferences.json');
+        $jsonFile = file_get_contents($prefsPath);
+        $jsonFile = json_decode($jsonFile, true);
+        
+        $json = array(
+            'params' => $jsonFile['params'],
+        );
+
+        try {
+            $client = new Client([
+                'base_uri' => config('python.host'), 
+                'timeout' => 0.1
+            ]);
+            $promise = $client->postAsync('/retrain', [
+                'json' => $json
+            ]);
+            $promise->wait();
+        } catch (GuzzleHttp\Exception\ConnectException $e) {
+            $results = null;
         }
     }
 }

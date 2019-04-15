@@ -232,6 +232,8 @@ class ScheduleController extends Controller
         $completedModule->grade = $grade;
         $completedModule->save();
 
-        return "SUCCESS";
+        
+
+        return retrainModels();;
     }
 }

@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Checks and marks incomplete schedules
         $schedule->call(
             function () {
                 $sessions = Session::all();
@@ -40,7 +41,14 @@ class Kernel extends ConsoleKernel
                     }
                 }
             }
-        )->everyMinute();
+        )->twiceDaily(8, 12);
+
+        // Commands python to retrain prediction modules twice a day
+        $schedule->call(
+            function() {
+                retrainModels();
+            }
+        )->twiceDaily(8, 12);
     }
 
     /**
