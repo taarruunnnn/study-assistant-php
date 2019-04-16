@@ -114,6 +114,7 @@ class AdminController extends Controller
         $jsonString = json_encode($prefs, JSON_PRETTY_PRINT);
         $prefsPath = storage_path('app/public/preferences.json');
         if (file_put_contents($prefsPath, stripslashes($jsonString))) {
+            retrainModels();
             session()->flash('message', 'Preferences Saved');
             return back();
         } else {

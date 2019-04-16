@@ -7,7 +7,6 @@
 
 use Illuminate\Support\Carbon;
 use GuzzleHttp\Client;
-use GuzzleHttp;
 use function GuzzleHttp\json_encode;
 use GuzzleHttp\Psr7\Request;
 
