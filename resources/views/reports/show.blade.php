@@ -95,6 +95,9 @@
         </div>
     </div>
 
+@endsection
+
+@section('modal')
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -215,7 +218,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('script')
@@ -387,6 +389,8 @@
                     tod = tod - 12;
                     // PM
                     $('#timeofday-text').text(tod + "PM");
+                } else {
+                    $('#timeofday-text').text("Unspecified");
                 }
                 
             }
