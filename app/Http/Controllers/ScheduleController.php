@@ -222,18 +222,16 @@ class ScheduleController extends Controller
      */
     public function archiveUpdate(Request $request)
     {
-        $moduleId = $request->module;
-        $grade = $request->grade;
-        if ($grade === "null") {
-            $grade = null;
+
+        foreach ($request->module as $key => $value) {
+            if ($value != "null") {
+                $module = CompletedModule::find($key);
+                $module->grade = $value;
+                $module->save();
+            }
         }
 
-        $completedModule = CompletedModule::where('id', $moduleId)->first();
-        $completedModule->grade = $grade;
-        $completedModule->save();
-
-        
-
-        return retrainModels();;
+        session()->flash('message', 'Grades Updated');
+        return back();
     }
 }

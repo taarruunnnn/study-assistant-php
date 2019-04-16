@@ -14,6 +14,18 @@
             </div>
         </div>
     @endif
+    @if ($notifyComp)
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-primary text-center animated fadeIn alert-dismissible" role="alert">
+                    <a href="{{ route('reports.show') }}"> Please grade your completed modules if results are available </a>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-lg-3 dashboard-col">

@@ -14,7 +14,7 @@
         @if (!( count($archived) == 0))
             <div class="row my-4">
                 <div class="col text-center">
-                    <button class="btn btn-secondary" type="button" data-toggle="modal" data-target="#gradesModal">Grade Completed Modules</button>
+                    <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#completedGradesModal">Grade Completed Modules</button>
                 </div>
             </div>
         @endif
@@ -43,7 +43,7 @@
                                 </tbody>
                             </table>
                         @else
-                            <p class="text-center my-4">No Logs Available</p>
+                            <p class="text-center my-4">No Reports Available</p>
                         @endif
                     </div>
                 </div>
@@ -169,14 +169,13 @@
         </div>
     </div>
 
-    <div class="modal fade" id="gradesModal" tabindex="-1" role="dialog" aria-labelledby="gradesModalLabel" aria-hidden="true">
+    <div class="modal fade" id="completedGradesModal" tabindex="-1" role="dialog" aria-labelledby="completedGradesModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
                             <h5 class="text-primary text-center mb-3">Please grade these modules if results are available</h5>
-                            <p id="savingchanges" class="text-danger text-center" style="display:none">Saving changes...</p>
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -185,28 +184,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($archived as $key => $archive)
-                                        <tr>
-                                            <td>{{ $archive->name }}</td>
-                                            <td>
-                                                <select class="form-control module-rating" data-module="{{$archive->id}}">
-                                                    <option value="null" @if ($archive->grade === null) selected="selected" @endif>None</option>
-                                                    <option value="A+" @if ($archive->grade == "A+") selected="selected" @endif>A+</option>
-                                                    <option value="A" @if ($archive->grade == "A") selected="selected" @endif>A</option>
-                                                    <option value="A-" @if ($archive->grade == "A-") selected="selected" @endif>A-</option>
-                                                    <option value="B+" @if ($archive->grade == "B+") selected="selected" @endif>B+</option>
-                                                    <option value="B" @if ($archive->grade == "B") selected="selected" @endif>B</option>
-                                                    <option value="B-" @if ($archive->grade == "B-") selected="selected" @endif>B-</option>
-                                                    <option value="C+" @if ($archive->grade == "C+") selected="selected" @endif>C+</option>
-                                                    <option value="C" @if ($archive->grade == "C") selected="selected" @endif>C</option>
-                                                    <option value="C-" @if ($archive->grade == "C-") selected="selected" @endif>C-</option>
-                                                    <option value="D" @if ($archive->grade == "D") selected="selected" @endif>D</option>
-                                                    <option value="F" @if ($archive->grade == "F") selected="selected" @endif>F</option>
-                                                    <option value="O" @if ($archive->grade == "O") selected="selected" @endif>Other</option>
-                                                </select>
-                                            </td>
-                                        </tr> 
-                                    @endforeach
+                                    <form action="{{ route('schedules.archive.update') }}" method="POST" id="gradesForm">
+                                        @csrf
+                                        @foreach ($archived as $key => $archive)
+                                            <tr>
+                                                <td>{{ $archive->name }}</td>
+                                                <td>
+                                                    <select class="form-control module-rating" name="module[{{$archive->id}}]">
+                                                        <option value="null" @if ($archive->grade === null) selected="selected" @endif>None</option>
+                                                        <option value="A+" @if ($archive->grade == "A+") selected="selected" @endif>A+</option>
+                                                        <option value="A" @if ($archive->grade == "A") selected="selected" @endif>A</option>
+                                                        <option value="A-" @if ($archive->grade == "A-") selected="selected" @endif>A-</option>
+                                                        <option value="B+" @if ($archive->grade == "B+") selected="selected" @endif>B+</option>
+                                                        <option value="B" @if ($archive->grade == "B") selected="selected" @endif>B</option>
+                                                        <option value="B-" @if ($archive->grade == "B-") selected="selected" @endif>B-</option>
+                                                        <option value="C+" @if ($archive->grade == "C+") selected="selected" @endif>C+</option>
+                                                        <option value="C" @if ($archive->grade == "C") selected="selected" @endif>C</option>
+                                                        <option value="C-" @if ($archive->grade == "C-") selected="selected" @endif>C-</option>
+                                                        <option value="D" @if ($archive->grade == "D") selected="selected" @endif>D</option>
+                                                        <option value="F" @if ($archive->grade == "F") selected="selected" @endif>F</option>
+                                                        <option value="O" @if ($archive->grade == "O") selected="selected" @endif>Other</option>
+                                                    </select>
+                                                </td>
+                                            </tr> 
+                                        @endforeach
+                                    </form>
                                 </tbody>
                             </table>
                         </div>
@@ -214,6 +216,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveGrades">Save changes</button>
                 </div>
             </div>
         </div>
@@ -245,13 +248,9 @@
             $("#confirmDelete").slideUp();
         });
 
-        $(".module-rating").on('change', function(){
-            var grade = this.value;
-            var moduleId = $(this).attr('data-module');
-            $('#savingchanges').slideDown('slow');
-    
-            updateGrade(grade, moduleId);
-        });
+        $('#saveGrades').click(function(){
+            $('form#gradesForm').submit();
+        })
 
         $("#btnSearch").click(function(e){
             e.preventDefault();
@@ -261,27 +260,6 @@
         $('#searchModal').on('shown.bs.modal', function () {
             $('#textName').focus();
         })
-
-        function updateGrade(grade, moduleId)
-        {
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('schedules.archive.update') }}',
-                data: {module: moduleId, grade : grade},
-                success: function(data){
-                    $('#savingchanges').text("Changes saved");
-                    setTimeout(function() {
-                        $("#savingchanges").slideUp('slow');
-                    }, 1000);
-                },
-                error: function(message){
-                    $('#savingchanges').text("Failed to save changes");
-                    setTimeout(function() {
-                        $("#savingchanges").slideUp('slow');
-                    }, 1000);
-                }
-            });
-        }
 
         function loadModuleData()
         {

@@ -75,10 +75,18 @@ class DashboardController extends Controller
         $quotes_path = Storage::disk('local')->get('public/quotes.json');
         $quotes = json_decode($quotes_path, true);
         $quote = $quotes[rand(0, (count($quotes)-1))];
+
+        $notifyComp = false;
+        $completed_modules = $user->completed_modules->where('grade', null);
+
+        if (Carbon::now()->isWeekday() && count($completed_modules) > 0){
+            $notifyComp = true;
+        }
+
  
         return view(
             'dashboard', compact(
-                'schedule', 'modules', 'module_list', 'progress', 'finished', 'hours', 'left', 'missed', 'missed_percentage', 'quote'
+                'schedule', 'modules', 'module_list', 'progress', 'finished', 'hours', 'left', 'missed', 'missed_percentage', 'quote', 'notifyComp'
             )
         );
     }
