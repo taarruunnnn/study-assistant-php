@@ -530,7 +530,7 @@
                         timeofday[x] = timeofday[x] + "PM"; 
                     }
                     else{
-                        timeofday[x] = (timeofday[x] - 12) + "AM";
+                        timeofday[x] = "Unspecified";
                     }
                 }
 

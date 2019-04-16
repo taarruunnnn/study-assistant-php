@@ -399,9 +399,10 @@
                     });
                 }
 
-                if (data['tod'] != "N/A")
+                if (data['tod'] != "N/A" || data['tod'] != "NaN")
                 {
                     $('#timeofday').css('display', 'inline-block');
+                    console.log(data['tod'])
 
                     var tod = data['tod']
                     if(tod < 12)
