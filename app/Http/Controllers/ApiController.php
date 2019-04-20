@@ -98,46 +98,77 @@ class ApiController extends Controller
     /**
      * Dashboard Function
      * 
+     * This function displays basic user information via
+     * the API
+     *
+     * @param Request $request
+     * 
+     * @return Response
+     */
+    public function dashboard(Request $request)
+    {
+        $user = $request->user();
+
+        $data = scheduleRetriever($user);
+        
+        
+        if ($schedule = $user->schedule) {
+            $sessions = $schedule->sessions;
+
+            $total_session_count = count($sessions);
+
+            if ($total_session_count > 0){
+                $completed = count($sessions->where('status', 'completed'));
+                $progress = round((($completed/$total_session_count) * 100), 2);
+
+                $missed = count($sessions->where('status', 'failed'));
+                $left = count($sessions->where('status', 'incomplete'));
+            } else {
+                $completed = $progress = $missed = $left = 0;
+            }
+        }
+
+        return response()->json(
+            [
+                'name' => $user->name,
+                'progress' => $progress,
+                'completed' => $completed,
+                'missed' => $missed,
+                'left' => $left
+            ]
+        );
+    }
+
+
+    /**
+     * Session Function
+     * 
      * This function is used by the Android App 
-     * via the API to retrieve users schedule information
+     * via the API to retrieve users session information
      *
      * @param Request $request Request object received via GET/POST
      * 
      * @return Response
      */
-    public function dashboard(Request $request, $count)
+    public function sessions(Request $request, $count)
     {
         $user = $request->user();
 
         if ($schedule = $user->schedule) {
-            $sessions = $user->schedule->sessions()->get();
-            $events = $schedule->events()->get();
+            $sessions = $schedule->sessions()->get();
         
             if (!empty($sessions)) {
                 $module_list = array();
-                $event_list = array();
+                $today = Carbon::now()->addDays($count)->startOfDay();
 
                 foreach ($sessions as $session) {
                     $date = new Carbon($session->date);
-                    $today = Carbon::now()->addDays($count)->startOfDay();
                     if ($date->equalTo($today)) {
                         array_push(
                             $module_list, array(
                                 'id' => $session->id, 
                                 'module' => $session->module, 
                                 'status' => $session->status
-                            )
-                        );
-                    }
-                }
-
-                foreach ($events as $event) {
-                    $date = new Carbon($event->date);
-                    if ($date->isCurrentMonth()) {
-                        array_push(
-                            $event_list, array(
-                                'event' => $event->description,
-                                'date' => $event->date
                             )
                         );
                     }
@@ -155,6 +186,50 @@ class ApiController extends Controller
                 )
             );
         }
+        
+        return response()->json(
+            [
+                'name' => $user->name,
+                'date' => $today->toDateString(),
+                'sessions' => $module_list
+            ]
+        );
+    }
+
+
+    /**
+     * Event Function
+     * 
+     * This function is used by the Android App 
+     * via the API to retrieve users event information
+     *
+     * @param Request $request Request object received via GET/POST
+     * 
+     * @return Response
+     */
+    public function events(Request $request)
+    {
+        $user = $request->user();
+
+        if ($schedule = $user->schedule) {
+            $events = $schedule->events()->get();
+        
+            if (!empty($events)) {
+                $event_list = array();
+
+                foreach ($events as $event) {
+                    $date = new Carbon($event->date);
+                    if ($date->isCurrentMonth()) {
+                        array_push(
+                            $event_list, array(
+                                'event' => $event->description,
+                                'date' => $event->date
+                            )
+                        );
+                    }
+                }
+            }
+        }
 
         if (!(isset($event_list)) || empty($event_list)) {
             $event_list = array();
@@ -169,11 +244,12 @@ class ApiController extends Controller
         return response()->json(
             [
                 'name' => $user->name,
-                'sessions' => $module_list,
                 'events' => $event_list
             ]
         );
     }
+
+
 
     /**
      * Get Sessions Function

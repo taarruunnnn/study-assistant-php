@@ -28,10 +28,12 @@ Route::group(
     [
         'middleware' => 'auth:api'
     ], function () {
-        Route::get('dashboard/{id}', 'ApiController@dashboard');
+        Route::get('dashboard/', 'ApiController@dashboard');
+        Route::get('sessions/get/{count}', 'ApiController@sessions');
+        Route::get('events/', 'ApiController@events');
         Route::get('session/{id}', 'ApiController@getSession');
         Route::get('session/{id}/complete', 'ApiController@sessionComplete');
-        Route::get('dashboard/check', 'ApiController@sessionCheck');
+        Route::get('sessions/check', 'ApiController@sessionCheck');
     }
 );
 
