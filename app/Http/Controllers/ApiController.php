@@ -105,7 +105,7 @@ class ApiController extends Controller
      * 
      * @return Response
      */
-    public function dashboard(Request $request)
+    public function dashboard(Request $request, $count)
     {
         $user = $request->user();
 
@@ -119,7 +119,8 @@ class ApiController extends Controller
 
                 foreach ($sessions as $session) {
                     $date = new Carbon($session->date);
-                    if ($date->isToday()) {
+                    $today = Carbon::now()->addDays($count)->startOfDay();
+                    if ($date->equalTo($today)) {
                         array_push(
                             $module_list, array(
                                 'id' => $session->id, 

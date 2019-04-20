@@ -28,7 +28,7 @@ Route::group(
     [
         'middleware' => 'auth:api'
     ], function () {
-        Route::get('dashboard', 'ApiController@dashboard');
+        Route::get('dashboard/{id}', 'ApiController@dashboard');
         Route::get('session/{id}', 'ApiController@getSession');
         Route::get('session/{id}/complete', 'ApiController@sessionComplete');
         Route::get('dashboard/check', 'ApiController@sessionCheck');
