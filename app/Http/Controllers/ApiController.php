@@ -119,7 +119,7 @@ class ApiController extends Controller
 
             if ($total_session_count > 0){
                 $completed = count($sessions->where('status', 'completed'));
-                $progress = round((($completed/$total_session_count) * 100), 2);
+                $progress = round((($completed/$total_session_count) * 100), 0);
 
                 $missed = count($sessions->where('status', 'failed'));
                 $left = count($sessions->where('status', 'incomplete'));
