@@ -30,7 +30,7 @@
                 
                     <div class="col-md-2">
                         <div class="input-group">
-                            <input type="text" class="datepicker text-center form-control" id="birth" name="birth" value="{{ $user->birth }}">
+                            <input type="text" class="datepicker-years text-center form-control" id="birth" name="birth" value="{{ $user->birth }}">
                             <div class="input-group-append">
                                 <span class="input-group-text" id="calendarBtn"><i class="fas fa-calendar-alt"></i></span>
                             </div>

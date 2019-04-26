@@ -12,7 +12,7 @@
  
     @if(Request::is('user/*'))
         <link href="{{ asset('css/user.css') }}" rel="stylesheet">
-    @elseif(Request::is('schedules*'))
+    @elseif(Request::is('schedules*') || Request::is('session'))
         <link href="{{ asset('css/schedule.css') }}" rel="stylesheet">
     @else
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -73,11 +73,11 @@
     </div>
     <!-- Scripts -->
     @if (Request::is('user/*'))
-    <script src="{{ asset('js/user.js') }}"></script>
-    @elseif (Request::is('schedules*') || Request::is('reports*'))
-    <script src="{{ asset('js/schedule.js') }}"></script>
+        <script src="{{ asset('js/user.js') }}"></script>
+    @elseif (Request::is('schedules*') || Request::is('reports*') || Request::is('session') )
+        <script src="{{ asset('js/schedule.js') }}"></script>
     @else
-    <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
     @endif
 
     @yield('script')

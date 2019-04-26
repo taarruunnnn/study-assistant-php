@@ -1,25 +1,12 @@
-
-require('./bootstrap');
-
-require('malihu-custom-scrollbar-plugin');
-
-require('jquery-mousewheel');
-
-require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
+require('./app');
 
 require('fullcalendar');
 
-global.moment = require('moment');
-
 global.Bloodhound = require('corejs-typeahead/dist/typeahead.bundle');
 
-require('chart.js');
-
+global.Timer = require('easytimer.js');
 
 $(document).ready(function () {
-    $("#sidebar").mCustomScrollbar({
-        theme: "minimal"
-    });
 
     $(".report-card").mCustomScrollbar({
         theme: "minimal-dark",
@@ -42,18 +29,6 @@ $(document).ready(function () {
         display: function(data){
             return data;
         }
-    });
-
-
-    $('#sidebarCollapse').on('click', function () {
-           $('#sidebar, #content').toggleClass('active');
-           $('.collapse.in').toggleClass('in');
-           $('#navigation').toggleClass('navbar-pushed');
-           $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-   });
-
-   $(".alert-success").fadeTo(5000, 500).slideUp(500, function(){
-        $(".alert-success").slideUp(500);
     });
 
 });

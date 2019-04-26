@@ -7,8 +7,6 @@ require('jquery-mousewheel');
 
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
-global.Timer = require('easytimer.js');
-
 global.moment = require('moment');
 
 require('chart.js');
@@ -17,11 +15,6 @@ require('chart.js');
 $(document).ready(function () {
     $("#sidebar").mCustomScrollbar({
         theme: "minimal"
-    });
-
-    $('.datepicker').datepicker({
-        maxViewMode: 'years',
-        format: "yyyy-mm-dd"
     });
 
     $('#sidebarCollapse').on('click', function () {

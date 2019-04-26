@@ -259,8 +259,6 @@
                     
                 }
 
-                console.log(data);
-
                 if (data['hours'].weekend_hours != "N/A" || data['hours'].weekday_hours != "N/A")
                 { 
                     $('#hours').css('display', 'inline-block');
@@ -292,8 +290,6 @@
                             grades_grades.push(grades[key])
                         }
                     }
-
-                    console.log(grades_grades);
                     var ctx = document.getElementById("myChart").getContext('2d');
 
                     var chart_data = {

@@ -41,7 +41,7 @@
                     <label for="birth" class="col-md-4 col-form-label text-md-right">Birth Year</label>
                 
                     <div class="col-md-2">
-                        <input  type="text" id="birth" class="datepicker text-center form-control {{ $errors->has('birth') ? ' is-invalid' : '' }}" name="birth" required>
+                        <input  type="text" id="birth" class="datepicker-years text-center form-control {{ $errors->has('birth') ? ' is-invalid' : '' }}" name="birth" required>
 
                         @if ($errors->has('birth'))
                             <span class="invalid-feedback" role="alert">
