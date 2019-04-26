@@ -70,6 +70,14 @@ class DashboardController extends Controller
             } else {
                 $finished = $progress = $missed = $left = $missed_percentage = 0;
             }
+
+            $today = Carbon::today();
+            $schedule_end = new Carbon($schedule->end);
+            $toarchive = false;
+        
+            if ($today->greaterThanOrEqualTo($schedule_end)) {
+                $toarchive = true;
+            }
         }
 
         $quotes_path = Storage::disk('local')->get('public/quotes.json');
@@ -86,7 +94,7 @@ class DashboardController extends Controller
  
         return view(
             'dashboard', compact(
-                'schedule', 'modules', 'module_list', 'progress', 'finished', 'hours', 'left', 'missed', 'missed_percentage', 'quote', 'notifyComp'
+                'schedule', 'modules', 'module_list', 'progress', 'finished', 'hours', 'left', 'missed', 'missed_percentage', 'quote', 'notifyComp', 'toarchive'
             )
         );
     }

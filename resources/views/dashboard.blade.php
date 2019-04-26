@@ -5,7 +5,17 @@
 @section('content')
 
 <div class="container-fluid" id="dash">
-    @if (isset($missed_percentage) && $missed_percentage > 20)
+    @if($toarchive === true)
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-danger text-center" role="alert">
+                        <a href="{{ route('schedules.show') }}">Your schedule has ended. Please archive it.</a>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if (isset($missed_percentage) && $missed_percentage > 20 && !$toarchive)
         <div class="row">
             <div class="col-sm-12">
                 <div class="alert alert-danger text-center animated fadeIn" role="alert">

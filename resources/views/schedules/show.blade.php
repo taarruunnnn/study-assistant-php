@@ -14,7 +14,6 @@
             </div>
         @endif
 
-
         <div class="row h-100 mt-3">
             <div class="col-lg-9">
                 <div id='calendar'></div>

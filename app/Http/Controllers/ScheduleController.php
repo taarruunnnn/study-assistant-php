@@ -103,8 +103,7 @@ class ScheduleController extends Controller
         if ($schedule = $user->schedule) {
             $today = Carbon::today();
             $schedule_end = new Carbon($schedule->end);
-            
-
+        
             if ($today->greaterThanOrEqualTo($schedule_end)) {
                 $toarchive = true;
             }
