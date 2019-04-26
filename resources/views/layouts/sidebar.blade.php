@@ -9,6 +9,18 @@
 
     @if (Auth::user()->isUser())
         <ul class="list-unstyled components">
+            <li id="mobile-user-li">
+                <i class="fas fa-user sidebar-icon" id="mobile-user-i" aria-hidden="true"></i>
+                <span id="mobile-user-name">{{ Auth::user()->name }}</span>
+                <a href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();" class="btn btn-outline-light" id="mobile-user-btn">
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </li>
             <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
                 <a href="{{ route('dashboard') }}">
                     <i class="fas fa-tachometer-alt sidebar-icon"></i>
@@ -51,6 +63,18 @@
     
         @elseif (Auth::user()->isAdmin())
         <ul class="list-unstyled components">
+            <li id="mobile-user-li">
+                <i class="fas fa-user sidebar-icon" id="mobile-user-i" aria-hidden="true"></i>
+                <span id="mobile-user-name">{{ Auth::user()->name }}</span>
+                <a href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();" class="btn btn-outline-light" id="mobile-user-btn">
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
+            </li>
             <li class="{{ Request::is('admin/dashboard') ? 'active' : '' }}">
                 <a href="{{ route('admin.dashboard') }}">
                     <i class="fas fa-tachometer-alt sidebar-icon"></i>

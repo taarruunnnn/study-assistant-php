@@ -17900,6 +17900,39 @@ ul ul a {
   min-width: 7rem;
 }
 
+#mobile-user-li {
+  background: #646464;
+  display: none;
+}
+
+#mobile-user-name {
+  font-size: 11px;
+  display: block;
+}
+
+#mobile-user-i {
+  border: 1px solid #b7b7b7;
+  color: #b7b7b7;
+  border-radius: 50%;
+  display: inline-block;
+  padding: 7px;
+  font-size: 12px;
+  margin: 6px 0px;
+}
+
+#mobile-user-li > #mobile-user-btn {
+  padding: 2px 8px;
+  font-size: 10px;
+  display: inline-block;
+  margin: 9px 0;
+}
+
+@media (max-width: 768px) {
+  #mobile-user-li {
+    display: block;
+  }
+}
+
 #content {
   width: calc(100% - 110px);
   min-height: 100vh;

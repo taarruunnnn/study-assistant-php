@@ -1,11 +1,11 @@
 {{-- Navigation Bar --}}
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light" id="navigation">
+<nav class="navbar navbar-expand-md fixed-top navbar-light bg-light" id="navigation">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"> @yield('title')</a>
+        
         <button class="btn btn-primary d-inline-block d-lg-none ml-auto" type="button" id="sidebarCollapse">
             <i class="fas fa-align-justify"></i>
         </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav ml-auto">
                 <li class="dropdown">
@@ -29,5 +29,6 @@
                 </li>
             </ul>
         </div>
+        
     </div>
 </nav>
