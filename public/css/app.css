@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700|Orbitron|Sacramento);/*!
+/*!
  * Font Awesome Free 5.5.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
@@ -16363,6 +16363,54 @@ a.text-dark:focus {
   }
 }
 
+/* dancing-script-regular - latin */
+
+@font-face {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/vendor/googlefonts/dancing-script-v10-latin-regular.eot");
+  /* IE9 Compat Modes */
+  src: local("Dancing Script Regular"), local("DancingScript-Regular"), url("/fonts/vendor/googlefonts/dancing-script-v10-latin-regular.eot?#iefix") format("embedded-opentype"), url("/fonts/vendor/googlefonts/dancing-script-v10-latin-regular.woff2") format("woff2"), url("/fonts/vendor/googlefonts/dancing-script-v10-latin-regular.woff") format("woff"), url("/fonts/vendor/googlefonts/dancing-script-v10-latin-regular.ttf") format("truetype"), url("/fonts/vendor/googlefonts/dancing-script-v10-latin-regular.svg#DancingScript") format("svg");
+  /* Legacy iOS */
+}
+
+/* poppins-300 - latin */
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/vendor/googlefonts/poppins-v6-latin-300.eot");
+  /* IE9 Compat Modes */
+  src: local("Poppins Light"), local("Poppins-Light"), url("/fonts/vendor/googlefonts/poppins-v6-latin-300.eot?#iefix") format("embedded-opentype"), url("/fonts/vendor/googlefonts/poppins-v6-latin-300.woff2") format("woff2"), url("/fonts/vendor/googlefonts/poppins-v6-latin-300.woff") format("woff"), url("/fonts/vendor/googlefonts/poppins-v6-latin-300.ttf") format("truetype"), url("/fonts/vendor/googlefonts/poppins-v6-latin-300.svg#Poppins") format("svg");
+  /* Legacy iOS */
+}
+
+/* poppins-regular - latin */
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/vendor/googlefonts/poppins-v6-latin-regular.eot");
+  /* IE9 Compat Modes */
+  src: local("Poppins Regular"), local("Poppins-Regular"), url("/fonts/vendor/googlefonts/poppins-v6-latin-regular.eot?#iefix") format("embedded-opentype"), url("/fonts/vendor/googlefonts/poppins-v6-latin-regular.woff2") format("woff2"), url("/fonts/vendor/googlefonts/poppins-v6-latin-regular.woff") format("woff"), url("/fonts/vendor/googlefonts/poppins-v6-latin-regular.ttf") format("truetype"), url("/fonts/vendor/googlefonts/poppins-v6-latin-regular.svg#Poppins") format("svg");
+  /* Legacy iOS */
+}
+
+/* poppins-600 - latin */
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/fonts/vendor/googlefonts/poppins-v6-latin-600.eot");
+  /* IE9 Compat Modes */
+  src: local("Poppins SemiBold"), local("Poppins-SemiBold"), url("/fonts/vendor/googlefonts/poppins-v6-latin-600.eot?#iefix") format("embedded-opentype"), url("/fonts/vendor/googlefonts/poppins-v6-latin-600.woff2") format("woff2"), url("/fonts/vendor/googlefonts/poppins-v6-latin-600.woff") format("woff"), url("/fonts/vendor/googlefonts/poppins-v6-latin-600.ttf") format("truetype"), url("/fonts/vendor/googlefonts/poppins-v6-latin-600.svg#Poppins") format("svg");
+  /* Legacy iOS */
+}
+
 #app,
 #welcome {
   height: 100%;
@@ -16374,7 +16422,8 @@ a.text-dark:focus {
 }
 
 #login-header {
-  font-family: "Sacramento", cursive;
+  font-family: "Dancing Script", serif;
+  font-size: 45px;
 }
 
 #form-register,
@@ -16411,7 +16460,7 @@ body {
 p {
   font-family: "Poppins", sans-serif;
   font-size: 1.1em;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7em;
   color: #999;
 }
@@ -16500,7 +16549,9 @@ a:focus {
 }
 
 #logo-text {
-  font-size: 12px;
+  font-family: "Dancing Script", serif;
+  font-size: 15px;
+  display: block;
 }
 
 #sidebar ul li a {
@@ -16760,8 +16811,7 @@ span.twitter-typeahead {
 
 #time {
   font-size: 45px;
-  color: #D7302A;
-  font-family: "Orbitron", sans-serif;
+  color: #104c7b;
 }
 
 .moment #date {
@@ -16798,7 +16848,7 @@ span.twitter-typeahead {
   font-size: 20px;
   font-size: 18px;
   color: #0c3658;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .report-stat {
@@ -16812,7 +16862,7 @@ span.twitter-typeahead {
 
 #progressStat {
   font-size: 50px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: -10px;
 }
 
