@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-    <div class="card p-5 my-5">
+    <div class="card p-5 my-5 animated fadeIn">
         <h2 class="card-title text-center my-3" id="login-header">Study Assistant</h2>
         <form method="POST" action="{{ route('login') }}" class="mt-4">
             @csrf

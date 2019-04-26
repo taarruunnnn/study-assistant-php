@@ -5,14 +5,14 @@
 @section('content')
 
     <div class="container">
-        <div class="row d-flex justify-content-center">
+        <div class="row d-flex justify-content-center animated fadeIn">
             @if (! empty($schedule))
                 <a href="{{ route('report.generate') }}" class="btn btn-primary m-2">Generate Report</a>
             @endif
             <button class="btn btn-primary m-2" type="button" data-toggle="modal" data-target="#searchModal">Search for Module</button>
         </div>
         @if (!( count($archived) == 0))
-            <div class="row my-4">
+            <div class="row my-4 animated fadeIn">
                 <div class="col text-center">
                     <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#completedGradesModal">Grade Completed Modules</button>
                 </div>

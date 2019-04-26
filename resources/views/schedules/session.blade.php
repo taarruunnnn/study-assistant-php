@@ -7,12 +7,12 @@
     <div class="container">
         <div class="row" id="ajaxWarning" style="display:none;">
             <div class="col">
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger animated fadeIn" role="alert">
                     Session Failed : Could not connect the server.
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
+        <div class="row mt-3 animated fadeIn">
             <div class="col-sm-6 text-center mx-auto">
                 <h5 id="sessionHeader">Select a module to start studying</h5>
                 <select name="modules" id="modules" class="form-control my-3">
@@ -26,7 +26,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6 mx-auto">
-                <div class="card text-white bg-dark" id="sessionTimer">
+                <div class="card text-white bg-dark animated fadeIn" id="sessionTimer">
                     <div class="card-body text-center">
                         <div class="values mx-auto">00:00:00</div>
                         <div class="text-center">
@@ -88,16 +88,15 @@
                 @if ($modules)
                     @foreach ($modules as $module)
                         @if ($module['status'] == "incomplete")
-                            incomplete.push('{{$module["module"]}}');
+                            incomplete.push('{!! $module["module"] !!}');
                         @elseif ($module['status'] == "completed")
-                            completed.push('{{$module["module"]}}');
+                            completed.push('{!! $module["module"] !!}');
                         @endif
                     @endforeach
                 @endif
-                console.log(completed)
 
                 populateTable();
-                moduleCheck();
+                populateDropdown();
 
                 $modules.on('change', function(){
                     $sessionStop.trigger('click');
@@ -196,6 +195,7 @@
             {
                 var sessionId = $modules.val();
                 var sessionName = $('#modules option:selected').text();
+                console.log(sessionName);
 
                 $.ajax({
                     type: 'GET',
@@ -203,7 +203,7 @@
                     data: {sessionId: sessionId},
                     success: function(message){
                         sessionSuccess(sessionName);
-                        moduleCheck();
+                        populateDropdown();
                         $sessionStop.trigger('click');
                     },
                     error: function(message){
@@ -236,7 +236,7 @@
                     length = completed.length;
                 }
 
-                for (x = 0; x < length; x++)
+                for (x = 0; x <= length; x++)
                 {
                     var comp = "";
                     var incomp = "";
@@ -254,7 +254,7 @@
                 $('#module-table').show('slow');
             }
 
-            function moduleCheck()
+            function populateDropdown()
             {
                 if ($('#modules option').length == 0)
                 {

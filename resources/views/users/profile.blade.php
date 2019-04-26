@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <h3 class="mb-3 text-center">{{ $user->name }}</h3>
     <div class="row">
-        <div class="col-md-4 text-center">
+        <div class="col-md-4 text-center animated fadeIn">
             <div class="user-avatar">
                 @if ($user->gender == 'M')
                     <img src="{{ asset('storage/images/img_avatar_m.png') }}" width="250"/>
@@ -19,7 +19,7 @@
                 <a href="{{ route('user.edit') }}" class="btn btn-primary my-4" >Edit Profile</a>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 animated fadeIn">
             <div>
                 <h5 class="text-primary ml-2">Basic Details</h5>
                 <table class="table table-borderless">

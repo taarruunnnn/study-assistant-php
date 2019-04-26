@@ -7,7 +7,7 @@
         @if($toarchive === true)
             <div class="row">
                 <div class="col">
-                    <div class="alert alert-danger text-center" role="alert">
+                    <div class="alert alert-danger text-center animated fadeIn" role="alert">
                         This schedule has ended. Please archive it.
                     </div>
                 </div>
@@ -19,13 +19,13 @@
                 <div id='calendar'></div>
             </div>  
             @if (Auth::user()->schedule === null)
-                <div class="col-lg-2">
+                <div class="col-lg-2 animated fadeIn">
                     <form action="{{ route('schedules.create') }}">
                         <input type="submit" class="btn btn-primary" value="Create Schedule" >
                     </form>
                 </div>
             @else
-            <div class="col-lg-2 ml-4 mt-4">
+            <div class="col-lg-2 ml-4 mt-4 animated fadeIn">
                 <div class="row">
                     <a href="{{ route('session.show') }}" class="btn btn-success btn-block"><i class="fas fa-clock"></i>&nbsp;&nbsp;Start Studying</a>
                 </div>
