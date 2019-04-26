@@ -1,34 +1,3 @@
-// Login
-#app, #welcome{
-    height: 100%;
-    background: #1165a8;
-}
-
-#welcome .container{
-    min-height: 100vh;
-}
-
-#login-header{
-    font-family: 'Dancing Script', serif;
-    font-size: 45px;
-}
-
-#form-register, #form-back{
-    color: #2b5883;
-}
-
-#form-register:hover, #form-back:hover{
-    color: #104C7B;
-}
-
-#form-back{
-    font-size: 25px;
-}
-
-#form-forgot{
-    color: #969696;
-}
-
 body {
     font-family: 'Poppins', sans-serif;
     background: #f3f3f3;
@@ -62,9 +31,53 @@ a:focus {
     transition: all 0.3s;
 }
 
-// NAVBAR
+
+/* ---------------------------------------------------
+    LOGIN PAGE
+----------------------------------------------------- */
+#app, #welcome{
+    height: 100%;
+    background: #1165a8;
+}
+
+#welcome .container{
+    min-height: 100vh;
+}
+
+#login-header{
+    font-family: 'Dancing Script', serif;
+    font-size: 45px;
+}
+
+#form-register, #form-back{
+    color: #2b5883;
+}
+
+#form-register:hover, #form-back:hover{
+    color: #104C7B;
+}
+
+#form-back{
+    font-size: 25px;
+}
+
+#form-forgot{
+    color: #969696;
+}
+
+// Gender Radio Button
+.btn-secondary:not(:disabled):not(.disabled):active, 
+.btn-secondary:not(:disabled):not(.disabled).active, 
+.show > .btn-secondary.dropdown-toggle{
+    background-color: #104C7B;
+    border-color: #104C7B;
+}
 
 
+
+/* ---------------------------------------------------
+    NAVIGATION BAR
+----------------------------------------------------- */
 .navbar {
     padding: 10px;
     background: #fff;
@@ -100,10 +113,11 @@ a:focus {
     margin: 40px 0;
 }
 
-/* ---------------------------------------------------
-    SIDEBAR STYLE
------------------------------------------------------ */
 
+
+/* ---------------------------------------------------
+    SIDEBAR
+----------------------------------------------------- */
 .wrapper {
     display: flex;
     width: 100%;
@@ -162,7 +176,6 @@ a[data-toggle="collapse"] {
     position: relative;
 }
 
-
 #sidebar .dropdown-toggle::after {
     display: block;
     position: absolute;
@@ -185,12 +198,6 @@ ul ul a {
     font-size: 13px;
 }
 
-
-
-/* ---------------------------------------------------
-    HEADER
------------------------------------------------------ */
-
 #sidebarCollapse{
     visibility: hidden;
 }
@@ -199,10 +206,7 @@ ul ul a {
     min-width: 7rem;
 }
 
-/* ---------------------------------------------------
-    CONTENT STYLE
------------------------------------------------------ */
-
+// Content -> Sidebar
 #content {
     width: calc(100% - 110px);
     min-height: 100vh;
@@ -225,16 +229,10 @@ ul ul a {
 }
 
 
-#calendar{
-    min-height: 400px
-}
-
 
 /* ---------------------------------------------------
     TYPEAHEAD - DROPDOWN AUTOCOMPLETE
 ----------------------------------------------------- */
-
-
 span.twitter-typeahead .tt-menu {
     cursor: pointer;
 }
@@ -273,24 +271,34 @@ span.twitter-typeahead .tt-suggestion {
     border: 0; 
 }
 
-span.twitter-typeahead .tt-suggestion:focus, .dropdown-item:hover, span.twitter-typeahead .tt-suggestion:hover {
+.dropdown-item:hover, 
+span.twitter-typeahead .tt-suggestion:focus, 
+span.twitter-typeahead .tt-suggestion:hover {
     color: #2b2d2f;
     text-decoration: none;
     background-color: #f5f5f5; 
 }
 
-span.twitter-typeahead .active.tt-suggestion, span.twitter-typeahead .tt-suggestion.tt-cursor, span.twitter-typeahead .active.tt-suggestion:focus, span.twitter-typeahead .tt-suggestion.tt-cursor:focus, span.twitter-typeahead .active.tt-suggestion:hover, span.twitter-typeahead .tt-suggestion.tt-cursor:hover {
+span.twitter-typeahead .active.tt-suggestion, 
+span.twitter-typeahead .tt-suggestion.tt-cursor, 
+span.twitter-typeahead .active.tt-suggestion:focus, 
+span.twitter-typeahead .tt-suggestion.tt-cursor:focus, 
+span.twitter-typeahead .active.tt-suggestion:hover, 
+span.twitter-typeahead .tt-suggestion.tt-cursor:hover {
     color: #fff;
     text-decoration: none;
     background-color: #104C7B;
     outline: 0; 
 }
 
-span.twitter-typeahead .disabled.tt-suggestion, span.twitter-typeahead .disabled.tt-suggestion:focus, span.twitter-typeahead .disabled.tt-suggestion:hover {
+span.twitter-typeahead .disabled.tt-suggestion, 
+span.twitter-typeahead .disabled.tt-suggestion:focus, 
+span.twitter-typeahead .disabled.tt-suggestion:hover {
     color: #818a91; 
 }
 
-span.twitter-typeahead .disabled.tt-suggestion:focus, span.twitter-typeahead .disabled.tt-suggestion:hover {
+span.twitter-typeahead .disabled.tt-suggestion:focus, 
+span.twitter-typeahead .disabled.tt-suggestion:hover {
     text-decoration: none;
     cursor: not-allowed;
     background-color: transparent;
@@ -309,71 +317,11 @@ span.twitter-typeahead {
     top: 2.375rem !important; 
 }
 
-// GENDER RADIO BUTTON
-
-.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle{
-    background-color: #104C7B;
-    border-color: #104C7B;
-}
-
-// schedule modal
-
-#confirmDelete, #confirmEventDelete {
-    display: none;
-    margin-top: 10px;
-}
-
-#eventDelete{
-    display: none;
-}
-
-.ajax-loader{
-    display: none;
-}
-
-#hours, #rating, #timeofday, #grades, #related{
-    display: none;
-}
-
-.clickable-row { 
-    cursor: pointer; 
-} 
-
-#messageAlert{
-    z-index: 999;
-}
-
-.rating-col{
-    width: 25%;
-}
-
-// SESSION TIMER
-
-#sessionTimer .values, #breakTimer .values {
-    font-size: 85px;
-}
-
-#sessionTimer .values {
-    display: inline-block;
-    white-space: nowrap;
-    width: 65%;
-}
-
-#breakTimer{
-    width: 50%;
-    font-size: 22px;
-    display: none;
-    white-space: nowrap;
-}
-
-.timerBtn{
-    margin: 10px;
-    border-radius: 30px;
-}
 
 
-// DASHBOARD
-
+/* ---------------------------------------------------
+    DASHBOARD PAGE
+----------------------------------------------------- */
 #dash-percentage{
     font-size: 60px;
     display: block;
@@ -423,8 +371,77 @@ span.twitter-typeahead {
     font-weight: 600;
 }
 
-// Reports
 
+
+
+/* ---------------------------------------------------
+    SCHEDULES PAGE
+----------------------------------------------------- */
+#calendar{
+    min-height: 400px
+}
+
+// Schedule Modal Styles
+#confirmDelete, #confirmEventDelete {
+    display: none;
+    margin-top: 10px;
+}
+
+#eventDelete{
+    display: none;
+}
+
+.ajax-loader{
+    display: none;
+}
+
+#hours, #rating, #timeofday, #grades, #related{
+    display: none;
+}
+
+.clickable-row { 
+    cursor: pointer; 
+} 
+
+#messageAlert{
+    z-index: 999;
+}
+
+.rating-col{
+    width: 25%;
+}
+
+
+/* ---------------------------------------------------
+    SESSIONS PAGE
+----------------------------------------------------- */
+#sessionTimer .values, #breakTimer .values {
+    font-size: 85px;
+}
+
+#sessionTimer .values {
+    display: inline-block;
+    white-space: nowrap;
+    width: 65%;
+}
+
+#breakTimer{
+    width: 50%;
+    font-size: 22px;
+    display: none;
+    white-space: nowrap;
+}
+
+.timerBtn{
+    margin: 10px;
+    border-radius: 30px;
+}
+
+
+
+/* ---------------------------------------------------
+    REPORTS PAGE
+----------------------------------------------------- */
 .report-card {
     max-height: 800px;
 }
@@ -452,14 +469,18 @@ span.twitter-typeahead {
 }
 
 
-// ADMIN DASHBOARD
 
+/* ---------------------------------------------------
+    ADMIN DASHBOARD PAGE
+----------------------------------------------------- */
 #overview .fas {
     font-size: 60px;
     color: #8e9297;
 }
 
-// FAQ
+/* ---------------------------------------------------
+    FAQ PAGE
+----------------------------------------------------- */
 .faq-inline {
     font-size: 14px;
     display: none;
@@ -468,17 +489,19 @@ span.twitter-typeahead {
     margin-bottom: 2px;
 }
 
-// USER PROFILE
-
+/* ---------------------------------------------------
+    USER PROFILE PAGE
+----------------------------------------------------- */
 .user-avatar img{
     border-radius: 50%;
 }
 
 
+
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-
 @media (max-width: 768px) {
     #sidebarCollapse{
         visibility: visible;
