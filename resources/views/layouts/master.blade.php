@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
-    <link rel="shortcut icon" href="{{ asset('storage/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('storage/favicon.ico') }}" type="image/x-icon">
  
     @if(Request::is('user/*'))
         <link href="{{ asset('css/user.css') }}" rel="stylesheet">
