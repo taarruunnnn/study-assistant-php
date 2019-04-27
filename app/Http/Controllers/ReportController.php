@@ -164,7 +164,7 @@ class ReportController extends Controller
         $schedule = 'schedule='.$request->schedule;
 
         $client = new Client(['base_uri' => config('python.host')]);
-        $response = $client->request('GET', '/reports', ['query' => $schedule]);
+        $response = $client->request('GET', 'reports/generate', ['query' => $schedule]);
         $results = json_decode($response->getBody(), true);
         return $results;
     }
@@ -198,8 +198,9 @@ class ReportController extends Controller
                 'user' => Auth::user()->id
             );
             try {
+                error_log(config('python.host'));
                 $client = new Client(['base_uri' => config('python.host')]);
-                $response = $client->request('POST', '/predict', ['json' => $json]);
+                $response = $client->request('POST', 'analysis/predict', ['json' => $json]);
                 $results = json_decode($response->getBody(), true);
             } catch (GuzzleHttp\Exception\ConnectException $e) {
                 $results = null;

@@ -155,7 +155,7 @@ if (!(function_exists('retrainModels'))){
                 'base_uri' => config('python.host'), 
                 'timeout' => 0.1
             ]);
-            $promise = $client->postAsync('/retrain', [
+            $promise = $client->postAsync('analysis/retrain', [
                 'json' => $json
             ]);
             $promise->wait();

@@ -62,7 +62,7 @@
                         <ul>
                             @foreach ($user->completed_modules as $module)
                                 <li>
-                                    {{$module->name}} : @if ($module->grade == null) <em>No Grade<em> @else {{$module->grade}}@endif
+                                    {{$module->name}} : @if ($module->grade == null) <em>Not Graded</em> @else {{$module->grade}}@endif
                                 </li>
                             @endforeach
                         </ul>   

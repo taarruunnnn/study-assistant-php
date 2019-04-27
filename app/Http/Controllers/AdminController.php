@@ -42,7 +42,8 @@ class AdminController extends Controller
     }
 
     /**
-     * Sends analysis request to Python backend
+     * Sends analysis request to Python backend to populate
+     * admin dashboard
      * 
      * @return string JSON is decoded into a string and sent back
      */
@@ -50,7 +51,7 @@ class AdminController extends Controller
     {
         
         $client = new Client(['base_uri' => config('python.host')]);
-        $response = $client->request('GET', '/admin');
+        $response = $client->request('GET', 'admin/analytics');
         $results = json_decode($response->getBody(), true);
         return $results;
     }
@@ -81,8 +82,9 @@ class AdminController extends Controller
         $params = json_encode($request->params);
         
         $client = new Client(['base_uri' => config('python.host')]);
-        $response = $client->request('POST', '/accuracy', ['json' => $params]);
+        $response = $client->request('POST', 'admin/accuracy', ['json' => $params]);
         $results = json_decode($response->getBody(), true);
+        
         return $results;
     }
 
