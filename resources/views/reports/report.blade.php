@@ -483,7 +483,14 @@
                                 }
                             }]
                         }
-                    }
+                    },
+                    plugins: [{
+                        beforeInit: function (chart) {
+                            chart.data.labels.forEach(function (value, index, array) {
+                                array[index] = value.trim().split(" ");
+                            })
+                        }
+                    }]
                 });
 
                 @if ($live == true)
@@ -501,6 +508,8 @@
                 @else
                     var times_data = data.studytimes;
                 @endif
+
+                console.log(times_data)
 
                 var sorted_times = [];
                 for (var time in times_data) {
@@ -527,6 +536,10 @@
                         timeofday[x] = timeofday[x] + "AM"; 
                     }
                     else if(timeofday[x] == 12){
+                        timeofday[x] = timeofday[x] + "PM"; 
+                    }
+                    else if(timeofday[x] > 12){
+                        timeofday[x] = timeofday[x] - 12;
                         timeofday[x] = timeofday[x] + "PM"; 
                     }
                     else{
@@ -557,6 +570,9 @@
                                     display: true,
                                     labelString: 'Number of Sessions',
                                     fontColor: '#9c9c9c'
+                                },
+                                ticks: {
+                                    beginAtZero: true
                                 }
                             }],
                             xAxes: [{
