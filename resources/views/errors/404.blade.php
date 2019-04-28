@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', '404')
 
 @section('content')
 <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
