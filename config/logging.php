@@ -36,7 +36,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['daily', 'sentry'],
         ],
 
         'single' => [
@@ -76,6 +76,10 @@ return [
             'with' => [
                 'stream' => 'php://stderr',
             ],
+        ],
+
+        'sentry' => [
+            'driver' => 'sentry',
         ],
 
         'syslog' => [
