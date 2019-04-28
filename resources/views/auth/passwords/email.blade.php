@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Password Reset')
+
 @section('content')
     <div class="col-sm-9 mx-auto">
         <div class="card">

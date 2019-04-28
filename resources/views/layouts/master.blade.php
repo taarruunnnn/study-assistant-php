@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
+    <title>{{ config('app.name', 'Study Assistant') }} - @yield('title')</title>
     <link rel="shortcut icon" href="{{ asset('storage/favicon.ico') }}" type="image/x-icon">
  
     @if(Request::is('user/*'))

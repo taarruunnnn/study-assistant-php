@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Login - Study Assistant')
+@section('title', 'Login')
 
 @section('content')
 <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
