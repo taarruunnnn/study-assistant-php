@@ -56,18 +56,21 @@
                         </tr>
                     </tbody>
                 </table>
-                <div>
-                    @if(count($user->completed_modules) != 0)
-                        <h4 class="mb-3 text-primary ml-3">Completed Modules</h4>
-                        <ul>
-                            @foreach ($user->completed_modules as $module)
-                                <li>
-                                    {{$module->name}} : @if ($module->grade == null) <em>Not Graded</em> @else {{$module->grade}}@endif
-                                </li>
-                            @endforeach
-                        </ul>   
-                    @endif
-                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div class="col">
+            <hr/>
+            <div class="text-center">
+                @if(count($user->completed_modules) != 0)
+                    <h4 class="mb-3 text-primary ml-3">Completed Modules</h4>
+                    @foreach ($user->completed_modules as $module)
+                        <span class="profile-completed-modules">
+                            {{$module->name}} : @if ($module->grade == null) <em>Not Graded</em> @else {{$module->grade}}@endif
+                        </span>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

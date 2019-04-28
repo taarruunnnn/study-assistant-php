@@ -18224,6 +18224,14 @@ span.twitter-typeahead {
   border-radius: 50%;
 }
 
+.profile-completed-modules {
+  padding: 10px;
+  margin: 10px;
+  display: inline-block;
+  border: 1px solid #104c7b;
+  border-radius: 2px;
+}
+
 /* ---------------------------------------------------
     ERROR PAGES
 ----------------------------------------------------- */
