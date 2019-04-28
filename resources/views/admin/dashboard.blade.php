@@ -6,6 +6,14 @@
 
 <div class="container-fluid mb-4" id="overview">
     <div class="row">
+        <div class="col">
+            <div class="alert alert-danger text-center" role="alert" style="display:none" id="retrain-warning">
+                <a href="{{ route('admin.predictions') }}">Prediction models haven't been trained. Please save your prediction preferences to initiate training.</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col text-center text-primary"><h5>System Overview</h5></div>
     </div>
     <div class="row my-2">
@@ -113,7 +121,9 @@
                     type: 'GET',
                     url: '{{ route('admin.analyze') }}',
                     success: function(data){
-                        console.log(data);
+                        if (data['init'] == "Failed") {
+                            $('#retrain-warning').show('slow');
+                        }
                         displayAnalysis(data);
                     },
                     error: function(message){

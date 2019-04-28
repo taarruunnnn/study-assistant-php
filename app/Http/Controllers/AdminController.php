@@ -38,6 +38,7 @@ class AdminController extends Controller
         $modules = Module::count();
         $schedules = Schedule::count();
         $completed = CompletedModule::count();
+
         return view('admin.dashboard', compact('users', 'modules', 'schedules', 'completed'));
     }
 
