@@ -228,8 +228,36 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="moveCalendar">
-
+                    <div class="row">
+                        <div class="col">
+                            <p>Use this calendar to move sessions around by dragging them. If you want to move a session to another month, please click on it.</p>
+                        </div>
+                    </div>
+                    <div class="row pb-4" id="session-date-change" style="display:none;">
+                        <div class="col">
+                            <form class="form-inline d-flex justify-content-center" action="{{ route('schedules.move.single') }}" method="POST">
+                                @csrf
+                                <div class="form-group mr-2">
+                                    <label for="session-date" id="session-name" class="font-weight-bold"></label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="datepicker text-center form-control" id="session-date" name="date" placeholder="Date">
+                                </div>
+                                <div class="form-group" style="display:none;">
+                                    <input type="text" id="session-id" name="id">
+                                </div>
+                                <div class="form-group ml-2">
+                                    <button type="submit" class="btn btn-outline-primary">Change Date</button>
+                                </div>
+                            </form>
+                            <hr/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div id="moveCalendar">    
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -490,6 +518,13 @@
            
             @if(isset($schedule))
                 initMoveCalendar()
+
+                $('#session-date').datepicker({
+                    maxViewMode: 'years',
+                    format: "yyyy-mm-dd",
+                    todayHighlight: true,
+                    autoclose: true,
+                });
                 
                 function initMoveCalendar()
                 {
@@ -505,8 +540,10 @@
                             end: '{{ $schedule->end }}'
                         },
                         eventDrop: function(event, delta, revertFunc){
-                            console.log(event.title + " was dropped on "+ event.start.format());
                             movedSessions.push({id: event.id, date: event.start.format()});
+                        },
+                        eventClick: function(calEvent, jsEvent, view){
+                            initSessionDateChanger(calEvent);
                         },
                         events: [
                         @if(isset($data))
@@ -514,7 +551,7 @@
                                 @if($d['description'] == 'session')
                                     {
                                         id: '{{$d['id']}}',
-                                        title: '{{$d['title']}}',
+                                        title: '{!! $d['title'] !!}',
                                         start: '{{$d['start']}}',
                                         end: '{{$d['end']}}',
                                         color: '{{$d['color']}}'
@@ -524,6 +561,15 @@
                         @endif
                         ]
                     });
+                }
+
+                function initSessionDateChanger(calEvent)
+                {
+                    $('#session-name').text(calEvent.title);
+                    $('#session-id').val(calEvent.id);
+                    $('#session-date').datepicker('update', calEvent.start.toISOString())
+                    $('#session-date-change').show('slow');
+
                 }
             @endif
 
@@ -593,11 +639,10 @@
 
             function moveSessions(events)
             {
-                console.log(events);
                 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('schedules.move') }}',
+                    url: '{{ route('schedules.move.multiple') }}',
                     data: {events: events},
                     success: function(message){
                         console.log(message);

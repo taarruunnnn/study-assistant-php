@@ -41,7 +41,8 @@ Route::group(
         Route::get('destroy', 'ScheduleController@destroy')->name('schedules.destroy');
         Route::post('update', 'ScheduleController@update')->name('schedules.update');
         Route::post('analyze', 'ScheduleController@analyze')->name('schedule.analyze');
-        Route::post('move', 'ScheduleController@move')->name('schedules.move');
+        Route::post('move/multiple', 'ScheduleController@moveMultipleSessions')->name('schedules.move.multiple');
+        Route::post('move/single', 'ScheduleController@moveSingleSession')->name('schedules.move.single');
 
         Route::get('archive', 'ScheduleController@archive')->name('schedules.archive');
         Route::post('archive/update', 'ScheduleController@archiveUpdate')->name('schedules.archive.update');

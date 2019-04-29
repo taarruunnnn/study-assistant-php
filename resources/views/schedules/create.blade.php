@@ -17,16 +17,16 @@
                         <div class="row">
                                 <div class="col">
                                     <form class="form-inline d-flex justify-content-center">
-                                            <div class="form-group mb-2" id="typeahead-modules">
-                                                <input type="text" class="form-control typeahead" id="module-name" placeholder="Module Name" required>
-                                            </div>
-                                            <div class="form-group ml-2">
-                                                <button type="submit" class="btn btn-secondary mb-2 mr-2" id="analyze">Analyze</button>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-primary mb-2" id="btn-add">Add</button>
-                                            </div>
-                                        </form>
+                                        <div class="form-group mb-2" id="typeahead-modules">
+                                            <input type="text" class="form-control typeahead" id="module-name" placeholder="Module Name" required>
+                                        </div>
+                                        <div class="form-group ml-2">
+                                            <button type="submit" class="btn btn-secondary mb-2 mr-2" id="analyze">Analyze</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary mb-2" id="btn-add">Add</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="row d-flex justify-content-center">

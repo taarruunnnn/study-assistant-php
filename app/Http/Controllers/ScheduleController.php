@@ -145,15 +145,15 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Move Function
+     * Multiple Session Moving Function
      * 
-     * Sessions are moved as per user request
+     * Multiple sessions are moved as per user request
      *
      * @param Request $request Request object received via POST
      * 
      * @return string
      */
-    public function move(Request $request)
+    public function moveMultipleSessions(Request $request)
     {
         $events = $request->events;
         foreach ($events as $event) {
@@ -167,8 +167,30 @@ class ScheduleController extends Controller
 
         activity()->log('Moved Session');
 
-        session()->flash('status', 'Task was successful!');
+        session()->flash('status', 'Sessions were moved successfully!');
         return "Successfully moved";
+    }
+
+    /**
+     * Single Session Moving Function
+     * 
+     * Session is moved as per user request
+     *
+     * @param Request $request Request object received via POST
+     * 
+     * @return string
+     */
+    public function moveSingleSession(Request $request)
+    {
+        $session = Session::find($request->id);
+        $session->date = $request->date;
+        $session->status = 'incomplete';
+        $session->save();
+
+        activity()->log('Moved Session');
+
+        session()->flash('status', 'Session moved successfully!');
+        return back();
     }
 
     /**
