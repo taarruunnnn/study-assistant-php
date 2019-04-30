@@ -16609,7 +16609,7 @@ ul ul a {
 }
 
 .sidebar-text {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 #sidebarCollapse {
@@ -16824,6 +16824,10 @@ span.twitter-typeahead {
   min-height: 400px;
 }
 
+.fc-day-grid-event {
+  cursor: pointer;
+}
+
 #confirmDelete,
 #confirmEventDelete {
   display: none;
@@ -16832,6 +16836,10 @@ span.twitter-typeahead {
 
 #eventDelete {
   display: none;
+}
+
+.session-badge {
+  margin-top: 8px;
 }
 
 .ajax-loader {
@@ -16865,6 +16873,10 @@ span.twitter-typeahead {
 #sessionTimer .values,
 #breakTimer .values {
   font-size: 85px;
+}
+
+#sessionTimer {
+  background-color: #202020;
 }
 
 #sessionTimer .values {

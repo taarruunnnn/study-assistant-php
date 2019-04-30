@@ -114,7 +114,7 @@ class ScheduleController extends Controller
             return view('schedules.show', compact('data', 'toarchive'));
         }
     }
-
+    
     /**
      * Schedule Update
      * 
@@ -144,35 +144,9 @@ class ScheduleController extends Controller
         return back();
     }
 
-    /**
-     * Multiple Session Moving Function
-     * 
-     * Multiple sessions are moved as per user request
-     *
-     * @param Request $request Request object received via POST
-     * 
-     * @return string
-     */
-    public function moveMultipleSessions(Request $request)
-    {
-        $events = $request->events;
-        foreach ($events as $event) {
-            $id = $event['id'];
-            $date = $event['date'];
-            $session = Session::findOrFail($id);
-            $session->date = $date;
-            $session->status = "incomplete";
-            $session->save();
-        }
-
-        activity()->log('Moved Session');
-
-        session()->flash('status', 'Sessions were moved successfully!');
-        return "Successfully moved";
-    }
 
     /**
-     * Single Session Moving Function
+     * Session Moving Function
      * 
      * Session is moved as per user request
      *
@@ -180,7 +154,7 @@ class ScheduleController extends Controller
      * 
      * @return string
      */
-    public function moveSingleSession(Request $request)
+    public function move(Request $request)
     {
         $session = Session::find($request->id);
         $session->date = $request->date;
@@ -254,5 +228,13 @@ class ScheduleController extends Controller
 
         session()->flash('message', 'Grades Updated');
         return back();
+    }
+    
+
+    public function test()
+    {
+        $user = Auth::user();
+        $data = scheduleRetriever($user);
+        return response()->json($data);
     }
 }

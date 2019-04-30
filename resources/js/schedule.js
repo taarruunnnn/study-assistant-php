@@ -1,7 +1,5 @@
 require('./app');
 
-require('fullcalendar');
-
 global.Bloodhound = require('corejs-typeahead/dist/typeahead.bundle');
 
 global.Timer = require('easytimer.js');

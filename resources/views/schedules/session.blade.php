@@ -26,7 +26,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6 mx-auto">
-                <div class="card text-white bg-dark animated fadeIn" id="sessionTimer">
+                <div class="card text-white animated fadeIn" id="sessionTimer">
                     <div class="card-body text-center">
                         <div class="values mx-auto">00:00:00</div>
                         <div class="text-center">

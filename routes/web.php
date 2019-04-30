@@ -41,13 +41,14 @@ Route::group(
         Route::get('destroy', 'ScheduleController@destroy')->name('schedules.destroy');
         Route::post('update', 'ScheduleController@update')->name('schedules.update');
         Route::post('analyze', 'ScheduleController@analyze')->name('schedule.analyze');
-        Route::post('move/multiple', 'ScheduleController@moveMultipleSessions')->name('schedules.move.multiple');
-        Route::post('move/single', 'ScheduleController@moveSingleSession')->name('schedules.move.single');
+        Route::post('move', 'ScheduleController@move')->name('schedules.move');
 
         Route::get('archive', 'ScheduleController@archive')->name('schedules.archive');
         Route::post('archive/update', 'ScheduleController@archiveUpdate')->name('schedules.archive.update');
     }
 );
+
+Route::get('test', 'ScheduleController@test')->name('test');
 
 Route::post('/events/store', 'EventController@store')->name('events.store');
 Route::post('/events/update', 'EventController@update')->name('events.update');

@@ -3,6 +3,7 @@
     "/css/app.css": "/css/app.css",
     "/css/user.css": "/css/user.css",
     "/css/schedule.css": "/css/schedule.css",
+    "/js/calendar.js": "/js/calendar.js",
     "/js/schedule.js": "/js/schedule.js",
     "/js/user.js": "/js/user.js"
 }

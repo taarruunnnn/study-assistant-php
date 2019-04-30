@@ -3,7 +3,7 @@
 @section('title','Schedule')
 
 @section('content')
-    <div class="container-fluid h-75">
+    <div class="container-fluid">
         @if($toarchive === true)
             <div class="row">
                 <div class="col">
@@ -13,10 +13,13 @@
                 </div>
             </div>
         @endif
-
-        <div class="row h-100 mt-3">
+        <div class="row mt-3">
             <div class="col-lg-9">
-                <div id='calendar'></div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id='calendar'></div>
+                    </div>
+                </div>
             </div>  
             @if (Auth::user()->schedule === null)
                 <div class="col-lg-2 animated fadeIn">
@@ -71,138 +74,187 @@
 
 @section('modal')
     @if(isset($schedule))
-    {{-- Modify Schedule Modal --}}
-    <div class="modal fade" id="modifySchedule" tabindex="-1" role="dialog" aria-labelledby="modifyScheduleLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <form method="POST" action="{{ route('schedules.update') }}" id="editSchedule">
-                    @csrf
+        {{-- Modify Schedule Modal --}}
+        <div class="modal fade" id="modifySchedule" tabindex="-1" role="dialog" aria-labelledby="modifyScheduleLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <form method="POST" action="{{ route('schedules.update') }}" id="editSchedule">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modifyScheduleLabel">Modify Schedule</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <p>
+                                        Please note that modifying an existing schedule will reset the progress of your schedule and create a new schedule for you.
+                                        If this is not what you want, please consider moving sessions.
+                                    </p>
+                                    <hr class="w-100 mt-0">
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Duration : </label>
+                                
+                                    <div class="col-sm-8">
+                                        <div class="input-group input-daterange">
+                                            <input type="text" class="datepicker text-center form-control" id="start" name="start">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">to</span>
+                                            </div>
+                                            <input type="text" class="datepicker text-center form-control" id="end" name="end">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                        <label class="col-sm-6 col-form-label">How many hours per day can you study?</label>
+                                    
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <select class="form-control" name="weekdays" id="weekdays">
+                                                        <option value="2" @if ($schedule->weekday_hours == 2) selected="selected" @endif>2</option>
+                                                        <option value="4" @if ($schedule->weekday_hours == 4) selected="selected" @endif>4</option>
+                                                        <option value="6" @if ($schedule->weekday_hours == 6) selected="selected" @endif>6</option>
+                                                        <option value="8" @if ($schedule->weekday_hours == 8) selected="selected" @endif>8</option>
+                                                        <option value="10" @if ($schedule->weekday_hours == 10) selected="selected" @endif>10</option>
+                                                        <option value="12" @if ($schedule->weekday_hours == 12) selected="selected" @endif>12</option>
+                                                    </select>
+                                                    <label for="weekdays">On Weekdays</label>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                        <select class="form-control" name="weekends" id="weekends">
+                                                            <option value="2" @if ($schedule->weekend_hours == 2) selected="selected" @endif>2</option>
+                                                            <option value="4" @if ($schedule->weekend_hours == 4) selected="selected" @endif>4</option>
+                                                            <option value="6" @if ($schedule->weekend_hours == 6) selected="selected" @endif>6</option>
+                                                            <option value="8" @if ($schedule->weekend_hours == 8) selected="selected" @endif>8</option>
+                                                            <option value="10" @if ($schedule->weekend_hours == 10) selected="selected" @endif>10</option>
+                                                            <option value="12" @if ($schedule->weekend_hours == 12) selected="selected" @endif>12</option>
+                                                        </select>
+                                                        <label for="weekends">On Weekdends</label>
+                                                    </div>
+                                            </div>
+                    
+                                            @if ($errors->has('weekdays'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('weekday') }}</strong>
+                                                </span>
+                                            @endif
+                                            @if ($errors->has('weekends'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $errors->first('weekends') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Module Name</th>
+                                                    <th scope="col">Rating</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-body">
+                                                @foreach ($modules as $key => $module)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                            <input type="text" class="form-control module-names" id="module{{ $key }}" name="module[{{ $key }}]" value="{{ $module->name }}">
+                                                                <div class="input-group-append">
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <select class="form-control" name="rating[{{ $key }}]">
+                                                                    <option value="1" @if ($module->rating == 1)selected="selected" @endif>1</option>
+                                                                    <option value="2" @if ($module->rating == 2)selected="selected" @endif>2</option>
+                                                                    <option value="3" @if ($module->rating == 3)selected="selected" @endif>3</option>
+                                                                    <option value="4" @if ($module->rating == 4)selected="selected" @endif>4</option>
+                                                                    <option value="5" @if ($module->rating == 5)selected="selected" @endif>5</option>
+                                                                    <option value="6" @if ($module->rating == 6)selected="selected" @endif>6</option>
+                                                                    <option value="7" @if ($module->rating == 7)selected="selected" @endif>7</option>
+                                                                    <option value="8" @if ($module->rating == 8)selected="selected" @endif>8</option>
+                                                                    <option value="9" @if ($module->rating == 9)selected="selected" @endif>9</option>
+                                                                    <option value="10" @if ($module->rating == 10)selected="selected" @endif>10</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        <div class="row">
+                                            <button class="btn ml-4" id="btn-add"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-sm-10">
+                                        <button type="button" class="btn btn-danger" id="scheduleDelete">Delete Schedule</button>
+                                        <p id="confirmDelete">Are you sure you want to <strong>Delete Current Schedule?</strong>
+                                            <br/>
+                                            <a class="btn btn-outline-primary btn-sm" id="btnYes" href="{{ route('schedules.destroy') }}">Yes</a>
+                                            <a class="btn btn-outline-secondary btn-sm" id="cancelScheduleDelete">No</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Save Changes" id="editScheduleSubmit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {{-- Add Event Modal --}}
+        <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="addEventLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modifyScheduleLabel">Modify Schedule</h5>
+                        <h5 class="modal-title" id="addEventLabel">Event</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="container-fluid">
+                        <div class="container">
                             <div class="row">
-                                <p>
-                                    Please note that modifying an existing schedule will reset the progress of your schedule and create a new schedule for you.
-                                    If this is not what you want, please consider moving sessions.
-                                </p>
-                                <hr class="w-100 mt-0">
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label">Duration : </label>
-                            
-                                <div class="col-sm-8">
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="datepicker text-center form-control" id="start" name="start">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">to</span>
+                                <div class="col">
+                                    <form action="{{ route('events.store') }}" id="eventForm" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="eventname" id="eventid">
+                                        <div class="form-group row">
+                                            <label for="eventdate" class="col-sm-3 col-form-label">Date</label>
+                                            <input type="text" class="datepicker text-center form-control col-sm-6" id="eventdate" name="eventdate">
                                         </div>
-                                        <input type="text" class="datepicker text-center form-control" id="end" name="end">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                    <label class="col-sm-6 col-form-label">How many hours per day can you study?</label>
-                                
-                                    <div class="col-sm-6">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <select class="form-control" name="weekdays" id="weekdays">
-                                                    <option value="2" @if ($schedule->weekday_hours == 2) selected="selected" @endif>2</option>
-                                                    <option value="4" @if ($schedule->weekday_hours == 4) selected="selected" @endif>4</option>
-                                                    <option value="6" @if ($schedule->weekday_hours == 6) selected="selected" @endif>6</option>
-                                                    <option value="8" @if ($schedule->weekday_hours == 8) selected="selected" @endif>8</option>
-                                                    <option value="10" @if ($schedule->weekday_hours == 10) selected="selected" @endif>10</option>
-                                                    <option value="12" @if ($schedule->weekday_hours == 12) selected="selected" @endif>12</option>
-                                                </select>
-                                                <label for="weekdays">On Weekdays</label>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                    <select class="form-control" name="weekends" id="weekends">
-                                                        <option value="2" @if ($schedule->weekend_hours == 2) selected="selected" @endif>2</option>
-                                                        <option value="4" @if ($schedule->weekend_hours == 4) selected="selected" @endif>4</option>
-                                                        <option value="6" @if ($schedule->weekend_hours == 6) selected="selected" @endif>6</option>
-                                                        <option value="8" @if ($schedule->weekend_hours == 8) selected="selected" @endif>8</option>
-                                                        <option value="10" @if ($schedule->weekend_hours == 10) selected="selected" @endif>10</option>
-                                                        <option value="12" @if ($schedule->weekend_hours == 12) selected="selected" @endif>12</option>
-                                                    </select>
-                                                    <label for="weekends">On Weekdends</label>
-                                                </div>
+                                        <div class="row mt-4">
+                                            <label for="description" class="col-sm-3 col-form-label">Description</label>
+                                            <textarea rows="2" class="form-control col-sm-9" id="description" name="description"></textarea>
                                         </div>
-                
-                                        @if ($errors->has('weekdays'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('weekday') }}</strong>
-                                            </span>
-                                        @endif
-                                        @if ($errors->has('weekends'))
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $errors->first('weekends') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-
-                            <div class="form-group row">
-                                <div class="col-sm-12">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Module Name</th>
-                                                <th scope="col">Rating</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-body">
-                                            @foreach ($modules as $key => $module)
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group">
-                                                        <input type="text" class="form-control module-names" id="module{{ $key }}" name="module[{{ $key }}]" value="{{ $module->name }}">
-                                                            <div class="input-group-append">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <select class="form-control" name="rating[{{ $key }}]">
-                                                                <option value="1" @if ($module->rating == 1)selected="selected" @endif>1</option>
-                                                                <option value="2" @if ($module->rating == 2)selected="selected" @endif>2</option>
-                                                                <option value="3" @if ($module->rating == 3)selected="selected" @endif>3</option>
-                                                                <option value="4" @if ($module->rating == 4)selected="selected" @endif>4</option>
-                                                                <option value="5" @if ($module->rating == 5)selected="selected" @endif>5</option>
-                                                                <option value="6" @if ($module->rating == 6)selected="selected" @endif>6</option>
-                                                                <option value="7" @if ($module->rating == 7)selected="selected" @endif>7</option>
-                                                                <option value="8" @if ($module->rating == 8)selected="selected" @endif>8</option>
-                                                                <option value="9" @if ($module->rating == 9)selected="selected" @endif>9</option>
-                                                                <option value="10" @if ($module->rating == 10)selected="selected" @endif>10</option>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-remove"><i class="fas fa-minus"></i></button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="row">
-                                        <button class="btn ml-4" id="btn-add"><i class="fas fa-plus"></i></button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="row mt-4">
-                                <div class="col-sm-10">
-                                    <button type="button" class="btn btn-danger" id="scheduleDelete">Delete Schedule</button>
-                                    <p id="confirmDelete">Are you sure you want to <strong>Delete Current Schedule?</strong>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <button type="button" class="btn btn-danger" id="eventDelete">Delete Event</button>
+                                    <p id="confirmEventDelete">Are you sure you want to <strong>Delete This Event?</strong>
                                         <br/>
-                                        <a class="btn btn-outline-primary btn-sm" id="btnYes" href="{{ route('schedules.destroy') }}">Yes</a>
-                                        <a class="btn btn-outline-secondary btn-sm" id="cancelScheduleDelete">No</a>
+                                        <a class="btn btn-outline-primary btn-sm" id="eventDeleteYes">Yes</a>
+                                        <a class="btn btn-outline-secondary btn-sm" id="canceleventDelete">No</a>
                                     </p>
                                 </div>
                             </div>
@@ -210,119 +262,60 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-primary" value="Save Changes" id="editScheduleSubmit">
+                        <button type="button" class="btn btn-primary" id="createEvent">Save changes</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    {{-- Move Sessions Modal --}}
-    <div class="modal fade" id="moveSessions" tabindex="-1" role="dialog" aria-labelledby="moveSessionsLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="moveSessionsLabel">Move Sessions</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <p>Use this calendar to move sessions around by dragging them. If you want to move a session to another month, please click on it.</p>
-                        </div>
+        {{-- Session Details Modal --}}
+        <div class="modal fade" id="sessionDetails" tabindex="-1" role="dialog" aria-labelledby="sessionDetailsLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="sessionDetailsLabel">Session Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="row pb-4" id="session-date-change" style="display:none;">
-                        <div class="col">
-                            <form class="form-inline d-flex justify-content-center" action="{{ route('schedules.move.single') }}" method="POST">
-                                @csrf
-                                <div class="form-group mr-2">
-                                    <label for="session-date" id="session-name" class="font-weight-bold"></label>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <h4 id="session-name"></h4>
+                                    <p>2 Hour Session<br/>
+                                        <span id="session-date"></span><br/>
+                                        <span class="badge badge-secondary session-badge" id="session-status"></span>
+                                    </p>
                                 </div>
-                                <div class="form-group">
-                                    <input type="text" class="datepicker text-center form-control" id="session-date" name="date" placeholder="Date">
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-link pl-0" id="session-change-btn">Change Session Date</button>
+                                    <form action="{{ route('schedules.move') }}" method="POST" class="form-inline mt-2" id="session-change-form" style="display:none;">
+                                        @csrf
+                                        <label for="session-date-new">Date</label>
+                                        <input type="text" class="form-control mx-3 w-50 text-center" id="session-date-new" name="date">
+                                        <input type="hidden" id="session-id" name="id">
+                                        <button type="submit" class="btn btn-primary">Change</button>
+                                    </form>
                                 </div>
-                                <div class="form-group" style="display:none;">
-                                    <input type="text" id="session-id" name="id">
-                                </div>
-                                <div class="form-group ml-2">
-                                    <button type="submit" class="btn btn-outline-primary">Change Date</button>
-                                </div>
-                            </form>
-                            <hr/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div id="moveCalendar">    
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="save-move">Save changes</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    {{-- Add Event Modal --}}
-    <div class="modal fade" id="addEvent" tabindex="-1" role="dialog" aria-labelledby="addEventLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addEventLabel">Event</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
-                                <form action="{{ route('events.store') }}" id="eventForm" method="POST">
-                                    @csrf
-                                    <div class="form-group row">
-                                        <label for="eventdate" class="col-sm-3 col-form-label">Date</label>
-                                        <input type="text" class="datepicker text-center form-control col-sm-6" id="eventdate" name="eventdate">
-                                    </div>
-                                    <div class="row mt-4">
-                                        <label for="description" class="col-sm-3 col-form-label">Description</label>
-                                        <textarea rows="2" class="form-control col-sm-9" id="description" name="description"></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col">
-                                <button type="button" class="btn btn-danger" id="eventDelete">Delete Event</button>
-                                <p id="confirmEventDelete">Are you sure you want to <strong>Delete This Event?</strong>
-                                    <br/>
-                                    <a class="btn btn-outline-primary btn-sm" id="eventDeleteYes">Yes</a>
-                                    <a class="btn btn-outline-secondary btn-sm" id="canceleventDelete">No</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="createEvent">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
     @endif
 @endsection
-
+@routes
 @section('script')
+    <script src="{{ asset('js/calendar.js') }}"></script>
     <script>
         $(document).ready(function(){
-
-            var movedSessions = new Array();
-            var eventIdGlobal = "";
 
             var today = moment().startOf('day').toISOString();
 
@@ -330,16 +323,10 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-            });
+            });  
 
-            initCalendar();
             initModifySchedule();
             initDatePicker();
-
-            $("#save-move").click(function(e){
-                e.preventDefault();
-                moveSessions(movedSessions);
-            });
 
             $('#modifySchedule').on('hidden.bs.modal', function (e) {
                 $("#confirmDelete").hide();
@@ -374,7 +361,6 @@
                 $('#description').val("");
                 $("#eventId").remove();
                 $('#eventDelete').css('display','none');
-                eventIdGlobal = "";
             });
 
             $( "#eventDelete" ).click(function(e) {
@@ -389,7 +375,8 @@
 
             $('#eventDeleteYes').click(function(e){
                 e.preventDefault();
-                $('<form action="{{ route('events.destroy') }}" method="POST">@csrf<input type="hidden" name="id" value="'+eventIdGlobal+'"></form>').appendTo('body').submit();
+                var eventId = $('#eventId').val();
+                $('<form action="{{ route('events.destroy') }}" method="POST">@csrf<input type="hidden" name="id" value="'+eventId+'"></form>').appendTo('body').submit();
             })
 
             $('#addEventButton').click(function(e){
@@ -414,6 +401,7 @@
                     format: "yyyy-mm-dd",
                     autoclose: true,
                     todayHighlight: true,
+                    weekStart: 1
                 }).on('changeDate', function(selected){
                     var minDate = new Date(selected.date.valueOf());
                     $('#end').datepicker('setStartDate', minDate);
@@ -428,6 +416,7 @@
                     format: "yyyy-mm-dd",
                     todayHighlight: true,
                     autoclose: true,
+                    weekStart: 1
                 }).on('changeDate', function (selected) {
                     var maxDate = new Date(selected.date.valueOf());
                     $('#start').datepicker('setEndDate', maxDate);
@@ -438,6 +427,7 @@
                     autoclose: true,
                     format: "yyyy-mm-dd",
                     todayHighlight: true,
+                    weekStart: 1
                 });
 
                 @if(isset($schedule))
@@ -455,69 +445,8 @@
                 @endif
             }
 
-            function initCalendar()
-            {
-                $('#calendar').fullCalendar({
-                    themeSystem: 'bootstrap4',
-                    height: 500,
-                    firstDay: 1,
-                    eventColor: '#2196f3',
-                    eventTextColor: '#FFF',
-                    eventOrder: "id",
-                    showNonCurrentDates: false,
-                    height: 'parent',
-                    events: [
-                    @if(isset($data))
-                        @foreach ($data as $d)
-                            {
-                                id: '{{$d['id']}}',
-                                title: '{{$d['title']}}',
-                                start: '{{$d['start']}}',
-                                end: '{{$d['end']}}',
-                                color: '{{$d['color']}}',
-                                description: '{{$d['description']}}',
-                                @if(isset($d['className']))
-                                className: '{{$d['className']}}'
-                                @endif
-                            },
-                        @endforeach
-                    @endif
-                    ],
-                    eventRender: function(eventObj, $el) {
-                        if (eventObj.description == 'session'){
-                            var description = "2 Hour Session";
-                        } else if (eventObj.description == 'event') {
-                            var description = "Event";
-                        }
-
-                        var title = (eventObj.title).replace(/&amp;/g, '&');
-
-                        $el.popover({
-                            title: title,
-                            content: description,
-                            trigger: 'hover',
-                            placement: 'top',
-                            container: 'body'
-                        });
-                        
-                        $el.find('.fc-title').html(title);
-                    },
-                    eventClick: function(calEvent, jsEvent, view){
-                        if(calEvent.description == 'event')
-                        {
-                            $("#addEvent").modal();
-                            var id = calEvent.id;
-                            var start = calEvent.start;
-                            var title = calEvent.title;
-                            eventDetails(id, start, title);
-                        }
-                    }
-                });
-            }
-
-           
+            
             @if(isset($schedule))
-                initMoveCalendar()
 
                 $('#session-date').datepicker({
                     maxViewMode: 'years',
@@ -525,43 +454,6 @@
                     todayHighlight: true,
                     autoclose: true,
                 });
-                
-                function initMoveCalendar()
-                {
-                    $('#moveCalendar').fullCalendar({
-                        themeSystem: 'bootstrap4',
-                        height: 500,
-                        firstDay: 1,
-                        eventColor: '#2196f3',
-                        eventTextColor: '#FFF',
-                        eventStartEditable: true,
-                        eventConstraint: {
-                            start: today,
-                            end: '{{ $schedule->end }}'
-                        },
-                        eventDrop: function(event, delta, revertFunc){
-                            movedSessions.push({id: event.id, date: event.start.format()});
-                        },
-                        eventClick: function(calEvent, jsEvent, view){
-                            initSessionDateChanger(calEvent);
-                        },
-                        events: [
-                        @if(isset($data))
-                            @foreach ($data as $d)
-                                @if($d['description'] == 'session')
-                                    {
-                                        id: '{{$d['id']}}',
-                                        title: '{!! $d['title'] !!}',
-                                        start: '{{$d['start']}}',
-                                        end: '{{$d['end']}}',
-                                        color: '{{$d['color']}}'
-                                    },
-                                @endif
-                            @endforeach
-                        @endif
-                        ]
-                    });
-                }
 
                 function initSessionDateChanger(calEvent)
                 {
@@ -637,40 +529,7 @@
                 });
             }
 
-            function moveSessions(events)
-            {
-                
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('schedules.move.multiple') }}',
-                    data: {events: events},
-                    success: function(message){
-                        console.log(message);
-                        $("#moveSessions").modal('hide');
-                        location.reload();
-                    },
-                    error: function(message){
-                        console.log(message);
-                    }
-                });
-            }
-
-            function eventDetails(id, start, title)
-            {
-                var startDate = new Date(start);
-                var eventId = id;
-                eventIdGlobal = id;
-                $('#eventdate').datepicker('update', startDate);
-                $('#description').val(title);
-                $('<input>').attr({
-                    type: 'hidden',
-                    id: 'eventId',
-                    name: 'id',
-                    value: eventId
-                }).appendTo('#eventForm');
-                $('#eventForm').attr("action", "{{ route('events.update') }}");
-                $('#eventDelete').css('display','block');
-            }
+            
             
         });
   

@@ -188,7 +188,8 @@
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
                 autoclose: true,
-                startDate: "today"
+                startDate: "today",
+                weekStart: 1
             }).on('changeDate', function(selected){
                 var minDate = new Date(selected.date.valueOf());
                 $('#end').datepicker('setStartDate', minDate);
@@ -203,7 +204,8 @@
                 format: "yyyy-mm-dd",
                 todayHighlight: true,
                 autoclose: true,
-                startDate: "today"
+                startDate: "today",
+                weekStart: 1
             }).on('changeDate', function (selected) {
                 var maxDate = new Date(selected.date.valueOf());
                 $('#start').datepicker('setEndDate', maxDate);

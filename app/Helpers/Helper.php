@@ -60,7 +60,8 @@ if (!function_exists('scheduleRetriever')) {
                                 'start' => $session->date,
                                 'end' => $session->date,
                                 'color' => $color,
-                                'description' => 'session'
+                                'description' => 'session',
+                                'status' => 'Incomplete'
                             ];
                 } elseif ($session['status'] == "failed") {
                     $data[] = [
@@ -69,7 +70,8 @@ if (!function_exists('scheduleRetriever')) {
                                 'start' => $session->date,
                                 'end' => $session->date,
                                 'color' => '#D7302A',
-                                'description' => 'session'
+                                'description' => 'session',
+                                'status' => 'Failed'
                             ];
                 } elseif ($session['status'] == "completed") {
                     $data[] = [
@@ -78,7 +80,8 @@ if (!function_exists('scheduleRetriever')) {
                                 'start' => $session->date,
                                 'end' => $session->date,
                                 'color' => '#038103',
-                                'description' => 'session'
+                                'description' => 'session',
+                                'status' => 'Completed'
                             ];
                 }
             }
