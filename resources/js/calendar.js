@@ -8,7 +8,6 @@ $(document).ready(function(){
 	
 	mainCalendar.render();
 	
-
 	function mainCalendarInit()
 	{
 		var calendarEl = document.getElementById('calendar');
@@ -16,31 +15,33 @@ $(document).ready(function(){
 			plugins: [ dayGridPlugin, bootstrapPlugin ],
 			themeSystem: 'bootstrap',
 			defaultView: 'dayGridMonth',
-			defaultDate: '2019-04-12',
 			events: '/test',
 			firstDay: 1,
 			showNonCurrentDates: false,
 			fixedWeekCount: false,
-			height: 'parent',
+			height: 'auto',
+			aspectRatio: 1.5,
 			eventColor: '#2196f3',
 			eventTextColor: '#FFF',
 			eventOrder: "id",
+			customButtons: {
+				modify : {
+					text: 'Modify Schedule',
+					click: function() {
+						$('#modifySchedule').modal();
+					}
+				},
+				eventAdd : {
+					text: 'Add Event',
+					click: function() {
+						$('#addEvent').modal();
+					}
+				}
+			},
 			header: {
 				left: 'prev,next',
 				center: 'title',
-				right: 'dayGridWeek,dayGridMonth'
-			},
-			buttonText: {
-				today: '-'
-			},
-			eventRender: function(info) {
-				$(info.el).popover({
-					title: info.event.title,
-					content: "Click to view more",
-					placement: "top",
-					trigger: "hover",
-					container: "body"
-				})
+				right: 'modify,eventAdd'
 			},
 			eventClick: function(info) {
 				if(info.event.extendedProps.description == 'session')
@@ -84,6 +85,10 @@ $(document).ready(function(){
 		$('#session-name').text(info.event.title);
 		$('#session-date').text(moment(info.event.start).format("MMMM Do YYYY"));
 		$('#session-id').val(info.event.id)
+
+		if(moment(info.event.start).isSame(new Date(), 'day')){
+			$('#btn-study').show();
+		}
 
 		var status = info.event.extendedProps.status;
 		$('#session-status').text(status);

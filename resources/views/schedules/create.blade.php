@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <div class="row">
                     <div class="col text-center">
                             <p>Enter Module Name and Difficulty</p>
@@ -78,9 +78,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <div class="row">
-                    <div class="card bg-light" style="width:28rem;">
+                    <div class="card bg-light">
                         <div class="card-header"><h5>Schedule Details</h5></div>
                         <div class="card-body">
                             <form method="POST" action="{{ route('schedules.store') }}">

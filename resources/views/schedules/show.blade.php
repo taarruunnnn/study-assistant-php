@@ -3,71 +3,39 @@
 @section('title','Schedule')
 
 @section('content')
-    <div class="container-fluid">
-        @if($toarchive === true)
-            <div class="row">
-                <div class="col">
-                    <div class="alert alert-danger text-center animated fadeIn" role="alert">
-                        This schedule has ended. Please archive it.
-                    </div>
-                </div>
-            </div>
-        @endif
+    <div class="container">
         <div class="row mt-3">
-            <div class="col-lg-9">
-                <div class="card">
-                    <div class="card-body">
-                        <div id='calendar'></div>
-                    </div>
-                </div>
-            </div>  
-            @if (Auth::user()->schedule === null)
-                <div class="col-lg-2 animated fadeIn">
-                    <form action="{{ route('schedules.create') }}">
-                        <input type="submit" class="btn btn-primary" value="Create Schedule" >
-                    </form>
-                </div>
-            @else
-            <div class="col-lg-2 ml-4 mt-4 animated fadeIn">
-                <div class="row">
-                    <a href="{{ route('session.show') }}" class="btn btn-success btn-block"><i class="fas fa-clock"></i>&nbsp;&nbsp;Start Studying</a>
-                </div>
-                <div class="row mt-3">
-                    <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modifySchedule"><i class="fas fa-cog"></i>&nbsp;&nbsp;Modify Schedule</button>
-                </div>
-                <div class="row mt-3">
-                    <button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#moveSessions"><i class="fas fa-arrows-alt"></i>&nbsp;&nbsp;Move Sessions</button>
-                </div>
-                <div class="row mt-3">
-                    <button type="button" class="btn btn-secondary btn-block" id="addEventButton" data-toggle="modal" data-target="#addEvent"><i class="fas fa-calendar-check"></i>&nbsp;&nbsp;Add Event</button>
-                </div>
+            <div class="schedule-details animated fadeIn delay-1s">
                 @if($toarchive === true)
-                    <div class="row mt-3">
-                        <button type="button" class="btn btn-danger btn-block" id="archiveBtn"><i class="fas fa-archive"></i>&nbsp;&nbsp;Archive Sessions</button>
-                        <p id="confirmArchive" class="mt-2" style="display:none">Are you sure you want to <strong>Archive Current Schedule?</strong>
-                            <br/>
-                            <a class="btn btn-outline-danger btn-sm" href="{{ route('schedules.archive') }}">Yes</a>
-                            <a class="btn btn-outline-secondary btn-sm" id="cancelArchive">No</a>
-                        </p>
-                    </div>
-                @endif
-                <div class="row mt-3">
-                    <div class="card w-100">
-                        <div class="card-body">
-                            @if(isset($schedule))
-                                <p>Schedule Start :<br/> {{ $schedule->start }}</p>
-                                <p>Schedule End :<br/> {{ $schedule->end }}</p>
-                            @endif
-                            <p>
-                                <strong>Session Colors</strong><br/>
-                                <span style="color:#038103">&#9632;</span> : Completed <br/>
-                                <span style="color:#D7302A">&#9632;</span> : Failed
-                            </p>
+                    <div class="overlay animated fadeIn delay-1s" id="archive-overlay">
+                        <div class="archive-message text-center d-flex flex-column align-items-center justify-content-center h-100">
+                            <a href="#" id="overlay-close">&times;</a>
+                            <i class="fas fa-laugh-beam overlay-icon"></i>
+                            <h4>Congratulations. You have completed this schedule.</h4>
+                            <p>Please archive it to create a new schedule.</p>
+                            <button type="button" class="btn btn-danger" id="archiveBtn"><i class="fas fa-archive"></i>&nbsp;&nbsp;Archive Sessions</button>
+                            <div id="confirmArchive">Are you sure you want to <strong>Archive Current Schedule?</strong>
+                                <br/>
+                                <a class="btn btn-outline-danger btn-sm" href="{{ route('schedules.archive') }}">Yes</a>
+                                <a class="btn btn-outline-secondary btn-sm" id="cancelArchive">No</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+                @if (Auth::user()->schedule === null)
+                    <div class="overlay dflex justify-content-center d-flex align-items-center animated fadeIn delay-1s">
+                        <div class="create-schedule-message text-center d-flex flex-column align-items-center">
+                            <i class="far fa-calendar-plus overlay-icon"></i>
+                            <h4>Create a Schedule.</h4>
+                            <p>There are no active schedules. Please create one to continue.</p>
+                            <form action="{{ route('schedules.create') }}">
+                                <input type="submit" class="btn btn-primary" value="Create Schedule" >
+                            </form>
+                        </div>
+                    </div>
+                @endif
+                <div id="calendar"></div>
             </div>
-            @endif
         </div>
     </div>    
 @endsection
@@ -281,12 +249,17 @@
                     <div class="modal-body">
                         <div class="container">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-sm-9">
                                     <h4 id="session-name"></h4>
                                     <p>2 Hour Session<br/>
                                         <span id="session-date"></span><br/>
                                         <span class="badge badge-secondary session-badge" id="session-status"></span>
                                     </p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div id="btn-study">
+                                        <a href="{{ route('session.show') }}" class="btn btn-success"><i class="fas fa-clock"></i>Study</a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -328,6 +301,15 @@
             initModifySchedule();
             initDatePicker();
 
+            $('#overlay-close').click(function(e) {
+                e.preventDefault();
+                $('#archive-overlay').removeClass('fadeIn delay-1s');
+                $('#archive-overlay').addClass('fadeOut');
+                $('#archive-overlay').one('animationend', function() {
+                    $('#archive-overlay').remove();
+                })
+            })
+
             $('#modifySchedule').on('hidden.bs.modal', function (e) {
                 $("#confirmDelete").hide();
             });
@@ -343,12 +325,12 @@
             });
 
             $('#archiveBtn').click(function(){
-                $('#confirmArchive').toggle("slow");
+                $('#confirmArchive').toggle('slow')
             });
 
             $('#cancelArchive').click(function(e){
                 e.preventDefault();
-                $('#confirmArchive').hide("slow");
+                $('#confirmArchive').hide('slow')
             })
 
             $('#createEvent').click(function(){
