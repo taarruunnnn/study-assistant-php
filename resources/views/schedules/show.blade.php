@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <div class="row mt-3">
-            <div class="schedule-details animated fadeIn delay-1s">
+            <div class="schedule-details animated fadeIn delay-1s mx-3">
                 @if($toarchive === true)
                     <div class="overlay animated fadeIn delay-1s" id="archive-overlay">
                         <div class="archive-message text-center d-flex flex-column align-items-center justify-content-center h-100">
@@ -284,8 +284,8 @@
         </div>
     @endif
 @endsection
-@routes
 @section('script')
+    @routes
     <script src="{{ asset('js/calendar.js') }}"></script>
     <script>
         $(document).ready(function(){

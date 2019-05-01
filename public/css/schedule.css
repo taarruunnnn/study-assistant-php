@@ -17639,12 +17639,6 @@ ul ul a {
   margin: 9px 0;
 }
 
-@media (max-width: 768px) {
-  #mobile-user-li {
-    display: block;
-  }
-}
-
 #content {
   width: calc(100% - 110px);
   min-height: 100vh;
@@ -17806,6 +17800,10 @@ span.twitter-typeahead {
 .summary-stat {
   font-size: 25px;
   font-weight: 600;
+}
+
+.create-schedule-message > p {
+  max-width: 300px;
 }
 
 /* ---------------------------------------------------
@@ -18086,7 +18084,7 @@ span.twitter-typeahead {
     MEDIAQUERIES
 ----------------------------------------------------- */
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   #sidebarCollapse {
     visibility: visible;
   }
@@ -18098,6 +18096,10 @@ span.twitter-typeahead {
 
   #sidebar.active {
     margin-left: 0;
+  }
+
+  #mobile-user-li {
+    display: block;
   }
 
   #content {

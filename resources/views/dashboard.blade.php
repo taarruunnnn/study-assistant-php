@@ -37,29 +37,27 @@
         </div>
     @endif
 
-    <div class="row">
-        <div class="col-lg-3 dashboard-col">
-            <div class="card border-light shadow-sm h-100 animated fadeIn">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title dash-title">Hello {{ Auth::user()->name }}!</h5>
-                    <hr class="w-100">
-                    <div class="my-auto">    
-                        <div>
-                            <p>{{$quote['quote']}}</p>
-                            <p><em>- {{$quote['author']}}</em></p>
+    @if (! empty($schedule))
+        <div class="row">
+            <div class="col-lg-3 dashboard-col">
+                <div class="card border-light shadow-sm h-100 animated fadeIn">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title dash-title">Hello {{ Auth::user()->name }}!</h5>
+                        <hr class="w-100">
+                        <div class="my-auto">    
+                            <div>
+                                <p>{{$quote['quote']}}</p>
+                                <p><em>- {{$quote['author']}}</em></p>
+                            </div>
                         </div>
-                    </div>
-                    @if (! empty($schedule))
                         <a href="{{ route('session.show') }}" class="btn btn-outline-primary">Start Studying</a>
-                    @endif
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 dashboard-col">
-            <div class="card border-light shadow-sm h-100 animated fadeIn">
-                <div class="card-body">
-                    <div class="container-fluid h-100 ">
-                        @if (! empty($schedule))
+            <div class="col-lg-6 dashboard-col">
+                <div class="card border-light shadow-sm h-100 animated fadeIn">
+                    <div class="card-body">
+                        <div class="container-fluid h-100 ">
                             <div class="row h-100 d-flex align-items-center">
                                 <div class="col">
                                     <h5 class="card-title dash-title text-center">Schedule Summary</h5>
@@ -112,47 +110,39 @@
                                     </table>
                                 </div>
                             </div>
-                        @else
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 dashboard-col">
+                <div class="card border-light shadow-sm h-100 animated fadeIn">
+                    <div class="card-body">
+                        <h5 class="card-title dash-title">Today's Summary</h5>
+                        <hr/>
+                        <div class="moment my-2">
                             <div class="row">
-                                <div class="col text-center">
-                                    <p class="mt-3">No Schedule data to display</p>
+                                <div class="col-sm-8 d-flex align-items-center justify-content-center">
+                                    <div id="time"></div>
                                 </div>
-                            </div>
+                                <div class="col-sm-4 d-flex align-items-center justify-content-center">
+                                    <div id="date"></div>   
+                                </div>    
+                            </div>      
+                        </div>
+                        <hr/>
+                        @if (! empty($module_list))
+                            <p>Your Sessions For Today Are :</p>
+                            <ul>
+                                @foreach ($module_list as $module)
+                                    <li>{{ $module }} - 2Hrs</li> 
+                                @endforeach
+                            </ul>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 dashboard-col">
-            <div class="card border-light shadow-sm h-100 animated fadeIn">
-                <div class="card-body">
-                    <h5 class="card-title dash-title">Today's Summary</h5>
-                    <hr/>
-                    <div class="moment my-2">
-                        <div class="row">
-                            <div class="col-sm-8 d-flex align-items-center justify-content-center">
-                                <div id="time"></div>
-                            </div>
-                            <div class="col-sm-4 d-flex align-items-center justify-content-center">
-                                <div id="date"></div>   
-                            </div>    
-                        </div>      
-                    </div>
-                    <hr/>
-                    @if (! empty($module_list))
-                        <p>Your Sessions For Today Are :</p>
-                        <ul>
-                            @foreach ($module_list as $module)
-                                <li>{{ $module }} - 2Hrs</li> 
-                            @endforeach
-                        </ul>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row my-3">
-        @if (! empty($schedule))
+        <div class="row my-3">
             <div class="col-lg-9 dashboard-col">
                 <div class="card border-light shadow-sm  h-100 animated fadeIn">
                     <div class="card-body">
@@ -174,12 +164,23 @@
                     </div>
                 </div>
             </div>
-        @else
-            <div class="col dashboard-col text-center mt-5">
-                <a href="{{ route('schedules.create') }}" class="btn btn-primary btn-lg">CREATE NEW SCHEDULE</a>
+        </div>
+    @else
+        <div class="dflex justify-content-center d-flex align-items-center animated fadeIn delay-1s mt-5">
+            <div class="card w-50 border-light shadow-sm">
+                <div class="card-body">
+                    <div class="create-schedule-message text-center d-flex flex-column align-items-center p-5">
+                        <i class="far fa-calendar-plus overlay-icon"></i>
+                        <h4>Create a Schedule.</h4>
+                        <p>There are no active schedules. Please create one to continue.</p>
+                        <form action="{{ route('schedules.create') }}">
+                            <input type="submit" class="btn btn-primary" value="Create Schedule" >
+                        </form>
+                    </div>
+                </div>
             </div>
-        @endif
-    </div>
+        </div>
+    @endif
     
 </div>
 

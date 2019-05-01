@@ -41,6 +41,8 @@ class DashboardController extends Controller
         
         $module_list = array();
 
+        $toarchive = false;
+
         if (!empty($data)) {
             foreach ($data as $d) {
                 $date = new Carbon($d['start']);
@@ -73,7 +75,6 @@ class DashboardController extends Controller
 
             $today = Carbon::today();
             $schedule_end = new Carbon($schedule->end);
-            $toarchive = false;
         
             if ($today->greaterThanOrEqualTo($schedule_end)) {
                 $toarchive = true;

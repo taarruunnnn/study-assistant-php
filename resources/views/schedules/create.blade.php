@@ -6,7 +6,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 order-12 order-lg-0">
                 <div class="row">
                     <div class="col text-center">
                             <p>Enter Module Name and Difficulty</p>
@@ -45,30 +45,30 @@
                     <h3 id="module-header"></h3>
                 </div>
                 <div class="card-columns">
-                    <div class="card" id="hours">
+                    <div class="card border-light shadow-sm" id="hours">
                         <div class="card-body">
                             <h5 class="card-title">Average Hours</h5>
                             <p class="card-text">The average student spends <span id="weekday-text" class="font-weight-bold"></span> hours per weekday and <span id="weekend-text" class="font-weight-bold"></span> hours per weekend day on this module</p>
                         </div>
                     </div>
-                    <div class="card" id="rating">
+                    <div class="card border-light shadow-sm" id="rating">
                         <div class="card-body">
                             <h5 class="card-title">Average Rating</h5>
                             <p class="card-text">The average student gave this module a rating of <span id="rating-text" class="font-weight-bold"></span></p>
                         </div>
                     </div>
-                    <div class="card" id="timeofday">
+                    <div class="card border-light shadow-sm" id="timeofday">
                         <div class="card-body">
                             <h5 class="card-title">Time of Day</h5>
                             <p class="card-text">Most students study this subject during <span id="timeofday-text" class="font-weight-bold"></span></p>
                         </div>
                     </div>
-                    <div class="card" id="grades">
+                    <div class="card border-light shadow-sm" id="grades">
                         <div class="card-body" id="grades-container">
                             <canvas id="myChart" width="300" height="432"></canvas>
                         </div>
                     </div>
-                    <div class="card" id="related">
+                    <div class="card border-light shadow-sm" id="related">
                         <div class="card-body">
                             <h5 class="card-title">Related Modules</h5>
                             <p class="card-text">Most students who have studied for <span class="module-name" class="font-weight-bold"></span> have also enrolled in</p>
@@ -79,10 +79,11 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="row">
-                    <div class="card bg-light">
-                        <div class="card-header"><h5>Schedule Details</h5></div>
+                <div class="row d-flex justify-content-center mb-3">
+                    <div class="card border-light shadow-sm">
                         <div class="card-body">
+                            <h4 class="text-primary">Schedule Details</h4>
+                            <hr/>
                             <form method="POST" action="{{ route('schedules.store') }}">
                                 @csrf
                                 <div class="form-group row">
