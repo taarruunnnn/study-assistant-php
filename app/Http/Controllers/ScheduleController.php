@@ -114,6 +114,20 @@ class ScheduleController extends Controller
             return view('schedules.show', compact('data', 'toarchive'));
         }
     }
+
+    /**
+     * Sessions Function
+     * 
+     * Returns schedule sessions in json format
+     *
+     * @return Response
+     */
+    public function sessions()
+    {
+        $user = Auth::user();
+        $data = scheduleRetriever($user);
+        return response()->json($data);
+    }
     
     /**
      * Schedule Update
@@ -229,12 +243,5 @@ class ScheduleController extends Controller
         session()->flash('message', 'Grades Updated');
         return back();
     }
-    
 
-    public function test()
-    {
-        $user = Auth::user();
-        $data = scheduleRetriever($user);
-        return response()->json($data);
-    }
 }

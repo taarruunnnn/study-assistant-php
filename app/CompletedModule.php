@@ -60,6 +60,8 @@ class CompletedModule extends Model
                         $failedCount++;
                     }
                 }
+
+                $session->delete();
             }
 
             $completed_module = $user->completed_modules()->create(

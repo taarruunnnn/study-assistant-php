@@ -15,7 +15,7 @@ $(document).ready(function(){
 			plugins: [ dayGridPlugin, bootstrapPlugin ],
 			themeSystem: 'bootstrap',
 			defaultView: 'dayGridMonth',
-			events: '/test',
+			events: route('schedules.sessions').url(),
 			firstDay: 1,
 			showNonCurrentDates: false,
 			fixedWeekCount: false,

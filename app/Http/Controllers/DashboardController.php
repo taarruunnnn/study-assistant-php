@@ -87,7 +87,7 @@ class DashboardController extends Controller
         $notifyComp = false;
         $completed_modules = $user->completed_modules->where('grade', null);
 
-        if (Carbon::now()->isWeekday() && count($completed_modules) > 0){
+        if (Carbon::now()->isWeekend() && count($completed_modules) > 0){
             $notifyComp = true;
         }
 

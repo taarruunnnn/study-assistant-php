@@ -36,6 +36,7 @@ Route::group(
         'prefix' => 'schedules'
     ], function () {
         Route::get('/', 'ScheduleController@show')->name('schedules.show');
+        Route::get('sessions', 'ScheduleController@sessions')->name('schedules.sessions');
         Route::get('create', 'ScheduleController@create')->name('schedules.create');
         Route::post('store', 'ScheduleController@store')->name('schedules.store');
         Route::get('destroy', 'ScheduleController@destroy')->name('schedules.destroy');
@@ -47,8 +48,6 @@ Route::group(
         Route::post('archive/update', 'ScheduleController@archiveUpdate')->name('schedules.archive.update');
     }
 );
-
-Route::get('test', 'ScheduleController@test')->name('test');
 
 Route::post('/events/store', 'EventController@store')->name('events.store');
 Route::post('/events/update', 'EventController@update')->name('events.update');
