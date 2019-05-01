@@ -16451,7 +16451,7 @@ a:focus {
 #app,
 #welcome {
   height: 100%;
-  background: #1165a8;
+  background: #092136;
 }
 
 #welcome .container {
@@ -16542,7 +16542,7 @@ a:focus {
   left: 0;
   height: 100vh;
   z-index: 999;
-  background: #104C7B;
+  background: #04131e;
   color: #f0f0f0;
   transition: all 0.3s;
   text-align: center;
@@ -16556,11 +16556,15 @@ a:focus {
 
 #sidebar .sidebar-header {
   padding: 20px 8px;
-  background: #202020;
+  background: #092136;
 }
 
 .sidebar-header img {
   height: 57px;
+}
+
+#sidebar .list-unstyled {
+  color: #8b8b8b;
 }
 
 #logo-text {
@@ -16577,12 +16581,11 @@ a:focus {
 
 #sidebar ul li a:hover {
   color: #d9d9d9;
-  background: #114670;
 }
 
 #sidebar ul li.active > a {
   color: #fff;
-  background: #0c3658;
+  font-weight: 800;
 }
 
 a[data-toggle=collapse] {
