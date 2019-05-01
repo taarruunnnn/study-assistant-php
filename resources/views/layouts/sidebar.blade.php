@@ -10,11 +10,15 @@
     @if (Auth::user()->isUser())
         <ul class="list-unstyled components">
             <li id="mobile-user-li">
-                <i class="fas fa-user sidebar-icon" id="mobile-user-i" aria-hidden="true"></i>
+                @if (Auth::user()->gender == 'M')
+                    <img src="{{ asset('storage/images/header_m.png') }}" alt="" srcset="">
+                @else
+                    <img src="{{ asset('storage/images/header_f.png') }}" alt="" srcset="">
+                @endif
                 <span id="mobile-user-name">{{ Auth::user()->name }}</span>
                 <a href="{{ route('logout') }}"
                 onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();" class="btn btn-outline-light" id="mobile-user-btn">
+                document.getElementById('logout-form').submit();" class="btn btn-link" id="mobile-user-btn">
                     Logout
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

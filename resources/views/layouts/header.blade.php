@@ -10,11 +10,20 @@
             <ul class="nav navbar-nav ml-auto">
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user" aria-hidden="true"></i>&nbsp;
-                        {{ Auth::user()->name }} <span class="caret"></span>
+                        @if (Auth::user()->gender == 'M')
+                            <img src="{{ asset('storage/images/header_m.png') }}" alt="" srcset="">
+                        @else
+                            <img src="{{ asset('storage/images/header_f.png') }}" alt="" srcset="">
+                        @endif
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-right" id="user-dropdown" role="menu">
+                        <li id="user-li">
+                            {{ Auth::user()->name }}
+                        </li>
+                        <li>
+                            <a href="{{ route('user.profile') }}">Profile</a>
+                        </li>
                         <li>
                             <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
