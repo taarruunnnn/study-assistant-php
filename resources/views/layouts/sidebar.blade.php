@@ -1,6 +1,6 @@
 {{-- Sidebar Holder --}}
 <nav id="sidebar">
-    <div class="sidebar-header">
+    <div class="sidebar-header bg-primary">
     <a href="{{ route('dashboard') }}">
         <img src="{{ asset('storage/logo.png') }}" alt="">
         <span id="logo-text">Study Assistant</span>

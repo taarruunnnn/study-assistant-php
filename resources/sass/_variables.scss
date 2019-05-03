@@ -8,18 +8,20 @@ $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Colors
-$blue: #104C7B;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66D9b;
-$red: #D7302A;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+$blue: #012F4F;
+$indigo: #675F90;
+$purple: #9978AD;
+$pink: #FFADD9;
+$red: #A51300;
+$orange: #AB4F43;
+$yellow: #A58200;
+$green: #007D52;
+$teal: #77FAC7;
+$cyan: #00B4B7;
 
 $theme-colors: (
   "primary": $blue,
-  "danger": $red
+  "danger": $red,
+  "warning": $yellow,
+  "success": $green
 );

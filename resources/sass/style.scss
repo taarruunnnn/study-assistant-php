@@ -8,7 +8,7 @@ body {
 }
 
 .alert-success {
-    margin-top: -13px;
+    margin-top: -16px;
 }
 
 p {
@@ -37,7 +37,7 @@ a:focus {
 ----------------------------------------------------- */
 #app, #welcome{
     height: 100%;
-    background: #092136;
+    background: $blue;
 }
 
 #welcome .container{
@@ -50,7 +50,7 @@ a:focus {
 }
 
 #form-register, #form-back{
-    color: #2b5883;
+    color: $blue;
 }
 
 #form-register:hover, #form-back:hover{
@@ -64,15 +64,6 @@ a:focus {
 #form-forgot{
     color: #969696;
 }
-
-// Gender Radio Button
-.btn-secondary:not(:disabled):not(.disabled):active, 
-.btn-secondary:not(:disabled):not(.disabled).active, 
-.show > .btn-secondary.dropdown-toggle{
-    background-color: #104C7B;
-    border-color: #104C7B;
-}
-
 
 
 /* ---------------------------------------------------
@@ -162,7 +153,7 @@ a:focus {
     left: 0;
     height: 100vh;
     z-index: 999;
-    background: #04131e;
+    background: #001727;
     color: #f0f0f0;
     transition: all 0.3s;
     text-align: center;
@@ -176,7 +167,6 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 20px 8px;
-    background: #092136;
 }
 
 .sidebar-header img{
@@ -335,7 +325,7 @@ span.twitter-typeahead .active.tt-suggestion:hover,
 span.twitter-typeahead .tt-suggestion.tt-cursor:hover {
     color: #fff;
     text-decoration: none;
-    background-color: #104C7B;
+    background-color: $blue;
     outline: 0; 
 }
 
@@ -377,7 +367,7 @@ span.twitter-typeahead {
 }
 
 #dash .dash-title {
-    color: #104C7B;
+    color: $blue;
 }
 
 #dash p, #dash li {
@@ -390,7 +380,7 @@ span.twitter-typeahead {
 
 #time{
     font-size: 45px;
-    color:#104c7b;
+    color: $blue;
 }
 
 .moment #date {
@@ -454,7 +444,7 @@ span.twitter-typeahead {
 .overlay-icon {
     padding: 15px;
     font-size: 55px;
-    color: #104c7b;
+    color: $blue;
 }
 
 #overlay-close {
@@ -531,7 +521,7 @@ span.twitter-typeahead {
 }
 
 #sessionTimer {
-    background-color: #202020;
+    background-color: #001727;
 }
 
 #sessionTimer .values {
@@ -708,6 +698,7 @@ span.twitter-typeahead {
     #sidebar {
         width: 25%;
         margin-left: -250px;
+        margin-top: 10px;
     }
 
     #sidebar.active {

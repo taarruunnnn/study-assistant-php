@@ -28,7 +28,7 @@ if (!function_exists('scheduleRetriever')) {
             $sessions = $schedule->sessions;
 
             $colors = array(
-                        "#9E9E9E", 
+                        "#3D62B8", 
                         "#0097A7", 
                         "#4DB6AC", 
                         "#607D8B", 

@@ -37,8 +37,8 @@
                         </div>
                         
                         <div class="text-center">
-                            <button class="timerBtn btn btn-primary btn-lg" id="sessionStart"><i class="fas fa-play"></i></button>
-                            <button class="timerBtn btn btn-primary btn-lg" id="sessionStop"><i class="fas fa-stop"></i></button>
+                            <button class="timerBtn btn btn-danger btn-lg" id="sessionStart"><i class="fas fa-play"></i></button>
+                            <button class="timerBtn btn btn-danger btn-lg" id="sessionStop"><i class="fas fa-stop"></i></button>
                         </div>
                     </div>
                 </div>

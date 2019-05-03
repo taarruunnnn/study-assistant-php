@@ -296,7 +296,18 @@
                         labels: modules,
                         datasets: [{
                             label: "Rating",
-                            backgroundColor: ["#29B6F6", "#EF5350", "#EC407A", "#9CCC65", "#FFCA28", "#BDBDBD", "#7E57C2", "#78909C", "#D4E157", "#FFA726", "#26A69A"],
+                            backgroundColor: [
+                                "#4783C2", 
+                                "#2B2673", 
+                                "#2B8267", 
+                                "#183749", 
+                                "#9D3463", 
+                                "#8D349D", 
+                                "#3A349D", 
+                                "#86A136", 
+                                "#A45837", 
+                                "#B4443C"
+                            ],
                             data: ratings
                         }]
                         },
@@ -405,7 +416,16 @@
                         datasets: [{
                             data: grades_grades,
                             backgroundColor: [
-                                "#29B6F6", "#EF5350", "#EC407A", "#9CCC65", "#FFCA28", "#BDBDBD", "#7E57C2", "#78909C", "#D4E157", "#FFA726", "#26A69A"
+                                "#4783C2", 
+                                "#2B2673", 
+                                "#2B8267", 
+                                "#183749", 
+                                "#9D3463", 
+                                "#8D349D", 
+                                "#3A349D", 
+                                "#86A136", 
+                                "#A45837", 
+                                "#B4443C"
                             ],
                         }]
                     } 
@@ -508,13 +528,13 @@
                             datasets: [{
                                 data: completed_count,
                                 label: "Completed Sessions",
-                                borderColor: "#66BB6A",
+                                borderColor: "#007D52",
                                 fill: false
                             },
                             {
                                 data: total_count,
                                 label: "Scheduled Sessions",
-                                borderColor: "#29B6F6",
+                                borderColor: "#092136",
                                 fill: false
                             }]
                         },
