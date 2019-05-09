@@ -283,9 +283,9 @@
             </div>
         </div>
     @endif
+    @routes
 @endsection
 @section('script')
-    @routes
     <script src="{{ asset('js/calendar.js') }}"></script>
     <script>
         $(document).ready(function(){
