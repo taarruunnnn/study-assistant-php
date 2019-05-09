@@ -6,10 +6,12 @@ use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
     use WithFaker;
+    use DatabaseTransactions;
 
     /**
      * Tests whether a logged in user is redirected to
@@ -23,7 +25,17 @@ class UserTest extends TestCase
             [
                 'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
             ]
-        )->json('POST', '/login', ['email' => 'john@example.com', 'password' => 'password']);
+        )->json('POST', '/register', [
+            'name' => 'John Doe',
+            'email' => 'john@example.com', 
+            'birth' => 1995,
+            'gender' => 'M',
+            'country' => 'LK',
+            'university' => 'University of Colombo',
+            'major' => 'Biology',
+            'password' => 'password',
+            'password_confirmation' => 'password'
+        ]);
 
         $response
             ->assertRedirect('/dashboard');
@@ -75,6 +87,6 @@ class UserTest extends TestCase
     {
         $this->actingAs($user)
             ->post('/user/delete/'.$user->name, ['_method' => 'DELETE'])
-            ->assertStatus(200);
+            ->assertStatus(302);
     }
 }

@@ -6,9 +6,11 @@ use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
+    use DatabaseTransactions;
     /**
      * Tests user creation
      *
@@ -16,11 +18,15 @@ class UserTest extends TestCase
      */
     public function testUserCreation()
     {
-        $user = factory(User::class)->create();
+        $name = 'Test User';
+        
+        $user = factory(User::class)->create([
+            'name' => $name
+        ]);
 
-        $retrievedUser = User::latest()->get();
+        $retrievedUser = User::where('name', $name)->first();
 
-        $this->assertEquals($user->toArray(), $retrievedUser[0]->toArray());
+        $this->assertEquals($user->name, $retrievedUser->name);
 
         return $user;
     }

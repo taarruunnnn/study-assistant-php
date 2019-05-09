@@ -7,10 +7,12 @@ use App\User;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Carbon\Carbon;
 
 class ScheduleTest extends DuskTestCase
 {
     use WithFaker;
+
     /**
      * Tests schedule creation
      * 
@@ -21,6 +23,9 @@ class ScheduleTest extends DuskTestCase
     public function testCreateSchedule()
     {
         $email = $this->faker->unique()->safeEmail;
+        $date = Carbon::now();
+        $start = $date->toDateString();
+        $end = $date->addMonths(3)->toDateString();
 
         $user = factory(User::class)->create(
             [
@@ -29,7 +34,7 @@ class ScheduleTest extends DuskTestCase
         );
 
         $this->browse(
-            function (Browser $browser) use ($user) {
+            function (Browser $browser) use ($user, $start, $end) {
                 $browser->loginAs($user)
                     ->visit('/schedules')
                     ->assertTitle('Study Assistant - Schedule')
@@ -38,8 +43,8 @@ class ScheduleTest extends DuskTestCase
                     ->type('#module-name', 'English')
                     ->select('#module-rating', '8')
                     ->press('Add')
-                    ->type('#start', '2019-01-02')
-                    ->type('#end', '2019-02-02')
+                    ->keys('#start', $start, '{enter}')
+                    ->keys('#end', $end, '{enter}')
                     ->press('Create Schedule')
                     ->assertVisible('.alert-success')
                     ->assertPathIs('/schedules');
@@ -62,16 +67,21 @@ class ScheduleTest extends DuskTestCase
      */
     public function testEditSchedule($user)
     {
+        $date = Carbon::now();
+        $start = $date->addMonths(1)->toDateString();
+
         $this->browse(
-            function ($browser) use ($user) {
-                $browser->visit('/schedules')
-                    ->press('  Modify Schedule')
-                    ->pause(1000)
-                    ->type('#start', '2019-02-02')
-                    ->type('#end', '2019-03-02')
+            function ($browser) use ($user, $start) {
+                $browser->loginAs($user)
+                    ->visit('/schedules')
+                    ->pause(500)
+                    ->press('Modify Schedule')
+                    ->pause(500)
+                    ->keys('#start', $start, '{enter}')
                     ->select('#weekends', '4')
                     ->press('Save Changes')
                     ->assertVisible('.alert-success')
+                    ->pause(500)
                     ->assertPathIs('/schedules');
             }
         );
@@ -92,9 +102,11 @@ class ScheduleTest extends DuskTestCase
     {
         $this->browse(
             function ($browser) use ($user) {
-                $browser->visit('/schedules')
-                    ->press('  Modify Schedule')
-                    ->pause(1000)
+                $browser->loginAs($user)
+                    ->visit('/schedules')
+                    ->pause(500)
+                    ->press('Modify Schedule')
+                    ->pause(500)
                     ->press('Delete Schedule')
                     ->waitFor('#btnYes', 1)
                     ->press('#btnYes')

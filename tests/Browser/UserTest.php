@@ -7,6 +7,7 @@ use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\User;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends DuskTestCase
 {
@@ -91,7 +92,7 @@ class UserTest extends DuskTestCase
         $this->browse(
             function ($browser) use ($user) {
                 $browser->click('#navbarDropdown')
-                    ->click('#user-dropdown > li > a')
+                    ->clickLink('Logout')
                     ->assertPathIs('/');
             }
         );

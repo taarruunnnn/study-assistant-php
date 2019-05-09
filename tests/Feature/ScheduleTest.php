@@ -23,13 +23,19 @@ class ScheduleTest extends TestCase
 
         $this->actingAs($user)
             ->get('/schedules')
-            ->assertStatus(200);
+            ->assertStatus(302);
 
         return $user;
     }
 
     /**
      * Testing the schedule creation
+     * 
+     * Schedule is created and its validity is tested
+     * by counting the total number of sessions per
+     * module and comparing them to verify that the 
+     * module with the highest rating has the highest
+     * number of sessions.
      *
      * @param User $user A user object
      * 
@@ -39,25 +45,30 @@ class ScheduleTest extends TestCase
      */
     public function testCreateSchedule($user)
     {
-        $currentUser = User::where('id', $user->id)->first();
-
         $request = new StoreSchedule();
         $request->replace(
             [
-                'start' => '2019-01-15',
-                'end' => '2019-02-15',
+                'start' => '2019-01-01',
+                'end' => '2019-03-21',
                 'weekdays' => 2,
-                'weekends' => 4,
-                'module' => ['French', 'Biology'],
-                'rating' => [9, 8]
+                'weekends' => 2,
+                'module' => ['IT Project Management', 'Computational Mathematics', 'Business Studies'],
+                'rating' => [3, 5, 2]
             ]
         );
 
         $schedule = new Schedule;
         $schedule = $schedule->createSchedule($user, $request);
 
-        $start = $currentUser->schedule->start;
-        $this->assertEquals($start, '2019-01-15');
+        // Comp Mathematics > ITPM > BS
+        $itpm_count = $schedule->sessions()->where("module", "IT Project Management")->get()->count();
+        $cm_count = $schedule->sessions()->where("module", "Computational Mathematics")->get()->count();
+        $bs_count = $schedule->sessions()->where("module", "Business Studies")->get()->count();        
+
+        $this->assertGreaterThanOrEqual($bs_count, $itpm_count);
+        $this->assertGreaterThanOrEqual($bs_count, $cm_count);
+        $this->assertGreaterThanOrEqual($itpm_count, $cm_count);
+
     }
 
     /**
@@ -77,14 +88,10 @@ class ScheduleTest extends TestCase
         $this->actingAs($currentUser)
             ->post(
                 '/schedules/move', [
-                    'events' => [
-                        [
-                            'id' => $id,
-                            'date' => '2019-02-20'
-                        ]
-                    ]
+                    'id' => $id,
+                    'date' => '2019-02-20'   
                 ]
-            )->assertStatus(200);
+            )->assertStatus(302);
 
         $session = Session::find($id);
         $this->assertEquals('2019-02-20', $session->date);
