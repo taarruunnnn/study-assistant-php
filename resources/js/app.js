@@ -7,6 +7,8 @@ require('jquery-mousewheel');
 
 require('bootstrap-datepicker/dist/js/bootstrap-datepicker');
 
+global.toastr = require('toastr');
+
 global.moment = require('moment');
 
 require('chart.js');

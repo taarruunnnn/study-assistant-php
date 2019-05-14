@@ -29,7 +29,7 @@
         <div id="content">
             @include('layouts.header')
 
-            {{-- Alerts --}}
+            {{-- Alerts
             @if ($flash = session('message'))
                 <div class="alert alert-success alert-dismissible fade show mx-2" role="alert" id="messageAlert">
                     {{ $flash }}
@@ -37,7 +37,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-            @endif
+            @endif --}}
 
             @if ($flash = session('error'))
                 <div class="alert alert-danger alert-dismissible mx-2" role="alert">
@@ -80,5 +80,17 @@
     @endif
 
     @yield('script')
+    <script>
+            toastr.options = {
+                "debug": false,
+                "positionClass": "toast-top-right",
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+            }
+            @if ($flash = session('message'))
+                toastr.success("{{ $flash }}");
+            @endif
+    </script>
 </body>
 </html>

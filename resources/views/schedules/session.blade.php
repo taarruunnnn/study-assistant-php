@@ -195,7 +195,6 @@
             {
                 var sessionId = $modules.val();
                 var sessionName = $('#modules option:selected').text();
-                console.log(sessionName);
 
                 $.ajax({
                     type: 'GET',
@@ -205,6 +204,7 @@
                         sessionSuccess(sessionName);
                         populateDropdown();
                         $sessionStop.trigger('click');
+                        toastr.success("Session Completed");
                     },
                     error: function(message){
                         $('#ajaxWarning').show();
