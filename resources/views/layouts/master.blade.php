@@ -29,16 +29,6 @@
         <div id="content">
             @include('layouts.header')
 
-            {{-- Alerts
-            @if ($flash = session('message'))
-                <div class="alert alert-success alert-dismissible fade show mx-2" role="alert" id="messageAlert">
-                    {{ $flash }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @endif --}}
-
             @if ($flash = session('error'))
                 <div class="alert alert-danger alert-dismissible mx-2" role="alert">
                     {{ $flash }}
@@ -47,7 +37,6 @@
                     </button>
                 </div>
             @endif
-
 
             
             @if ($errors->any())
