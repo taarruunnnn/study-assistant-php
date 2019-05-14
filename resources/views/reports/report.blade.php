@@ -120,7 +120,7 @@
                 <div class="card border-light shadow-sm animated fadeIn mt-3" style="display:none" id="schedDetailsCard">
                     <div class="card-body">
                         <h5 class="card-title text-primary">Session Details</h5>
-                        <table class="table table-bordered mt-1 table-responsive-sm" id="schedDetailsTable">
+                        <table class="table table-bordered mt-1 table-responsive" id="schedDetailsTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Module Name</th>
@@ -139,6 +139,7 @@
                     <div class="card-body">
                         <div class="px-4">
                             <canvas id="pie-chart" width="100" height="100"></canvas>
+                            <p class="card-subtitle mt-2">Click on a module in the chart to learn more about it.</p>
                         </div>
                     </div>
                 </div>
@@ -190,6 +191,61 @@
         </div>
     </div>
 
+@endsection
+
+@section('modal')
+    @if (isset($schedule))
+    <div class="modal fade" id="analysisModal" tabindex="-1" role="dialog" aria-labelledby="analysisModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="analysisModalLabel">Module Analysis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-columns">
+                        <div class="card" id="hours">
+                            <div class="card-body">
+                                <h5 class="card-title">Average Hours</h5>
+                                <p class="card-text">The average student spends <span id="weekday-text" class="font-weight-bold"></span> hours per weekday and <span id="weekend-text" class="font-weight-bold"></span> hours per weekend day on this module</p>
+                            </div>
+                        </div>
+                        <div class="card" id="rating">
+                            <div class="card-body">
+                                <h5 class="card-title">Average Rating</h5>
+                                <p class="card-text">The average student gave this module a rating of <span id="rating-text" class="font-weight-bold"></span></p>
+                            </div>
+                        </div>
+                        <div class="card" id="timeofday">
+                            <div class="card-body">
+                                <h5 class="card-title">Time of Day</h5>
+                                <p class="card-text">Most students study this subject during <span id="timeofday-text" class="font-weight-bold"></span></p>
+                            </div>
+                        </div>
+                        <div class="card" id="grades">
+                            <div class="card-body" id="grades-container">
+                                <canvas id="myChart" width="300" height="432"></canvas>
+                            </div>
+                        </div>
+                        <div class="card" id="related">
+                            <div class="card-body">
+                                <h5 class="card-title">Related Modules</h5>
+                                <p class="card-text">Most students who have studied for <span class="module-name" class="font-weight-bold"></span> have also enrolled in</p>
+                                <ul id="related-modules" class="list-group list-group-flush">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 @endsection
 
 @section('script')
@@ -293,10 +349,44 @@
                             },
                             legend: {
                                 display: true,
-                                position: 'top',
-                            }
+                                position: 'bottom',
+                                labels: {
+                                    fontSize: 9
+                                    }
+                            },
+                            events: ['mousemove'],
+                            onHover: (event, chartElement) => {
+                                event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+                                }
                         }
                     });
+
+                    canvasModules.onclick = function(evt){
+                        var activePoints = chartModules.getElementsAtEvent(evt);
+                        if(activePoints[0]){
+                            var chartData = activePoints[0]['_chart'].config.data;
+                            var idx = activePoints[0]['_index'];
+                            var label = chartData.labels[idx];
+                            moduleData(label);
+                        }
+                    }
+
+                    function moduleData(label)
+                    {
+                        var moduleName = label;
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('schedule.analyze') }}',
+                            data: {module: moduleName},
+                            success: function(data){
+                                showModal(data, moduleName);
+                            },
+                            error: function(message){
+                                console.log(message);
+                            }
+                        });
+                    }
 
                     @if ($live == true)
                         createHiddenForm("moduleratings", JSON.stringify(moduleRatings));
@@ -305,6 +395,139 @@
             @endif
             
         })();
+
+        
+
+        function showModal(data, moduleName)
+            {
+                $('#analysisModalLabel').text("Analysis for " + moduleName + " Based on All Students");
+                $('#analysisModal').modal();
+
+                $('#hours').css('display', 'none');
+                $('#rating').css('display', 'none');
+                $('#grades').css('display', 'none');
+                $('#timeofday').css('display', 'none');
+                $('#related').css('display', 'none');
+
+                if (data['grades'] == "N/A" && data['hours'] == "N/A" && data['ratings'] == "N/A" && data['related'] == "N/A" && data['tod'] === "N/A")
+                {
+                    $('#analysisModalLabel').text("No Analysis Data Available");
+                    return;
+                }
+
+                if (data['hours'].weekend_hours != "N/A" || data['hours'].weekday_hours != "N/A")
+                { 
+                    $('#hours').css('display', 'inline-block');
+                    $('#weekday-text').text(data['hours'].weekday_hours);
+                    $('#weekend-text').text(data['hours'].weekend_hours);
+                }
+
+                if (data['ratings'] != "N/A")
+                {
+                    $('#rating').css('display', 'inline-block');
+                    $('#rating-text').text(data['ratings']);
+                }
+                
+                if (data['grades'] != "N/A")
+                {
+                    $("#grades").css('display', 'inline-block');
+
+                    $('#myChart').remove();
+                    $('#grades-container').append('<canvas id="myChart" width="300" height="432"></canvas>')
+                    
+                    grades = JSON.parse(data.grades).grade;
+
+                    grades_names = new Array();
+                    grades_grades = new Array();
+
+                    for (var key in grades) {
+                        if (grades.hasOwnProperty(key)) {
+                            grades_names.push(key);
+                            grades_grades.push(grades[key])
+                        }
+                    }
+
+                    var ctx = document.getElementById("myChart").getContext('2d');
+
+                    var chart_data = {
+                        labels: grades_names,
+                        datasets: [{
+                            data: grades_grades,
+                            backgroundColor: [
+                                "#4783C2", 
+                                "#2B2673", 
+                                "#2B8267", 
+                                "#183749", 
+                                "#9D3463", 
+                                "#8D349D", 
+                                "#3A349D", 
+                                "#86A136", 
+                                "#A45837", 
+                                "#B4443C"
+                            ],
+                        }]
+                    } 
+
+                    var myPieChart = new Chart(ctx,{
+                        type: 'pie',
+                        data: chart_data,
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Grades Obtained for Module'
+                            }
+                        }
+                    });
+                }
+
+                if (data['tod'] != "N/A" || data['tod'] != "NaN")
+                {
+                    $('#timeofday').css('display', 'inline-block');
+                    console.log(data['tod'])
+
+                    var tod = data['tod']
+                    if(tod < 12)
+                    {
+                        // AM
+                        $('#timeofday-text').text(tod + "AM");
+                    }
+                    else if(tod = 12)
+                    {
+                        // PM
+                        $('#timeofday-text').text(tod + "PM");
+                    }
+                    else
+                    {
+                        tod = tod - 12;
+                        // PM
+                        $('#timeofday-text').text(tod + "PM");
+                    }
+                    
+                }
+
+                if (data['related'] != "N/A")
+                {
+                    $('#related').css('display', 'inline-block');
+
+                    related_modules = JSON.parse(data.related)
+
+                    var modules_array = []
+
+                    for(var x in related_modules)
+                    {
+                        modules_array.push(related_modules[x]);
+                    }
+
+                    var list = $("#related-modules");
+                    list.html("");
+
+                    $.each(modules_array, function(i)
+                    {
+                        list.append('<li class="list-group-item">' + modules_array[i] + '</li>')
+                    });
+                    
+                }
+            }
 
         @if (!empty($schedule) && $live == true)
         
