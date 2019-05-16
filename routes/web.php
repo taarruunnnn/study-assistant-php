@@ -83,6 +83,9 @@ Route::group(
         Route::get('users', 'AdminController@users')->name('admin.users');
         Route::post('users/details', 'AdminController@userDetails')->name('admin.users.details');
         Route::post('users/destroy', 'AdminController@userDelete')->name('admin.users.destroy');
+        Route::get('predictions/reset', function() {
+            retrainModels();
+        })->name('admin.predictions.reset');
     }
 );
 

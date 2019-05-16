@@ -177,10 +177,30 @@
                 }
             });
 
+            var changed = false;
+
+            
+            window.onbeforeunload = function(){
+                if (changed) {
+                    $.ajax({
+                        type: 'GET',
+                        url: '{{ route('admin.predictions.reset') }}',
+                        error: function(message){
+                            toastr.error("Failed to reset prediction data");
+                            console.log('Failed '.message);
+                        }
+                    });
+                    return true;
+                } else {
+                    return null;
+                }
+            };
+            
+           
+
             @if(!(empty($json)))
                 (function (){
                     var prefs = {!! $json !!};
-                    console.log(prefs)
 
                     var params = prefs['params'];
                     
@@ -207,6 +227,7 @@
             $('#accuracyForm').submit(function(e){
                 e.preventDefault();
                 checkAccuracy();
+                changed = true;
             });
 
             function checkAccuracy()
@@ -230,6 +251,7 @@
                         displayPrecision(data);
                     },
                     error: function(message){
+                        toastr.error("Failed to Check Accuracy");
                         console.log('Failed '.message);
                     }
                 });
@@ -237,6 +259,7 @@
 
             $('#savePref').click(function(e){
                 e.preventDefault();
+                changed = false;
 
                 if ($('.paramCheckbox').filter(':checked').length == 0)
                 {
