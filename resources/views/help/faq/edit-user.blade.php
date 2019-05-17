@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col mb-3">
-                <h4>Reports</h4>
+                <h4>Edit User</h4>
             </div>
         </div>
         <div class="row">

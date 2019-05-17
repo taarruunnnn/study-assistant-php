@@ -23,8 +23,8 @@
                         <h5 class="my-3">Move Sessions</h5>
                         <img src="{{ asset('storage/images/screenshots/faq/modify-schedule/move-sessions.gif') }}" alt="Move Sessions" class="img-fluid" width="800">
                         <p class="my-3">
-                            Sessions can be moved to other dates as the user wishes. Clicking on 'Save Changes' will save these sessions
-                            in their new dates.
+                            Sessions can be moved to other dates by clicking on a session inside the calendar, clicking on 'Change Session Date'
+                            and finally inputing the new date.
                         </p>
                     </div>
                 </div>
