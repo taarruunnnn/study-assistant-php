@@ -142,6 +142,9 @@ class ReportController extends Controller
             }
 
             $grades = json_encode($predictions);
+        } else {
+            session()->flash('error', 'Schedule not created to generate reports');
+            return redirect()->route('reports.show'); 
         }
         
 

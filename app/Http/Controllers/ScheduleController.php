@@ -40,6 +40,10 @@ class ScheduleController extends Controller
      */
     public function create()
     {
+        if ($schedule = Auth::user()->schedule) {
+            session()->flash('error', 'Schedule already exists');
+            return redirect()->route('schedules.show'); 
+        }
         return view('schedules.create');
     }
 
