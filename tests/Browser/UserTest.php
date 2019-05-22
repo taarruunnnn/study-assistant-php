@@ -71,7 +71,7 @@ class UserTest extends DuskTestCase
                     ->type('university', 'University of Colombo')
                     ->select('major', 'Computer Science')
                     ->press('Update Profile')
-                    ->assertVisible('.alert-success');
+                    ->assertVisible('.toast-success');
             }
         );
     }

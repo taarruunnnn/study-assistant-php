@@ -46,7 +46,7 @@ class ScheduleTest extends DuskTestCase
                     ->keys('#start', $start, '{enter}')
                     ->keys('#end', $end, '{enter}')
                     ->press('Create Schedule')
-                    ->assertVisible('.alert-success')
+                    ->assertVisible('.toast-success')
                     ->assertPathIs('/schedules');
             }
         );
@@ -80,7 +80,7 @@ class ScheduleTest extends DuskTestCase
                     ->keys('#start', $start, '{enter}')
                     ->select('#weekends', '4')
                     ->press('Save Changes')
-                    ->assertVisible('.alert-success')
+                    ->assertVisible('.toast-success')
                     ->pause(500)
                     ->assertPathIs('/schedules');
             }
@@ -110,7 +110,7 @@ class ScheduleTest extends DuskTestCase
                     ->press('Delete Schedule')
                     ->waitFor('#btnYes', 1)
                     ->press('#btnYes')
-                    ->assertVisible('.alert-success')
+                    ->assertVisible('.toast-success')
                     ->assertPathIs('/schedules');
             }
         );
