@@ -424,6 +424,9 @@
 
                     $('#eventdate').datepicker('setStartDate', '{{ $schedule->start }}');
                     $('#eventdate').datepicker('setEndDate', '{{ $schedule->end }}');
+
+                    window.scheduleStartDate = "{{ $schedule->start }}";
+                    window.scheduleEndDate = "{{ $schedule->end }}";
                 @endif
             }
 

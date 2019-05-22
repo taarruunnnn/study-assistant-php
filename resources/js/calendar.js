@@ -115,6 +115,12 @@ $(document).ready(function(){
 			weekStart: 1
 		});
 
+		if ((typeof window.scheduleStartDate !== 'undefined') && (typeof window.scheduleEndDate !== 'undefined')) {
+			$('#session-date-new').datepicker('setStartDate', window.scheduleStartDate);
+			$('#session-date-new').datepicker('setEndDate', window.scheduleEndDate);
+		}
+		
+
 		$('#session-date-new').datepicker('setDate', new Date(info.event.start))
 
 		$('#session-change-btn').click(function(){
