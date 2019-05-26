@@ -100,7 +100,7 @@
             <li class="{{ Request::is('user/*') ? 'active' : '' }}">
                 <a href="/user/edit">
                     <i class="fas fa-users-cog sidebar-icon"></i>
-                    <span class="sidebar-text">Settings</span>
+                    <span class="sidebar-text">Admin</span>
                 </a>
             </li>
         </ul>
