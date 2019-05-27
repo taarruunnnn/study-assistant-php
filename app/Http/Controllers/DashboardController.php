@@ -88,6 +88,7 @@ class DashboardController extends Controller
         $notifyComp = false;
         $completed_modules = $user->completed_modules->where('grade', null);
 
+        // Notify the user about grading completed modules on every weekend
         if (Carbon::now()->isWeekend() && count($completed_modules) > 0){
             $notifyComp = true;
         }

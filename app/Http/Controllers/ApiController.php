@@ -113,6 +113,7 @@ class ApiController extends Controller
         
         
         if ($schedule = $user->schedule) {
+            failedSessionMarker($user);
             $sessions = $schedule->sessions;
 
             $total_session_count = count($sessions);
@@ -126,17 +127,25 @@ class ApiController extends Controller
             } else {
                 $completed = $progress = $missed = $left = 0;
             }
-        }
 
-        return response()->json(
-            [
-                'name' => $user->name,
-                'progress' => $progress,
-                'completed' => $completed,
-                'missed' => $missed,
-                'left' => $left
-            ]
-        );
+            return response()->json(
+                [
+                    'success' => true,
+                    'name' => $user->name,
+                    'progress' => $progress,
+                    'completed' => $completed,
+                    'missed' => $missed,
+                    'left' => $left
+                ]
+            );
+        } else {
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Schedule not created'
+                ]
+            );
+        }
     }
 
 
