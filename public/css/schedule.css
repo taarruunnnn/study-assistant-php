@@ -18218,6 +18218,7 @@ span.twitter-typeahead {
   display: inline-block;
   white-space: nowrap;
   width: 65%;
+  text-align: left;
 }
 
 #breakTimer {

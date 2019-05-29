@@ -44,7 +44,12 @@
                 </div>
             </div>
         </div>
-        <div class="row my-5">
+        <div class="row">
+            <div class="col-sm-6 mx-auto mt-1 text-center">
+                <p>Break recommended every <span id="break-text">00:00:00</span></p>
+            </div>
+        </div>
+        <div class="row my-4">
             <div class="col-sm-9 mx-auto">
                 <table class="table table-bordered" id="module-table" style="display:none;">
                     <thead>
@@ -103,12 +108,29 @@
                     $sessionCompleteText.hide('slow');
                 });
 
-                //Countdown Timer
 
-                var duration = "00:00:10";
-                var breakDuration = "00:00:05";
-                $breakTimerDom.text(breakDuration);
-                $sessionTimerDom.text(duration);
+                var timerHours = 00; 
+                var timerMinutes = 00;
+                var timerSeconds = 10;
+                var timerTotalInSeconds = (timerHours*60*60) + (timerMinutes*60) + timerSeconds;
+
+                var breakStartSeconds = 5; // 40 minutes = 2400 seconds
+
+                var breakDurationMinutes = 00;
+                var breakDurationSeconds = 04;
+
+                var breakTextHours = (breakStartSeconds / (60 * 60)).toString();
+                var breakTextMinutes = (breakStartSeconds % 60*60).toString();
+                var breakTextSeconds = (breakStartSeconds % 60).toString();
+                
+                $('#break-text').text(moment.utc(breakStartSeconds*1000).format('HH:mm:ss'));
+                var durationText = ("0" + timerHours).slice(-2) + ":" + ("0" + timerMinutes).slice(-2) + ":" + ("0" + timerSeconds).slice(-2);
+                var breakDurationText = "00:" + ("0" + breakDurationMinutes).slice(-2) + ":" + ("0" + breakDurationSeconds).slice(-2);
+
+                $breakTimerDom.text(breakDurationText);
+                $sessionTimerDom.text(durationText);
+
+                //Countdown Timer
 
                 var timer = new Timer();
                 var breakTimer = new Timer();
@@ -123,7 +145,7 @@
 
                         if (!(play))
                         {
-                            timer.start({countdown: true, startValues: {seconds: 10}});
+                            timer.start({countdown: true, startValues: {seconds: timerSeconds, minutes: timerMinutes, hours: timerHours}});
                             $sessionStop.prop('disabled', false);
                             $sessionStart.html('<i class="fas fa-pause"></i>')
                             play = true;
@@ -143,23 +165,31 @@
                     play = false;
                     timer.stop();
                     breakTimer.stop();
-                    $sessionTimerDom.html(duration);
+                    $sessionTimerDom.html(durationText);
                     window.onbeforeunload = null;
                 });
 
+                var secs = 0;
+                var totalSecs = 0;
+                
+                
                 timer.addEventListener('secondsUpdated', function (e) {
-                    var time = timer.getTimeValues().seconds;
-                    if(time == 5)
+                    var time = timer.getTimeValues();
+                    secs++;
+                    totalSecs++;
+
+                    if(secs == breakStartSeconds && totalSecs != timerTotalInSeconds)
                     {
+                        secs = 0;
                         timer.pause();
                         $sessionStart.html('<i class="fas fa-play"></i>')
                         play = false;
                         $sessionStop.prop('disabled', 'disabled');
                         $pauseAudio.trigger('play');
 
-                        breakTimer.start({countdown: true, startValues: {seconds: 05}});
+                        breakTimer.start({countdown: true, startValues: {seconds: breakDurationSeconds, minutes: breakDurationMinutes}});
                         $breakTimer.show(500).css("display", "inline-block");
-                        $breakTimerDom.text(breakDuration);
+                        $breakTimerDom.text(breakDurationText);
                     }
                     $sessionTimerDom.html(timer.getTimeValues().toString());
                 });
