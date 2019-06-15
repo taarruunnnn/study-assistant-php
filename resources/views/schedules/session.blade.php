@@ -135,6 +135,8 @@
                 var timer = new Timer();
                 var breakTimer = new Timer();
                 var play = false;
+                var secs = 0;
+                var totalSecs = 0;
 
                 $sessionStart.click(function () {
                     if( $modules.val() )
@@ -161,6 +163,8 @@
                 });
 
                 $sessionStop.click(function () {
+                    secs = 0;
+                    totalSecs = 0;
                     $sessionStart.html('<i class="fas fa-play"></i>')
                     play = false;
                     timer.stop();
@@ -168,9 +172,6 @@
                     $sessionTimerDom.html(durationText);
                     window.onbeforeunload = null;
                 });
-
-                var secs = 0;
-                var totalSecs = 0;
                 
                 
                 timer.addEventListener('secondsUpdated', function (e) {
@@ -199,6 +200,8 @@
                 });
 
                 timer.addEventListener('targetAchieved', function (e) {
+                    secs = 0;
+                    totalSecs = 0;
                     window.onbeforeunload = null;
                     $successAudio.trigger('play');
                     $sessionCompleteText.show('slow');

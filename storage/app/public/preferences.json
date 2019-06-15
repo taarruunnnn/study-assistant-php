@@ -3,9 +3,8 @@
         "norm_comp",
         "name",
         "norm_fail",
-        "rating",
-        "university"
+        "rating"
     ],
     "algorithm": "rf",
-    "threshold": "2000"
+    "threshold": "3000"
 }
